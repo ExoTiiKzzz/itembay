@@ -1,0 +1,21 @@
+<nav class="navbar bg-dark" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="{{ asset('images/logo/itembay.png') }}" alt="Bootstrap" width="140" height="auto">
+        </a>
+        {% if app.user %}
+            <div class="navbar-nav">
+                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% else %}
+            <div class="d-flex gap-3">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{{ path('app_register') }}">Sign up</a>
+                </div>
+                <div class="navbar-nav">
+                    <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</nav>
