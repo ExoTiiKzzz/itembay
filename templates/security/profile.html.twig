@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{# Profile management #}
+
+{% block title %}Account management{% endblock %}
+
+{% block body %}
+
+{% include 'security/parts/form.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{ parent() }}
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{{ parent() }}
+
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\DefaultItem;
 use App\Entity\Item;
 use App\Entity\ItemType;
 use App\Entity\PlayerClass;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -52,5 +53,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Item Types', 'fas fa-list', ItemType::class);
         yield MenuItem::linkToCrud('Items', 'fas fa-list', Item::class);
         yield MenuItem::linkToCrud('Default Items', 'fas fa-list', DefaultItem::class);
+        yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
     }
 }
