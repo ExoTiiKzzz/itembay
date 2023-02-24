@@ -1,21 +1,78 @@
-<nav class="navbar bg-dark" data-bs-theme="dark">
+{# <nav class="navbar bg-dark" data-bs-theme="dark"> #}
+{#    <div class="container"> #}
+{#        <a class="navbar-brand" href="/"> #}
+{#            <img src="{{ asset('images/logo/itembay.png') }}" alt="Bootstrap" width="140" height="auto"> #}
+{#        </a> #}
+{#        {% if app.user %} #}
+{#            <ul class="nav navbar-nav"> #}
+{#                <li class="dropdown"> #}
+{#                    <a data-toggle="dropdown" #}
+{#                       aria-expanded="false"> #}
+{#                        <img src="{{ asset('images/default_user.png') }}" class="img-fluid rounded-circle" alt="user" #}
+{#                             width="30" height="30"> #}
+{#                    </a> #}
+{#                    <div class="dropdown-menu dropdown-menu-end position-absolute"> #}
+{#                        <div class="dropdown-item">@{{ app.user.username }}</div> #}
+{#                        <div class="dropdown-divider"></div> #}
+{#                        <a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a> #}
+{#                        <div class="dropdown-divider"></div> #}
+{#                        <a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a> #}
+{#                    </div> #}
+{#                </li> #}
+{#            </ul> #}
+{#        {% else %} #}
+{#            <div class="d-flex gap-3"> #}
+{#                <div class="navbar-nav"> #}
+{#                    <a class="nav-link" href="{{ path('app_register') }}">Sign up</a> #}
+{#                </div> #}
+{#                <div class="navbar-nav"> #}
+{#                    <a class="nav-link" href="{{ path('app_login') }}">Login</a> #}
+{#                </div> #}
+{#            </div> #}
+{#        {% endif %} #}
+{#    </div> #}
+{# </nav> #}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
     <div class="container">
         <a class="navbar-brand" href="/">
             <img src="{{ asset('images/logo/itembay.png') }}" alt="Bootstrap" width="140" height="auto">
         </a>
-        {% if app.user %}
-            <div class="navbar-nav">
-                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% else %}
-            <div class="d-flex gap-3">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="{{ path('app_register') }}">Sign up</a>
-                </div>
-                <div class="navbar-nav">
-                    <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-                </div>
-            </div>
-        {% endif %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                {% if app.user %} #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" role="button"
+                           data-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ asset('uploads/users/avatars/default.png') }}" class="img-fluid rounded-circle"
+                                 alt="{{ app.user.username }}"
+                                 width="30" height="30">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">@{{ app.user.username }}</li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}"> Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}"> Connection</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>
