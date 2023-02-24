@@ -1,5 +1,10 @@
-<ul class="d-flex flex-wrap">
-    {% for item in items %}
-        {% include 'list_item.html.twig' with item %}
-    {% endfor %}
-</ul>
+{% extends '/base.html.twig' %}
+{% block body %}
+    <ul class="d-flex flex-wrap gap-5 text-black">
+        {% for item in items %}
+            {% include '/item/list_item.html.twig' with {
+                'item': item,
+            } %}
+        {% endfor %}
+    </ul>
+{% endblock %}
