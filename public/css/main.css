@@ -20,3 +20,7 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+.form-control {
+    border-radius: 0 !important;
+}

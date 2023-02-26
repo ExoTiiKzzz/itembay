@@ -44,7 +44,10 @@
         </button>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
-                {% if app.user %} #}
+                {% if app.user %}
+                    <div class="text-white d-flex align-items-center gap-1">
+                        {{ app.user.money | itemPrice | raw }}
+                    </div>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button"
                            data-toggle="dropdown" aria-expanded="false">

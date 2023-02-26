@@ -1,10 +1,118 @@
 {% extends '/base.html.twig' %}
 {% block body %}
-    <ul class="d-flex flex-wrap gap-5 text-black">
-        {% for item in items %}
-            {% include '/item/list_item.html.twig' with {
-                'item': item,
-            } %}
-        {% endfor %}
-    </ul>
+    <div class="row">
+        <div class="col-md-3">
+            <form action="">
+                <h3><label for="orderBy">Trier par:</label></h3>
+                <select id="orderBy" name="orderBy" class="form-control form-select">
+                    {% set possibilites = [
+                        {
+                            'value' : 'cheaper',
+                            'label' : 'Prix Croissant'
+                        },
+                        {
+                            'value' : 'expensive',
+                            'label' : 'Prix Décroissant'
+                        },
+                        {
+                            'value' : 'az',
+                            'label' : 'Nom A-Z'
+                        },
+                        {
+                            'value' : 'za',
+                            'label' : 'Nom Z-A'
+                        }
+                    ] %}
+                    <option value="">Défaut</option>
+                    {% for possibility in possibilites %}
+                        {% set selected = '' %}
+                        {% if requestData.orderBy is defined and possibility.value == requestData.orderBy %}
+                            {% set selected = 'selected' %}
+                        {% endif %}
+                        <option value="{{ possibility.value }}" {{ selected }}>{{ possibility.label }}</option>
+                    {% endfor %}
+                </select>
+                <h3>Filtres</h3>
+                <div id="accordion" class="text-black accordion accordion-flush">
+                    <div class="accordion-item">
+                        <h5 class="accordion-header">
+                            <button type="button" class="accordion-button" data-toggle="collapse" data-target="#collapseNature" aria-controls="collapseNature">
+                                Catégories d'objet {{ selectedNatures|length > 0 ? '(' ~ selectedNatures|length ~ ')' }}
+                            </button>
+                        </h5>
+                        <div id="collapseNature" class="accordion-collapse collapse" data-parent="#accordion">
+                            <div class="accordion-body">
+                                {% for nature in itemNatures %}
+                                    {% set checked = '' %}
+                                    {% if nature.id in selectedNatures %}
+                                        {% set checked = 'checked' %}
+                                    {% endif %}
+                                    <div>
+                                        <input type="checkbox" id="nature-{{ nature.id }}" name="nature[]" value="{{ nature.id }}" {{ checked }}>
+                                        <label for="nature-{{ nature.id }}">{{ nature.name }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header">
+                            <button type="button" class="accordion-button" data-toggle="collapse" data-target="#collapsePrice" aria-controls="collapsePrice">
+                                Prix
+                            </button>
+                        </h5>
+                        <div id="collapsePrice" class="accordion-collapse collapse" data-parent="#accordion">
+                            <div class="accordion-body">
+                                {% set id = '' | randomId %}
+                                <label for="minPriceRange" class="form-label">Prix minimum</label>
+                                {% set minValue = 0 %}
+                                {% if minPrice is defined %}
+                                    {% set minValue = minPrice %}
+                                {% endif %}
+                                <input type="range" class="form-range" id="minPriceRange" min="0" max="10000" value="{{ minValue }}" name="priceRange[min]">
+                                <div data-range-value data-target="#minPriceRange">
+                                    {% if minPrice is defined %}
+                                        {{ minPrice | itemPrice | raw }}
+                                    {% endif %}
+                                </div>
+                                <label for="maxPriceRange" class="form-label">Prix maximum</label>
+                                {% set maxValue = 0 %}
+                                {% if maxPrice is defined %}
+                                    {% set maxValue = maxPrice %}
+                                {% endif %}
+                                <input type="range" class="form-range" id="maxPriceRange" min="0" max="10000" value="{{ maxValue }}" name="priceRange[max]">
+                                <div data-range-value data-target="#maxPriceRange">
+                                    {% if maxPrice is defined %}
+                                        {{ maxPrice | itemPrice | raw }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary form-control mt-5">Filtrer</button>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <ul class="d-flex flex-wrap gap-5 text-black">
+                {% for item in items %}
+                    {% include '/item/list_item.html.twig' with {
+                        'item': item,
+                    } %}
+                {% endfor %}
+            </ul>
+
+            <div class="d-flex justify-content-center">
+                {{ knp_pagination_render(items) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        //change select value to selectedNatures
+        $('#natureSelect').val({{ selectedNatures|json_encode|raw }}).trigger('change');
+		console.log({{ selectedNatures|json_encode|raw }});
+    </script>
 {% endblock %}
