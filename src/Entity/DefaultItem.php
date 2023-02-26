@@ -45,6 +45,10 @@ class DefaultItem
     #[ORM\OneToMany(mappedBy: 'defaultItem', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
 
+    #[ORM\ManyToOne(inversedBy: 'defaultItems')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ItemNature $itemNature = null;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -173,5 +177,17 @@ class DefaultItem
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getItemNature(): ?ItemNature
+    {
+        return $this->itemNature;
+    }
+
+    public function setItemNature(?ItemNature $itemNature): self
+    {
+        $this->itemNature = $itemNature;
+
+        return $this;
     }
 }

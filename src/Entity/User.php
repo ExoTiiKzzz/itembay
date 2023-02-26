@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Account::class, orphanRemoval: true)]
     private Collection $accounts;
 
+    #[ORM\Column]
+    private ?int $money = null;
+
     /**
      * Constructor
      */
@@ -173,5 +176,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->username;
+    }
+
+    public function getMoney(): ?int
+    {
+        return $this->money;
+    }
+
+    public function setMoney(int $money): self
+    {
+        $this->money = $money;
+
+        return $this;
     }
 }
