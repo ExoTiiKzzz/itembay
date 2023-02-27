@@ -1,7 +1,7 @@
 {% extends '/base.html.twig' %}
 {% block body %}
-    <div class="row">
-        <div class="col-md-3">
+    <div class="row text-white mt-5 mx-2">
+        <div class="col-md-2">
             <form action="">
                 <h3><label for="orderBy">Trier par:</label></h3>
                 <select id="orderBy" name="orderBy" class="form-control form-select">
@@ -32,11 +32,11 @@
                         <option value="{{ possibility.value }}" {{ selected }}>{{ possibility.label }}</option>
                     {% endfor %}
                 </select>
-                <h3>Filtres</h3>
+                <h3 class="mt-4">Filtres</h3>
                 <div id="accordion" class="text-black accordion accordion-flush">
                     <div class="accordion-item">
                         <h5 class="accordion-header">
-                            <button type="button" class="accordion-button" data-toggle="collapse" data-target="#collapseNature" aria-controls="collapseNature">
+                            <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseNature" aria-controls="collapseNature">
                                 Catégories d'objet {{ selectedNatures|length > 0 ? '(' ~ selectedNatures|length ~ ')' }}
                             </button>
                         </h5>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="accordion-item">
                         <h5 class="accordion-header">
-                            <button type="button" class="accordion-button" data-toggle="collapse" data-target="#collapsePrice" aria-controls="collapsePrice">
+                            <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapsePrice" aria-controls="collapsePrice">
                                 Prix
                             </button>
                         </h5>

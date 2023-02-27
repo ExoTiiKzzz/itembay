@@ -1,3 +1,11 @@
+:root {
+    --primaty-color: #FF4057;
+    --background-color: #212529;
+    --secondary-color: #A882DD;
+    --text-color: #fff;
+    --platinum-color: #D7DEDC;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
 }
@@ -23,4 +31,14 @@ body {
 
 .form-control {
     border-radius: 0 !important;
+}
+
+img {
+    object-fit: contain;
+}
+
+.btn {
+    background-color: var(--primaty-color) !important;
+    border: var(--primaty-color) !important;
+    border-radius: 3px !important;
 }

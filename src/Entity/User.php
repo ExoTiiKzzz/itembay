@@ -37,6 +37,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $money = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserBasket $basket = null;
+
     /**
      * Constructor
      */
@@ -185,6 +188,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMoney(int $money): self
     {
         $this->money = $money;
+
+        return $this;
+    }
+
+    public function getBasket(): ?UserBasket
+    {
+        return $this->basket;
+    }
+
+    public function setBasket(UserBasket $basket): self
+    {
+        // set the owning side of the relation if necessary
+        if ($basket->getUser() !== $this) {
+            $basket->setUser($this);
+        }
+
+        $this->basket = $basket;
 
         return $this;
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultItemController extends AbstractController
 {
-    private EntityManagerInterface $em;
+    protected EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -39,7 +39,17 @@ class DefaultItemController extends AbstractController
         ]);
     }
 
-    #[Route('/item/generate/image', name: 'app_item')]
+    #[Route('/item/{uuid}', name: 'app_item')]
+    public function item(string $uuid): Response
+    {
+        $item = $this->em->getRepository(\App\Entity\DefaultItem::class)->findOneBy(['uuid' => $uuid]);
+        return $this->render('item/item.html.twig', [
+            'item' => $item,
+        ]);
+    }
+    
+
+    #[Route('/item/generate/image', name: 'app_generate_image')]
     public function generateImage(): Response
     {
         $items = $this->em->getRepository(\App\Entity\DefaultItem::class)->findAll();
