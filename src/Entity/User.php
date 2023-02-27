@@ -72,10 +72,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param string $avatar
      * @return string
      */
-    public function getAvatar(string $avatar):string
+    public function getAvatar():string
     {
         return $this->avatar;
     }

@@ -51,8 +51,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button"
                            data-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('uploads/users/avatars/default.png') }}" class="img-fluid rounded-circle"
-                                 alt="{{ app.user.username }}"
+                            <img src="{{ asset('uploads/users/avatars/' ~ app.user.avatar) }}" class="rounded-circle"
+                                 alt="{{ app.user.avatar }}"
                                  width="30" height="30">
                         </a>
                         <ul class="dropdown-menu">
@@ -72,7 +72,7 @@
                         <a class="nav-link" href="{{ path('app_register') }}"> Inscription</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}"> Connection</a>
+                        <a class="nav-link" href="{{ path('app_login') }}"> Connexion</a>
                     </li>
                 {% endif %}
             </ul>

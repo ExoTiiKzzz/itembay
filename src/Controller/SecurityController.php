@@ -3,17 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
-use App\Form\UserFormType;
-use App\Security\LoginAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -38,43 +35,51 @@ class SecurityController extends AbstractController
 
     }
 
-    #[Route(path: '/profile', name: 'app_profile')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    #[Route(path: '/profile', name: 'app_profile', methods: ['GET'])]
+    public function profile(): Response
     {
-        if (!$this->getUser()) {
-            //redirect to login
-            return $this->redirectToRoute('app_login');
-        }
+        return $this->render('security/profile.html.twig');
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/update-profile', name: 'app_update_profile', methods: ['POST'])]
+    public function updateProfile(Request $request, EntityManagerInterface $entityManager): Response
+    {
         $user = $entityManager->getRepository(User::class)->find($this->getUser()->getId());
-        if (!$user) {
-            //redirect to login
-            return $this->redirectToRoute('app_login');
+        if (!$user) return $this->redirectToRoute('app_login');
+
+        $user->setUsername($request->request->get('username'));
+        $avatar = $request->files->get('avatar');
+        if ($avatar) {
+            if (!$avatar->isValid() || !in_array($avatar->getMimeType(), ['image/jpeg', 'image/png', 'image/webp'])) {
+                throw new Exception('Invalid file type. Only JPG, PNG and GIF images are allowed.');
+            }
+
+            $oldAvatar = $user->getAvatar();
+            if ($oldAvatar) {
+                $oldAvatarPath = $this->getParameter('avatars_directory') . '/' . $oldAvatar;
+                if (file_exists($oldAvatarPath) && $oldAvatar != 'default.png') {
+                    unlink($oldAvatarPath);
+                }
+            }
+
+            $file = uniqid() . '.' . $avatar->guessExtension();
+            try {
+                $avatar->move(
+                    $this->getParameter('avatars_directory'),
+                    $file
+                );
+                $user->setAvatar($file);
+            } catch (FileException $e) {
+                throw new Exception('Error while downloading the file.');
+            }
         }
-        $form = $this->createForm(UserFormType::class, $user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+        $entityManager->persist($user);
+        $entityManager->flush();
 
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
-        }
-
-        return $this->render('security/profile.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('index.html.twig');
     }
 }
