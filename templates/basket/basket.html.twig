@@ -1,0 +1,62 @@
+{% if app.user %}
+    {% if items.totalCount <= 0 %}
+        <div class="alert alert-info">
+            <strong>Votre panier est vide</strong>
+        </div>
+    {% else %}
+        <ul class="list-group">
+        {% for item in items.defaultItems.items %}
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{ item.defaultItem.name }}</h4>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>{{ item.buyPrice | itemPrice | raw }}</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <h4>{{ item.quantity }}</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+        Total : {{ items.defaultItems.total | itemPrice | raw }}
+        <ul>
+        {% for item in items.customItems.items %}
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+                    </div>
+                    <div class="col-md-3">
+                        <h4>{{ item.defaultItem.name }}</h4>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>{{ item.buyPrice | itemPrice | raw }}</strong>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+        Total : {{ items.customItems.total | itemPrice | raw }}
+    {% endif %}
+{% else %}
+    <div class="alert alert-info">
+        <p>
+            <strong>Vous n'êtes pas connecté</strong>
+        </p>
+        <p>
+            <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+        </p>
+    </div>
+{% endif %}

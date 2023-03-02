@@ -43,10 +43,16 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto gap-3">
                 {% if app.user %}
-                    <div class="text-white d-flex align-items-center gap-1">
+                    <div class="text-white d-flex align-items-center gap-1 mr-2">
                         {{ app.user.money | itemPrice | raw }}
+                    </div>
+                    <div class="d-flex align-items-center user-basket gap-1">
+                        <span class="text-white">
+                            <i class="fas fa-shopping-basket"></i>
+                        </span>
+                        <span class="badge bg-danger rounded-pill">{{ app.user.basket.items | length }}</span>
                     </div>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button"
@@ -79,3 +85,14 @@
         </div>
     </div>
 </nav>
+
+<script defer>
+    document.querySelector('.user-basket').addEventListener('click', function () {
+		sidenav
+            .setTitle('Mon panier')
+            .open()
+            .setContentFromUrl('{{ path('app_basket') }}').then(() => {
+                sidenav.hideLoader();
+            })
+    });
+</script>

@@ -23,3 +23,5 @@ document.querySelectorAll('[data-range-value]').forEach(el => {
 		el.innerHTML = formatItemPrice(e.currentTarget.value)
 	});
 });
+
+const sidenav = new Sidebar();

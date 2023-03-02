@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -207,5 +208,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->basket = $basket;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->basket = new UserBasket();
+        $this->basket->setUser($this);
     }
 }

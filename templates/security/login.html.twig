@@ -38,6 +38,8 @@
            value="{{ csrf_token('authenticate') }}"
     >
 
+    <input type="hidden" name="referer" value="{{ referer }}">
+
     <button class="btn btn-primary btn-block mb-4" type="submit">
         Sign in
     </button>

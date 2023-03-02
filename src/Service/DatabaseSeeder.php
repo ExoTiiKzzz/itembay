@@ -7,22 +7,29 @@ use App\Entity\Item;
 use App\Entity\ItemNature;
 use App\Entity\ItemType;
 use App\Entity\PlayerClass;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DatabaseSeeder
 {
     private int $apiMaxLimit = 100;
     private string $baseApiUrl = 'https://eldenring.fanapis.com/api/';
     private EntityManagerInterface $entityManager;
-    public function __construct(EntityManagerInterface $entityManager)
+    private UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->entityManager = $entityManager;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     public function seed(): void
     {
         $this->seedClasses();
         $this->seedAllItems();
+        $this->seedUsers();
     }
 
     private function getAllData(string $url): array
@@ -129,5 +136,17 @@ class DatabaseSeeder
             $itemEntity->setItemNature($itemNature);
             $this->entityManager->persist($itemEntity);
         }
+    }
+
+    private function seedUsers(): void
+    {
+        $user = new User();
+        $user->setUsername('admin');
+        $user->setAvatar('default.png');
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'admin'));
+        $user->setMoney(1000000);
+        $user->setRoles(['ROLE_ADMIN']);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 }

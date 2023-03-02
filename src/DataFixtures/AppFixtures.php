@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $seeder = new DatabaseSeeder($this->entityManager);
+        $seeder = new DatabaseSeeder($this->entityManager, $this->passwordEncoder);
         $seeder->seed();
     }
 }

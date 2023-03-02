@@ -1,9 +1,13 @@
 :root {
-    --primaty-color: #FF4057;
+    --primary-color: #FF4057;
     --background-color: #212529;
     --secondary-color: #A882DD;
     --text-color: #fff;
     --platinum-color: #D7DEDC;
+    --tint-20-primary-color: #ffd9dd;
+
+    --acordion-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FF4057'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    --acordion-icon-active: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 body {
@@ -38,7 +42,50 @@ img {
 }
 
 .btn {
-    background-color: var(--primaty-color) !important;
-    border: var(--primaty-color) !important;
+    background-color: var(--primary-color) !important;
+    border: var(--primary-color) !important;
     border-radius: 3px !important;
+}
+
+.user-basket {
+    cursor: pointer;
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--text-color) !important;
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none !important;
+}
+
+.accordion-button::after {
+    background-image: var(--acordion-icon) !important;
+}
+
+
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--acordion-icon-active) !important;
+    transform: rotate(180deg);
+}
+
+input[type="checkbox"], input[type="radio"], input[type="file"], input[type="range"] {
+    accent-color: var(--primary-color) !important;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 1px var(--primary-color) !important;
+}
+
+select:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 1px var(--primary-color) !important;
+}
+
+select option:checked, select option:checked:focus {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
 }
