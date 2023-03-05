@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Item;
+use JetBrains\PhpStorm\Pure;
 
 class Basket
 {
@@ -43,5 +44,16 @@ class Basket
             ],
             'totalCount'        => count($defaultItems) + count($customItems),
         ];
+    }
+
+    #[Pure] public static function getDefaultItem(array $items, int $id): ?Item
+    {
+        /** @var Item $item */
+        foreach ($items as $item) {
+            if ($item->getDefaultItem()->getId() === $id) {
+                return $item;
+            }
+        }
+        return null;
     }
 }

@@ -4,7 +4,6 @@ class Sidebar {
 		this.mask = document.querySelector('.sidebar-mask');
 		this.title = this.sidebar.querySelector('.title');
 		this.content = this.sidebar.querySelector('.content');
-		this.button = this.sidebar.querySelector('.button');
 		this.loader = this.sidebar.querySelector('.loader');
 
 		this.mask.addEventListener('click', (e) => {
@@ -37,7 +36,7 @@ class Sidebar {
 	}
 
 	setContent(content) {
-		this.content.innerHTML = content;
+		setInnerHTML(this.content, content)
 
 		return this;
 	}
@@ -46,16 +45,11 @@ class Sidebar {
 	// if error, set error message as content
 	async setContentFromUrl(url) {
 		await fetch(url)
-			.then(response => response.text())
-			.then(data => this.setContent(data))
+			.then(response => response.json())
+			.then(content => {
+				this.setContent(content.data.html)
+			})
 			.catch(error => this.setContent('Error: ' + error));
-
-		return this;
-	}
-
-	setButton(text, callback) {
-		this.button.innerHTML = text;
-		this.button.onclick = callback;
 
 		return this;
 	}
@@ -65,4 +59,7 @@ class Sidebar {
 	}
 
 
+	showLoader() {
+		this.loader.classList.add('active');
+	}
 }

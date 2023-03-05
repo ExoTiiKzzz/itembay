@@ -106,9 +106,19 @@ class DatabaseSeeder
             $this->seedItemEntitys($itemNature['url'], $itemNature['itemTypeString'], $itemNatureEntity);
         }
         $this->entityManager->flush();
+
+        foreach ($this->entityManager->getRepository(DefaultItem::class)->findAll() as $defaultItem) {
+            for ($i = 0; $i < rand(1, 10); $i++) {
+                $item = new Item();
+                $item->setDefaultItem($defaultItem);
+                $this->entityManager->persist($item);
+            }
+        }
+        $this->entityManager->flush();
     }
 
-    private function seedItemEntitys(string $url, string $itemTypeString, ItemNature $itemNature) {
+    private function seedItemEntitys(string $url, string $itemTypeString, ItemNature $itemNature)
+    {
         $data = $this->getAllData($this->baseApiUrl . $url);
         $itemTypes = [];
         $unknownItemType = $this->entityManager->getRepository(ItemType::class)->findOneBy(['name' => 'Unknown']);
@@ -119,7 +129,7 @@ class DatabaseSeeder
                     $itemType->setName($item[$itemTypeString]);
                     $this->entityManager->persist($itemType);
                     $itemTypes[$item[$itemTypeString]] = $itemType;
-                }  else {
+                } else {
                     $itemType = $itemTypes[$item[$itemTypeString]];
                 }
             } else {
@@ -132,7 +142,7 @@ class DatabaseSeeder
             $itemEntity->setImageUrl($item['image'] ?? '');
             $itemEntity->setItemType($itemType);
             $itemEntity->setBuyPrice($buyPrice);
-            $itemEntity->setSellPrice((int) $buyPrice * 0.8);
+            $itemEntity->setSellPrice((int)$buyPrice * 0.8);
             $itemEntity->setItemNature($itemNature);
             $this->entityManager->persist($itemEntity);
         }

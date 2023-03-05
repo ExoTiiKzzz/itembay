@@ -1,0 +1,46 @@
+<form action="/account/create" id="account_create_form">
+    <div class="mb-3">
+        <label for="username">Pseudo</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Pseudo" value="{% if account is defined %} {{ account.name}} {% endif %}">
+    </div>
+    {% if account is not defined %}
+    <div class="mb-3">
+        <label for="class">Classe</label>
+        <select name="class" id="class" class="form-control">
+            {% for class in classes %}
+                <option value="{{ class.id }}">{{ class.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary form-control btn-sm">Créer</button>
+</form>
+
+<script>
+    $('#class').select2({
+        minimumResultsForSearch: -1,
+    });
+
+	document.querySelector('#account_create_form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        let result;
+		{% if account is not defined %}
+        result = await apiFetch('/account/create', {
+			username: document.querySelector('#username').value,
+            class: document.querySelector('#class').value,
+        });
+		{% else %}
+        result = await apiFetch('/account/update', {
+            username: document.querySelector('#username').value,
+            id: {{ account.id }},
+        });
+        {% endif %}
+
+		if (result.success) {
+			let result = await apiFetch('/account/list');
+			setInnerHTML(document.querySelector('.account-list-container'), result.data.html);
+			sidenav.close();
+		}
+    })
+</script>

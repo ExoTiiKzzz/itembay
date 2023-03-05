@@ -52,7 +52,7 @@
                         <span class="text-white">
                             <i class="fas fa-shopping-basket"></i>
                         </span>
-                        <span class="badge bg-danger rounded-pill">{{ app.user.basket.items | length }}</span>
+                        <span class="badge bg-danger rounded-pill basket-count">{{ app.user.basket.items | length }}</span>
                     </div>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button"
@@ -87,12 +87,15 @@
 </nav>
 
 <script defer>
+	{% if app.user %}
     document.querySelector('.user-basket').addEventListener('click', function () {
 		sidenav
             .setTitle('Mon panier')
             .open()
             .setContentFromUrl('{{ path('app_basket') }}').then(() => {
                 sidenav.hideLoader();
+				initBasketListeners();
             })
     });
+	{% endif %}
 </script>

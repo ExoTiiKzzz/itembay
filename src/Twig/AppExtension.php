@@ -2,21 +2,30 @@
 
 namespace App\Twig;
 
+use App\Entity\DefaultItem;
+use App\Entity\Item;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class AppExtension extends AbstractExtension
 {
+
+    public function __construct(private EntityManagerInterface $em)
+    {
+    }
+
     public function getFilters(): array
     {
         return [
             new TwigFilter('itemPrice', [$this, 'formatItemPrice']),
             new TwigFilter('itemSlug', [$this, 'formatItemSlug']),
             new TwigFilter('randomId', [$this, 'randomId']),
+            new TwigFilter('itemStock', [$this, 'getItemStock']),
         ];
     }
 
-    public function formatItemPrice($price)
+    public function formatItemPrice($price): string
     {
         //1 gold piece = 10 silver pieces = 100 bronze pieces
         $gold = floor($price / 100);
@@ -72,12 +81,21 @@ class AppExtension extends AbstractExtension
         return str_replace($a, $b, $str);
     }
 
-    public function randomId() {
+    public function randomId(): string
+    {
         $id = '';
         $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for ($i = 0; $i < 10; $i++) {
             $id .= $chars[rand(0, strlen($chars) - 1)];
         }
         return $id;
+    }
+
+    public function getItemStock($defaultItemId): int
+    {
+        /** @var DefaultItem $defaultItem */
+       $defaultItem = $this->em->getRepository(DefaultItem::class)->find($defaultItemId);
+
+       return count($this->em->getRepository(Item::class)->findBy(['defaultItem' => $defaultItem, 'account' => null, 'isDefaultItem' => true ]));
     }
 }

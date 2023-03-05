@@ -44,7 +44,8 @@ class DefaultItemController extends AbstractController
     {
         $item = $this->em->getRepository(\App\Entity\DefaultItem::class)->findOneBy(['uuid' => $uuid]);
         return $this->render('item/item.html.twig', [
-            'item' => $item,
+            'item'  => $item,
+            'stock' => DefaultItem::getStock($item, $this->em),
         ]);
     }
     

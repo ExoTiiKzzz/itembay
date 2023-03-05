@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
@@ -27,6 +29,9 @@ class Item
     #[ORM\Column]
     private ?bool $isDefaultItem = null;
 
+    #[ORM\ManyToOne(inversedBy: 'inventory')]
+    private ?Account $account = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -40,6 +45,9 @@ class Item
     public function setDefaultItem(?DefaultItem $defaultItem): self
     {
         $this->defaultItem = $defaultItem;
+        $this->setIsDefaultItem(true);
+        $this->setBuyPrice($defaultItem->getBuyPrice());
+        $this->setSellPrice($defaultItem->getSellPrice());
 
         return $this;
     }
@@ -81,6 +89,18 @@ class Item
     public function setIsDefaultItem(bool $isDefaultItem): self
     {
         $this->isDefaultItem = $isDefaultItem;
+
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): self
+    {
+        $this->account = $account;
 
         return $this;
     }

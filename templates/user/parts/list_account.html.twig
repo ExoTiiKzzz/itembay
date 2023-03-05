@@ -1,0 +1,50 @@
+<button class="btn btn-primary btn-sm account-add">
+    <i class="fas fa-plus"></i>
+    Ajouter un compte
+</button>
+
+<table class="table text-white text-center">
+    <thead>
+    <tr>
+        <th>Pseudo</th>
+        <th>Classe</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% if app.user.accounts | length <= 0 %}
+            <tr>
+                <td colspan="3">Aucun compte</td>
+            </tr>
+        {% else %}
+            {% for account in app.user.accounts %}
+                <tr>
+                    <td>{{ account.name }}</td>
+                    <td>{{ account.class.name }}</td>
+                    <td>
+                        <i class="fas fa-edit account-edit" data-id="{{ account.id }}" title="Modifier"></i>
+                        <i class="fas fa-trash-alt account-delete" data-id="{{ account.id }}" title="Supprimer"></i>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+<script>
+    document.querySelector('.account-add').addEventListener('click', async () => {
+        sidenav.open();
+		sidenav.setTitle('Ajouter un compte');
+		await sidenav.setContentFromUrl('/account/add');
+		sidenav.hideLoader();
+    });
+
+	document.querySelectorAll('.account-edit').forEach((element) => {
+		element.addEventListener('click', async () => {
+            sidenav.open();
+            sidenav.setTitle('Modifier un compte');
+            await sidenav.setContentFromUrl('/account/edit/' + element.dataset.id);
+            sidenav.hideLoader();
+        });
+    });
+</script>

@@ -1,6 +1,7 @@
 {% extends '/base.html.twig' %}
 
 {% block body %}
+    {{ item.id | itemStock }}
     {% if app.user %}
         <p>{{ item.name }}</p>
         <button class="btn btn-primary basket-add-item" onclick="addItem()">Ajouter au panier</button>
@@ -18,7 +19,7 @@
 			}).then(function (response) {
 				return response.json();
 			}).then(function (data) {
-				console.log(data);
+				refreshBasketCount();
 			});
 		}
     </script>

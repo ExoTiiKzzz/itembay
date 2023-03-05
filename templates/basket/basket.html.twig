@@ -4,51 +4,62 @@
             <strong>Votre panier est vide</strong>
         </div>
     {% else %}
-        <ul class="list-group">
-        {% for item in items.defaultItems.items %}
-            <li class="list-group-item">
-                <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+        {% if items.defaultItems.items | length > 0 %}
+            <h3>Items normaux</h3>
+            <ul class="list-group">
+            {% for item in items.defaultItems.items %}
+                <li class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 d-flex align-items-center">
+                            <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center">
+                            {{ item.defaultItem.name }}
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center gap-1">
+                            {{ item.buyPrice | itemPrice | raw }}
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center justify-content-center gap-1">
+                            <button class="btn btn-secondary btn-sm basket-button-minus-default-item" data-id="{{ item.defaultItem.id }}" data-uuid-id="{{ item.defaultItem.uuid }}">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="basket-item-count" data-id="{{ item.defaultItem.uuid }}">
+                                {{ item.quantity }}
+                            </span>
+                            <button class="btn btn-secondary btn-sm basket-button-plus-default-item" data-id="{{ item.defaultItem.id }}" data-uuid-id="{{ item.defaultItem.uuid }}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <h4>{{ item.defaultItem.name }}</h4>
+                </li>
+            {% endfor %}
+            </ul>
+            Total : {{ items.defaultItems.total | itemPrice | raw }}
+        {% endif %}
+        {% if items.customItems.items | length > 0 %}
+            <h3>Items personnalisés</h3>
+            <ul class="list-group">
+            {% for item in items.customItems.items %}
+                <li class="list-group-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+                        </div>
+                        <div class="col-md-3">
+                            <h4>{{ item.defaultItem.name }}</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <strong>{{ item.buyPrice | itemPrice | raw }}</strong>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <strong>{{ item.buyPrice | itemPrice | raw }}</strong>
-                    </div>
-                    <div class="col-md-2">
-                        <h4>{{ item.quantity }}</h4>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
-                    </div>
-                </div>
-            </li>
-        {% endfor %}
-        </ul>
-        Total : {{ items.defaultItems.total | itemPrice | raw }}
-        <ul>
-        {% for item in items.customItems.items %}
-            <li class="list-group-item">
-                <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
-                    </div>
-                    <div class="col-md-3">
-                        <h4>{{ item.defaultItem.name }}</h4>
-                    </div>
-                    <div class="col-md-4">
-                        <strong>{{ item.buyPrice | itemPrice | raw }}</strong>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
-                    </div>
-                </div>
-            </li>
-        {% endfor %}
-        </ul>
-        Total : {{ items.customItems.total | itemPrice | raw }}
+                </li>
+            {% endfor %}
+            </ul>
+            Total : {{ items.customItems.total | itemPrice | raw }}
+        {% endif %}
     {% endif %}
 {% else %}
     <div class="alert alert-info">

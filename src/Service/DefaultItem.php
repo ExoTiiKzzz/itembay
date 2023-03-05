@@ -87,4 +87,13 @@ class DefaultItem
             $limit
         );
     }
+
+    public static function getStock(\App\Entity\DefaultItem $defaultItem, EntityManagerInterface $em): int
+    {
+        return count($em->getRepository(\App\Entity\Item::class)->findBy([
+            'defaultItem'   => $defaultItem,
+            'isDefaultItem' => true,
+            'account'       => null,
+        ]));
+    }
 }

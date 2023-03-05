@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AccountRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
@@ -19,6 +21,18 @@ class Account
     #[ORM\ManyToOne(inversedBy: 'accounts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'accounts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PlayerClass $class = null;
+
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Item::class)]
+    private Collection $inventory;
+
+    public function __construct()
+    {
+        $this->inventory = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,5 +65,47 @@ class Account
 
     public function __toString(){
         return $this->name;
+    }
+
+    public function getClass(): ?PlayerClass
+    {
+        return $this->class;
+    }
+
+    public function setClass(?PlayerClass $class): self
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Item>
+     */
+    public function getInventory(): Collection
+    {
+        return $this->inventory;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->inventory->contains($item)) {
+            $this->inventory->add($item);
+            $item->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->inventory->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getAccount() === $this) {
+                $item->setAccount(null);
+            }
+        }
+
+        return $this;
     }
 }
