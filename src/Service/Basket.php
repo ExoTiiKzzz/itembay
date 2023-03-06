@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Entity\Item;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
 class Basket
 {
-    public static function listItems(array $items): array
+    #[Pure] #[ArrayShape(['defaultItems' => "array", 'customItems' => "array", 'totalCount' => "int"])] public static function listItems(array $items): array
     {
         $defaultItems = [];
         $customItems = [];

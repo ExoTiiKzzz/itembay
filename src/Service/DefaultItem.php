@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\Pure;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,6 +88,52 @@ class DefaultItem
             $page,
             $limit
         );
+    }
+
+    public static function getDefaultItemsAvailable(EntityManagerInterface $em, $id = null): array
+    {
+        $qb = $em->createQueryBuilder();
+        $qb->select('i')
+            ->from(\App\Entity\Item::class, 'i')
+            ->innerJoin(\App\Entity\DefaultItem::class, 'di', 'WITH', 'i.defaultItem = di.id');
+
+        if ($id) {
+            $qb->andWhere('di.id = :id')
+                ->setParameter('id', $id);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public static function getOneItemAvailable(EntityManagerInterface $em, int $id = null, array $notIn = null): ?Item
+    {
+        $qb = $em->createQueryBuilder();
+        $qb->select('i')
+            ->from(\App\Entity\Item::class, 'i')
+            ->innerJoin(\App\Entity\DefaultItem::class, 'di', 'WITH', 'i.defaultItem = di.id');
+
+        if ($id) {
+            $qb->andWhere('di.id = :id')
+                ->setParameter('id', $id);
+        }
+
+        if ($notIn) {
+            $qb->andWhere('i.id NOT IN (:notIn)')
+                ->setParameter('notIn', $notIn);
+        }
+
+        return $qb->setMaxResults(1)->getQuery()->getOneOrNullResult();
+    }
+
+    #[Pure] public static function getAvailableDefaultItem(array $items): ?Item
+    {
+        /** @var Item $item */
+        foreach ($items as $item) {
+            if ($item->getAccount() === null) {
+                return $item;
+            }
+        }
+        return null;
     }
 
     public static function getStock(\App\Entity\DefaultItem $defaultItem, EntityManagerInterface $em): int

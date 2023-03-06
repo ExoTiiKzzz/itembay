@@ -1,7 +1,7 @@
 {% extends '/base.html.twig' %}
 
 {% block body %}
-    {{ item.id | itemStock }}
+    Stock disponible : {{ item.id | itemStock }}
     {% if app.user %}
         <p>{{ item.name }}</p>
         <button class="btn btn-primary basket-add-item" onclick="addItem()">Ajouter au panier</button>
@@ -13,14 +13,9 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-		function addItem() {
-			fetch('/basket/default/add/{{ item.id }}', {
-				method: 'POST',
-			}).then(function (response) {
-				return response.json();
-			}).then(function (data) {
-				refreshBasketCount();
-			});
+		async function addItem() {
+			await apiFetch('/basket/default/add/{{ item.id }}')
+			await refreshBasketCount();
 		}
     </script>
 {% endblock %}

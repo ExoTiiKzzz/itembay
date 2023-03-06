@@ -67,29 +67,28 @@ class BasketController extends AbstractController
             $user = $this->getUser();
             $basket = $user->getBasket();
 
-            $item = new Item();
-
             /** @var DefaultItem $defaultItem */
             $defaultItem = $this->em->getRepository(DefaultItem::class)->find($id);
 
             if (!$defaultItem) {
                 throw $this->createNotFoundException('The default item does not exist');
             }
-            $item
-                ->setIsDefaultItem(true)
-                ->setDefaultItem($defaultItem)
-                ->setBuyPrice($defaultItem->getBuyPrice())
-                ->setSellPrice($defaultItem->getSellPrice());
 
-            $this->em->persist($item);
+            //actual item in basket
+            $items = $basket->getItems()->toArray();
+
+            //get ids of items in basket
+            $ids = array_map(function ($item) {
+                return $item->getId();
+            }, $items);
+
+            $item = \App\Service\DefaultItem::getOneItemAvailable($this->em, $id, $ids);
 
             $basket->addItem($item);
 
             $this->em->flush();
 
-            return ApiResponse::success([
-                'basketCount' => $basket->getItems()->count(),
-            ], 'Item added to basket', 201);
+            return ApiResponse::success([], 'Item added to basket', 201);
         } catch (\Exception $e) {
             return ApiResponse::error([], $e->getMessage());
         }
