@@ -60,6 +60,7 @@
             </ul>
             Total : {{ items.customItems.total | itemPrice | raw }}
         {% endif %}
+        <a class="btn btn-primary btn-xs form-control mt-2" href="{{ path('app_basket_validate') }}">Valider mon panier</a>
     {% endif %}
 {% else %}
     <div class="alert alert-info">

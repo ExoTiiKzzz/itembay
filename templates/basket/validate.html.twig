@@ -1,0 +1,12 @@
+{% extends '/base.html.twig' %}
+
+{% block title %} Valider mon panier {% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for item in items.defaultItems.items %}
+        {% endfor %}
+        {% for item in items.customItems.items %}
+        {% endfor %}
+    </div>
+{% endblock %}

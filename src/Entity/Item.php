@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,6 +33,14 @@ class Item
 
     #[ORM\ManyToOne(inversedBy: 'inventory')]
     private ?Account $account = null;
+
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: TransactionLine::class)]
+    private Collection $transactionLines;
+
+    public function __construct()
+    {
+        $this->transactionLines = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -101,6 +111,36 @@ class Item
     public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TransactionLine>
+     */
+    public function getTransactionLines(): Collection
+    {
+        return $this->transactionLines;
+    }
+
+    public function addTransactionLine(TransactionLine $transactionLine): self
+    {
+        if (!$this->transactionLines->contains($transactionLine)) {
+            $this->transactionLines->add($transactionLine);
+            $transactionLine->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionLine(TransactionLine $transactionLine): self
+    {
+        if ($this->transactionLines->removeElement($transactionLine)) {
+            // set the owning side to null (unless already changed)
+            if ($transactionLine->getItem() === $this) {
+                $transactionLine->setItem(null);
+            }
+        }
 
         return $this;
     }

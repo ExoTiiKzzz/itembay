@@ -133,4 +133,15 @@ class BasketController extends AbstractController
 
         return ApiResponse::success();
     }
+
+    #[Route('/basket/validate', name: 'app_basket_validate')]
+    public function validate(): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $items = Basket::listItems($user->getBasket()->getItems()->toArray());
+        return $this->render('basket/validate.html.twig', [
+            'items' => $items,
+        ]);
+    }
 }
