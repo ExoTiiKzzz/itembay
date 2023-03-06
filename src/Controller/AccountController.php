@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
 {
-    private EntityManagerInterface $em;
+    protected EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -90,7 +90,7 @@ class AccountController extends AbstractController
         }
     }
 
-    #[Route('/account/edit/{id}', name: 'app_account_add')]
+    #[Route('/account/edit/{id}', name: 'app_account_edit')]
     public function edit(int $id): Response
     {
         $classes = $this->em->getRepository(PlayerClass::class)->findBy([], ['name' => 'ASC']);
