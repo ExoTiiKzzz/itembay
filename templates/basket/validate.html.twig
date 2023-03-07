@@ -3,10 +3,76 @@
 {% block title %} Valider mon panier {% endblock %}
 
 {% block body %}
-    <div class="container">
-        {% for item in items.defaultItems.items %}
-        {% endfor %}
-        {% for item in items.customItems.items %}
-        {% endfor %}
+    <div class="container text-white">
+        <h1>Mon panier</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <button class="btn btn-secondary btn-sm selectAllItems" data-checkbox="false">Désélectionner tous les éléments</button>
+                {% for item in items.defaultItems.items %}
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-1">
+                            <label>
+                                <input type="checkbox" class="form-check-input" name="item" value="{{ item.defaultItem.id }}" checked>
+                            </label>
+                        </div>
+                        <div class="col-2">
+                            <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+                        </div>
+                        <div class="col-4">
+                            <h5>{{ item.defaultItem.name }}</h5>
+                            <p class="item-description">{{ item.defaultItem.description }}</p>
+                        </div>
+                        <div class="col-2">
+                            <p>{{ item.buyPrice | itemPrice | raw }}</p>
+                        </div>
+                        <div class="col-1">
+                            <p>{{ item.quantity }}</p>
+                        </div>
+                        <div class="col-2">
+                            <p>{{ (item.buyPrice * item.quantity) | itemPrice | raw }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for item in items.customItems.items %}
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                <p>Somme totale : {{ (items.defaultItems.total + items.customItems.total) | itemPrice | raw }}</p>
+                <button class="btn btn-primary">
+                    Procéder au paiement
+                </button>
+            </div>
+        </div>
+
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+	        let checkboxes = document.querySelectorAll('input[name="item"]');
+	        document.querySelector('.selectAllItems').addEventListener('click', function () {
+		        let checkbox = this.dataset.checkbox;
+		        if (checkbox === 'false') {
+			        checkboxes.forEach(function (checkbox) {
+				        checkbox.checked = false;
+			        });
+			        this.classList.add('btn-primary');
+			        this.classList.remove('btn-secondary');
+			        this.dataset.checkbox = 'true';
+			        this.innerHTML = 'Sélectionner tous les éléments';
+		        } else {
+			        checkboxes.forEach(function (checkbox) {
+				        checkbox.checked = true;
+			        });
+			        this.classList.remove('btn-primary');
+			        this.classList.add('btn-secondary');
+			        this.dataset.checkbox = 'false';
+			        this.innerHTML = 'Désélectionner tous les éléments';
+		        }
+	        });
+        });
+
+    </script>
 {% endblock %}
