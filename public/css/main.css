@@ -44,6 +44,22 @@ img {
     border-radius: 3px !important;
 }
 
+.btn.btn-secondary {
+    background-color: var(--secondary-color) !important;
+    border: var(--secondary-color) !important;
+    border-radius: 3px !important;
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary-color) !important;
+    color: var(--text-color) !important;
+}
+
 .user-basket {
     cursor: pointer;
 }
@@ -111,4 +127,11 @@ select option:checked, select option:checked:focus {
 .select2-results__option:hover, .select2-results__option:focus, .select2-results__option--highlighted {
     background-color: var(--primary-color) !important;
     color: var(--text-color) !important;
+}
+
+.validate-item-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 10px;
 }

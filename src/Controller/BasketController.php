@@ -9,16 +9,19 @@ use App\Service\ApiResponse;
 use App\Service\Basket;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BasketController extends AbstractController
 {
     protected EntityManagerInterface $em;
+    protected RequestStack $requestStack;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, RequestStack $requestStack)
     {
         $this->em = $em;
+        $this->requestStack = $requestStack;
     }
 
     #[Route('/basket', name: 'app_basket')]
@@ -56,6 +59,23 @@ class BasketController extends AbstractController
         ]);
     }
 
+    #[Route('/basket/total', name: 'app_basket_total')]
+    public function total(): Response
+    {
+        try {
+            if (!$this->getUser()) {
+                throw new \Exception('Vous devez être connecté pour accéder à votre panier.');
+            }
+            /** @var User $user */
+            $user = $this->getUser();
+            return ApiResponse::success([
+                'total' => Basket::getTotal($this->em, $this->requestStack->getMainRequest()),
+            ]);
+        } catch (\Exception $e) {
+            return ApiResponse::error([], $e->getMessage());
+        }
+    }
+
     #[Route('/basket/default/add/{id}', name: 'app_basket_add_default')]
     public function add(int $id): Response
     {
@@ -82,9 +102,15 @@ class BasketController extends AbstractController
                 return $item->getId();
             }, $items);
 
-            $item = \App\Service\DefaultItem::getOneItemAvailable($this->em, $id, $ids);
+            $requestBody = json_decode($this->requestStack->getMainRequest()->getContent(), true);
 
-            $basket->addItem($item);
+            $quantity = isset($requestBody['quantity']) ? (int) $requestBody['quantity'] : 1;
+
+            for ($i = 0; $i < $quantity; $i++) {
+                $item = \App\Service\DefaultItem::getOneItemAvailable($this->em, $id, $ids);
+                $basket->addItem($item);
+                $ids[] = $item->getId();
+            }
 
             $this->em->flush();
 
@@ -125,9 +151,14 @@ class BasketController extends AbstractController
         $user = $this->getUser();
         $basket = $user->getBasket();
 
-        $item = Basket::getDefaultItem($basket->getItems()->toArray(), $id);
+        $requestBody = json_decode($this->requestStack->getMainRequest()->getContent(), true);
 
-        $basket->removeItem($item);
+        $quantity = isset($requestBody['quantity']) ? (int) $requestBody['quantity'] : 1;
+
+        for ($i = 0; $i < $quantity; $i++) {
+            $item = Basket::getDefaultItem($basket->getItems()->toArray(), $id);
+            $basket->removeItem($item);
+        }
 
         $this->em->flush();
 
@@ -143,5 +174,12 @@ class BasketController extends AbstractController
         return $this->render('basket/validate.html.twig', [
             'items' => $items,
         ]);
+    }
+
+    #[Route('/basket/confirm', name: 'app_basket_confirm')]
+    public function confirm(): Response
+    {
+        dd(json_decode($this->requestStack->getMainRequest()->getContent(), true));
+        return new Response('ok');
     }
 }

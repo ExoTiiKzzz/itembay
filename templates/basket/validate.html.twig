@@ -5,74 +5,269 @@
 {% block body %}
     <div class="container text-white">
         <h1>Mon panier</h1>
-        <div class="row">
-            <div class="col-md-8">
-                <button class="btn btn-secondary btn-sm selectAllItems" data-checkbox="false">Désélectionner tous les éléments</button>
-                {% for item in items.defaultItems.items %}
-                    <div class="row align-items-center justify-content-center">
-                        <div class="col-1">
-                            <label>
-                                <input type="checkbox" class="form-check-input" name="item" value="{{ item.defaultItem.id }}" checked>
-                            </label>
-                        </div>
-                        <div class="col-2">
-                            <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
-                        </div>
-                        <div class="col-4">
-                            <h5>{{ item.defaultItem.name }}</h5>
-                            <p class="item-description">{{ item.defaultItem.description }}</p>
-                        </div>
-                        <div class="col-2">
-                            <p>{{ item.buyPrice | itemPrice | raw }}</p>
-                        </div>
-                        <div class="col-1">
-                            <p>{{ item.quantity }}</p>
-                        </div>
-                        <div class="col-2">
-                            <p>{{ (item.buyPrice * item.quantity) | itemPrice | raw }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% for item in items.customItems.items %}
-                {% endfor %}
-            </div>
-            <div class="col-md-4">
-                <p>Somme totale : {{ (items.defaultItems.total + items.customItems.total) | itemPrice | raw }}</p>
-                <button class="btn btn-primary">
-                    Procéder au paiement
-                </button>
-            </div>
-        </div>
+        {% if app.user %}
+            <div class="row">
+                <form class="col-md-10" id="validate-basket-form">
+                    {% if items.totalCount > 0 %}
+                        <button class="btn btn-secondary btn-sm selectAllItems" data-checkbox="false" type="button">Désélectionner tous les éléments</button>
+                        {% for item in items.defaultItems.items %}
+                            <div class="row align-items-center justify-content-center">
+                                <div class="col-md-1">
+                                    <input type="checkbox" class="form-check-input" name="item_choice[{{ item.defaultItem.id }}]" value="{{ item.defaultItem.id }}" checked>
+                                </div>
 
-    </div>
+                                <div class="col-md-2">
+                                    <img src="{{ item.defaultItem.imageUrl }}" alt="{{ item.defaultItem.name }}" class="img-fluid">
+                                </div>
+                                <div class="col-md-7 row">
+                                    <a class="validate-item-link" href="{{ path('app_item', { uuid: item.defaultItem.uuid }) }}" target="_blank">
+                                        {{ item.defaultItem.name }}
+                                    </a>
+                                    {% set selectDisplay = '' %}
+                                    {% set inputDisplay = 'd-none' %}
+                                    {% if item.quantity >= 10 %}
+                                        {% set selectDisplay = 'd-none' %}
+                                        {% set inputDisplay = '' %}
+                                    {% endif %}
+                                    <div class="col-md-12 {{ inputDisplay }} row">
+                                        <div class="col-md-3">
+                                            <input class="form-control item-quantity-input col-md-2" type="number" id="item_quantity[{{ item.defaultItem.id }}]" value="{{ item.quantity }}" data-id="{{ item.defaultItem.id }}" min="1" max="{{ item.defaultItem.id | itemStock }}">
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center d-none">
+                                            <button class="btn btn-sm btn-primary validate-basket-change-btn" type="button">Mettre à jour</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 {{ selectDisplay }}">
+                                        <select class="form-control item-quantity-input col-md-2" id="item_quantity[{{ item.defaultItem.id }}]" data-id="{{ item.defaultItem.id }}">
+                                            {% set max = 9 %}
+                                            {% if item.defaultItem.id | itemStock < 9 %}
+                                                {% set max = item.defaultItem.id | itemStock %}
+                                            {% endif %}
+                                            {% for i in 1..max %}
+                                                <option value="{{ i }}" {% if i == item.quantity %}selected{% endif %}>{{ i }}</option>
+                                            {% endfor %}
+                                            {% if item.defaultItem.id | itemStock > 9 %}
+                                                <option value="10">10+</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                        <button class="btn btn-sm btn-outline-secondary validate-basket-delete-btn" type="button" data-id="{{ item.defaultItem.id }}">Supprimer</button>
+                                    </div>
+
+                                    <input class="item-hidden-input" type="hidden" data-id="{{ item.defaultItem.id }}" name="item_quantity[{{ item.defaultItem.id }}]" value="{{ item.quantity }}">
+
+                                </div>
+                                <div class="col-md-2">
+                                    <p>{{ item.buyPrice | itemPrice | raw }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for item in items.customItems.items %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            Votre panier est vide. <a href="{{ path('app_home') }}">Ajouter des items</a>
+                        </div>
+                    {% endif %}
+                </form>
+                <div class="col-md-2">
+                    <p>Somme totale : <br>
+                        {% set confirmBtnDisplay = '' %}
+                        {% if items.totalCount > 0 %}
+                            <span class="validate-basket-total">{{ (items.defaultItems.total + items.customItems.total) | itemPrice | raw }}</span>
+                        {% else %}
+                            <span class="validate-basket-total">Ajouter des items à votre panier</span>
+                            {% set confirmBtnDisplay = 'd-none' %}
+                        {% endif %}
+                    </p>
+                    <button class="btn btn-primary validate-basket-confirm {{ confirmBtnDisplay }}">
+                        Procéder au paiement
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Vous devez être connecté pour accéder à votre panier. <a class="btn btn-primary btn-sm" href="{{ path('app_login') }}">Se connecter</a>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-	        let checkboxes = document.querySelectorAll('input[name="item"]');
-	        document.querySelector('.selectAllItems').addEventListener('click', function () {
-		        let checkbox = this.dataset.checkbox;
-		        if (checkbox === 'false') {
-			        checkboxes.forEach(function (checkbox) {
-				        checkbox.checked = false;
-			        });
-			        this.classList.add('btn-primary');
-			        this.classList.remove('btn-secondary');
-			        this.dataset.checkbox = 'true';
-			        this.innerHTML = 'Sélectionner tous les éléments';
-		        } else {
-			        checkboxes.forEach(function (checkbox) {
-				        checkbox.checked = true;
-			        });
-			        this.classList.remove('btn-primary');
-			        this.classList.add('btn-secondary');
-			        this.dataset.checkbox = 'false';
-			        this.innerHTML = 'Désélectionner tous les éléments';
-		        }
-	        });
+        let items = {
+			defaultItems: [],
+            customItems: []
+        };
+        {% for item in items.defaultItems.items %}
+            items.defaultItems.push({
+                id: parseInt('{{ item.defaultItem.id }}'),
+                quantity: parseInt('{{ item.quantity }}'),
+                price: parseInt('{{ item.buyPrice }}'),
+                stock: parseInt('{{ item.defaultItem.id | itemStock }}')
+            });
+        {% endfor %}
+        {% for item in items.customItems.items %}
+            items.customItems.push({
+                id: parseInt('{{ item.customItem.id }}'),
+                quantity: parseInt('{{ item.quantity }}'),
+                price: parseInt('{{ item.buyPrice }}'),
+            });
+        {% endfor %}
+
+        async function reloadTotal() {
+			//get all checked items
+            let data = getCheckedItems();
+			let confirmBtn = document.querySelector('.validate-basket-confirm');
+			if (data.items.length === 0) {
+                document.querySelector('.validate-basket-total').innerHTML = 'Aucun élément sélectionné';
+				confirmBtn.classList.add('d-none');
+                return;
+            }
+			confirmBtn.classList.remove('d-none');
+	        let response = await apiFetch('/basket/total', data);
+			let total = response.data.total;
+
+			//update total
+            document.querySelector('.validate-basket-total').innerHTML = formatItemPrice(total);
+        }
+
+		function getCheckedItems() {
+			let data = {
+				items: []
+            };
+			document.querySelectorAll('.form-check-input:checked').forEach(function (checkbox) {
+                data.items.push({
+                    id: checkbox.value,
+                    quantity: document.querySelector('.item-hidden-input[data-id="' + checkbox.value + '"]').value
+                })
+            });
+			return data;
+		}
+
+		async function makeBasketDifference(itemId, quantity) {
+			itemId = parseInt(itemId);
+			quantity = parseInt(quantity);
+			let diffQuantity = 0;
+			let item = items.defaultItems.find(function (item) {
+                return item.id === itemId;
+            });
+			if (item !== undefined) {
+				diffQuantity = quantity - item.quantity;
+				item.quantity = quantity;
+			} else {
+				return;
+            }
+			if (diffQuantity === 0) {
+                return;
+            }
+			if (diffQuantity < 0) {
+                diffQuantity = Math.abs(diffQuantity);
+                await removeBasketItem(itemId, false, diffQuantity);
+				return;
+            }
+            await addBasketItem(itemId, false, diffQuantity);
+        }
+
+		async function updateInputDisplay(el) {
+			let id = el.dataset.id;
+			let value = el.value;
+			if (value === '' || value <= 0) {
+				value = 1;
+			}
+			document.querySelector('.item-hidden-input[data-id="' + id + '"]').value = value;
+
+			let input = document.querySelector('input.item-quantity-input[data-id="' + id + '"]');
+			let select = document.querySelector('select.item-quantity-input[data-id="' + id + '"]');
+			if (value >= 10) {
+				input.value = value;
+				input.parentElement.parentElement.classList.remove('d-none');
+				input.parentElement.nextElementSibling.classList.remove('d-none');
+				select.parentElement.classList.add('d-none');
+			} else {
+				$(select).val(value).trigger('change');
+				select.parentElement.classList.remove('d-none');
+				input.parentElement.parentElement.classList.add('d-none');
+			}
+            await makeBasketDifference(id, value);
+			await reloadTotal();
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', async function () {
+	        let checkboxes = document.querySelectorAll('.form-check-input');
+	        {% if items.totalCount > 0 %}
+                document.querySelector('.selectAllItems').addEventListener('click', function () {
+                    let checkbox = this.dataset.checkbox;
+                    if (checkbox === 'false') {
+                        checkboxes.forEach(function (checkbox) {
+                            checkbox.checked = false;
+                        });
+                        this.classList.add('btn-primary');
+                        this.classList.remove('btn-secondary');
+                        this.dataset.checkbox = 'true';
+                        this.innerHTML = 'Sélectionner tous les éléments';
+                    } else {
+                        checkboxes.forEach(function (checkbox) {
+                            checkbox.checked = true;
+                        });
+                        this.classList.remove('btn-primary');
+                        this.classList.add('btn-secondary');
+                        this.dataset.checkbox = 'false';
+                        this.innerHTML = 'Désélectionner tous les éléments';
+                    }
+                    reloadTotal();
+                });
+
+                document.querySelector('.validate-basket-confirm').addEventListener('click', async function () {
+                    let data = getCheckedItems();
+					let url = '{{ path('app_basket_confirm') }}';
+					let response = await apiFetch(url, data);
+					console.log(response);
+                });
+			{% endif %}
+
+			document.querySelectorAll('.item-quantity-input').forEach(function (input) {
+				if (input.tagName === 'SELECT') {
+					$(input).select2({
+                        minimumResultsForSearch: Infinity,
+                        width: '100%'
+                    });
+					$(input).on('select2:select', async function (e) {
+						await updateInputDisplay(this);
+                    });
+                }
+            });
+
+            document.querySelectorAll('.validate-basket-change-btn').forEach(function (btn) {
+	            btn.addEventListener('click', async function () {
+					console.log(this.parentElement.previousElementSibling.firstElementChild);
+		            await updateInputDisplay(this.parentElement.previousElementSibling.firstElementChild);
+	            });
+            });
+
+			document.querySelectorAll('.validate-basket-delete-btn').forEach(function (btn) {
+                btn.addEventListener('click', async function () {
+                    let id = this.dataset.id;
+					let quantity = document.querySelector('.item-hidden-input[data-id="' + id + '"]').value;
+                    await removeBasketItem(id, false, quantity);
+                    location.reload();
+                });
+            });
+
+			checkboxes.forEach(function (checkbox) {
+				checkbox.addEventListener('change', async function () {
+                    await reloadTotal();
+                });
+            });
         });
+
+
 
     </script>
 {% endblock %}

@@ -65,7 +65,7 @@ async function getBasketCount() {
 	return await apiFetch('/basket/count');
 }
 
-async function addBasketItem(id, isCustom = false) {
+async function addBasketItem(id, isCustom = false, quantity = 1) {
 	let url;
 	if (isCustom) {
 		url = '/basket/custom/add/' + id;
@@ -73,10 +73,10 @@ async function addBasketItem(id, isCustom = false) {
 		url = '/basket/default/add/' + id;
 	}
 
-	await fetchAndSetBasket(url);
+	await fetchAndSetBasket(url, {quantity: quantity});
 }
 
-async function removeBasketItem(id, isCustom = false) {
+async function removeBasketItem(id, isCustom = false, quantity = 1) {
 	let url;
 	if (isCustom) {
 		url = '/basket/custom/remove/' + id;
@@ -84,7 +84,7 @@ async function removeBasketItem(id, isCustom = false) {
 		url = '/basket/default/remove/' + id;
 	}
 
-	await fetchAndSetBasket(url);
+	await fetchAndSetBasket(url, {quantity: quantity});
 }
 
 async function fetchAndSetBasket(url, body = {}) {
