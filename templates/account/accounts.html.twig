@@ -56,9 +56,11 @@
                 });
             });
             document.querySelectorAll('.account-activate').forEach((element) => {
-                element.addEventListener('click', async () => {
-                    let result = await apiFetch('/account/activate/' + element.dataset.id);
-                    if (result.success) refreshAccountList();
+                element.addEventListener('click', async (event) => {
+                    if (!event.target.matches('.account-edit, .account-delete, .account-inventory')) {
+                        let result = await apiFetch('/account/activate/' + element.dataset.id);
+                        if (result.success) refreshAccountList();
+                    }
                 });
             })
         }
