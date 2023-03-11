@@ -1,0 +1,25 @@
+<form id="account_delete_form">
+    <div class="mb-3">
+        <p class="text-secondary">Tapez "CONFIRMER" pour supprimer ce compte.</p>
+        <label for="confirm-input" class="form-label">Champ de confirmation:</label>
+        <input type="text" class="form-control form-control-sm" id="confirm-input">
+    </div>
+
+    <button type="submit" id="confirm" class="btn btn-primary form-control btn-sm disabled">Supprimer</button>
+</form>
+
+
+<script>
+    document.querySelector('#account_delete_form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        let result = await apiFetch('/account/confirm-delete/' + {{ account.id }});
+        if (result.success) refreshAccountList();
+        sidenav.close();
+    });
+
+    const confirmInput = document.querySelector('#confirm-input');
+    const confirm = document.querySelector('#confirm')
+    confirmInput.addEventListener('input', function (event) {
+        event.target.value.toUpperCase() === "CONFIRMER" ? confirm.classList.remove('disabled') : confirm.classList.add('disabled');
+    });
+</script>

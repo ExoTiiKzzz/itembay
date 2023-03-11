@@ -1,0 +1,7 @@
+<ul class="d-flex flex-wrap gap-5 text-black mt-5 px-0">
+    {% for account in app.user.accounts %}
+        {% include '/account/account.html.twig' with {
+            'account': account,
+        } %}
+    {% endfor %}
+</ul>

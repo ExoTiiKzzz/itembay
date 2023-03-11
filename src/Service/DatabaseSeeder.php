@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Account;
 use App\Entity\DefaultItem;
 use App\Entity\Item;
 use App\Entity\ItemNature;
@@ -9,7 +10,6 @@ use App\Entity\ItemType;
 use App\Entity\PlayerClass;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DatabaseSeeder
@@ -150,12 +150,20 @@ class DatabaseSeeder
 
     private function seedUsers(): void
     {
+        $account = new Account();
+        $account->setClass($this->entityManager->getRepository(PlayerClass::class)->findAll()[0]);
+        $account->setName('Yhaourt');
+        $this->entityManager->persist($account);
+
         $user = new User();
         $user->setUsername('admin');
         $user->setAvatar('default.png');
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'admin'));
         $user->setMoney(1000000);
         $user->setRoles(['ROLE_ADMIN']);
+        $user->addAccount($account);
+        $user->setActiveAccount($account);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

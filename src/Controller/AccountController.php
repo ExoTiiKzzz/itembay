@@ -7,7 +7,6 @@ use App\Entity\PlayerClass;
 use App\Service\ApiResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +20,17 @@ class AccountController extends AbstractController
         $this->em = $em;
     }
 
+    #[Route('/accounts', name: 'app_accounts')]
+    public function accounts(): Response
+    {
+        return $this->render('account/accounts.html.twig');
+    }
+
     #[Route('/account/list', name: 'app_account_list')]
     public function list(): Response
     {
 
-        $html = $this->render('user/parts/list_account.html.twig');
+        $html = $this->render('account/list_account.html.twig');
 
         return ApiResponse::success([
             'html' => $html->getContent(),
@@ -136,6 +141,72 @@ class AccountController extends AbstractController
 
             return ApiResponse::success([
                 'message' => 'Account updated',
+            ]);
+
+        } catch (\Exception $e) {
+            return ApiResponse::error([], $e->getMessage());
+        }
+    }
+
+    #[Route('/account/delete/{id}', name: 'app_account_delete')]
+    public function delete(int $id): Response
+    {
+        $account = $this->em->getRepository(Account::class)->find($id);
+        $html = $this->render('account/delete.html.twig', [
+            'account' => $account,
+        ]);
+
+        return ApiResponse::success([
+            'html' => $html->getContent(),
+        ]);
+    }
+
+    #[Route('/account/confirm-delete/{id}', name: 'app_account_confirm_delete')]
+    public function confirmDelete(int $id): Response
+    {
+        try {
+            if (!$this->getUser()) {
+                throw new \Exception('You must be logged in to update an account');
+            }
+
+            $account = $this->em->getRepository(Account::class)->find($id);
+
+            if (!$account) {
+                throw new \Exception('Account not found');
+            }
+
+            $this->em->remove($account);
+            $this->em->flush();
+
+            return ApiResponse::success([
+                'message' => 'Account deleted',
+            ]);
+
+        } catch (\Exception $e) {
+            return ApiResponse::error([], $e->getMessage());
+        }
+    }
+
+    #[Route('/account/activate/{id}', name: 'app_account_activate')]
+    public function activate(int $id): Response
+    {
+        try {
+            $user = $this->getUser();
+            if (!$user) {
+                throw new \Exception('You must be logged in to update an account');
+            }
+
+            $account = $this->em->getRepository(Account::class)->find($id);
+            if (!$account) {
+                throw new \Exception('Account not found');
+            }
+
+            $user->setActiveAccount($account);
+            $this->em->persist($user);
+            $this->em->flush();
+
+            return ApiResponse::success([
+                'message' => 'Account activated',
             ]);
 
         } catch (\Exception $e) {
