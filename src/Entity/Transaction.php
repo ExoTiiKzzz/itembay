@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\TransactionRepository;
+use App\Service\BasketService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Transaction
 {
     #[ORM\Id]
@@ -21,6 +25,9 @@ class Transaction
 
     #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: TransactionLine::class)]
     private Collection $transactionLines;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
     public function __construct()
     {
@@ -72,5 +79,35 @@ class Transaction
         }
 
         return $this;
+    }
+
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
+
+    #[Pure] #[ArrayShape(['defaultItems' => "array", 'customItems' => "array", 'totalCount' => "int"])]
+    public function getItemsFormatted(): array
+    {
+        $items = [];
+        foreach ($this->getTransactionLines() as $transactionLine) {
+            $items[] = $transactionLine->getItem();
+        }
+        return BasketService::listItems($items);
     }
 }

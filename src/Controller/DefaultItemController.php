@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ItemNature;
-use App\Service\DefaultItem;
+use App\Service\DefaultItemService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,7 +20,7 @@ class DefaultItemController extends AbstractController
     }
 
     #[Route('/', name: 'app_home')]
-    public function index(DefaultItem $defaultItemService, RequestStack $requestStack): Response
+    public function index(DefaultItemService $defaultItemService, RequestStack $requestStack): Response
     {
         $request = $requestStack->getMainRequest();
         $requestData = $request->query->all();
@@ -45,7 +45,7 @@ class DefaultItemController extends AbstractController
         $item = $this->em->getRepository(\App\Entity\DefaultItem::class)->findOneBy(['uuid' => $uuid]);
         return $this->render('item/item.html.twig', [
             'item'  => $item,
-            'stock' => DefaultItem::getStock($item, $this->em),
+            'stock' => DefaultItemService::getStock($item, $this->em),
         ]);
     }
     

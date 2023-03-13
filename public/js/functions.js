@@ -35,9 +35,6 @@ async function apiFetch(url, body = {}, method = 'POST') {
 			body: JSON.stringify(body)
 		})
 		.then(response => {
-			if (!response.ok) {
-				throw new Error(response.statusText);
-			}
 			return response.json();
 		})
 		.then(data => {
@@ -46,12 +43,12 @@ async function apiFetch(url, body = {}, method = 'POST') {
 			}
 			return data;
 		})
-		.catch(error => swalError(error));
+		.catch(error => swalError(error.message));
 }
 
 
 /**
- * Basket functions
+ * BasketService functions
  */
 async function refreshBasketCount() {
 	let count = await getBasketCount();

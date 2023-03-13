@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\DefaultItem;
 use App\Entity\Item;
 use App\Entity\User;
-use App\Service\ApiResponse;
-use App\Service\Basket;
+use App\Service\ApiResponseService;
+use App\Service\BasketService;
+use App\Service\TransactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,13 +33,13 @@ class BasketController extends AbstractController
         }
         /** @var User $user */
         $user = $this->getUser();
-        $items = Basket::listItems($user->getBasket()->getItems()->toArray());
+        $items = BasketService::listItems($user->getBasket()->getItems()->toArray());
 
         $html = $this->render('basket/basket.html.twig', [
             'items' => $items,
         ]);
 
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'html' => $html->getContent(),
         ]);
     }
@@ -47,14 +48,14 @@ class BasketController extends AbstractController
     public function default(): Response
     {
         if (!$this->getUser()) {
-            return ApiResponse::success([
+            return ApiResponseService::success([
                 'basketCount' => 0,
             ]);
         }
         /** @var User $user */
         $user = $this->getUser();
         $basket = $user->getBasket();
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'basketCount' => $basket->getItems()->count(),
         ]);
     }
@@ -68,11 +69,11 @@ class BasketController extends AbstractController
             }
             /** @var User $user */
             $user = $this->getUser();
-            return ApiResponse::success([
-                'total' => Basket::getTotal($this->em, $this->requestStack->getMainRequest()),
+            return ApiResponseService::success([
+                'total' => BasketService::getTotal($this->em, $this->requestStack->getMainRequest()),
             ]);
         } catch (\Exception $e) {
-            return ApiResponse::error([], $e->getMessage());
+            return ApiResponseService::error([], $e->getMessage());
         }
     }
 
@@ -107,16 +108,16 @@ class BasketController extends AbstractController
             $quantity = isset($requestBody['quantity']) ? (int) $requestBody['quantity'] : 1;
 
             for ($i = 0; $i < $quantity; $i++) {
-                $item = \App\Service\DefaultItem::getOneItemAvailable($this->em, $id, $ids);
+                $item = \App\Service\DefaultItemService::getOneItemAvailable($this->em, $id, $ids);
                 $basket->addItem($item);
                 $ids[] = $item->getId();
             }
 
             $this->em->flush();
 
-            return ApiResponse::success([], 'Item added to basket', 201);
+            return ApiResponseService::success([], 'Item added to basket', 201);
         } catch (\Exception $e) {
-            return ApiResponse::error([], $e->getMessage());
+            return ApiResponseService::error([], $e->getMessage());
         }
     }
 
@@ -136,7 +137,7 @@ class BasketController extends AbstractController
 
         $this->em->flush();
 
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'basketCount' => $basket->getItems()->count(),
         ], 'Item added to basket', 201);
     }
@@ -145,7 +146,7 @@ class BasketController extends AbstractController
     public function remove(int $id): Response
     {
         if (!$this->getUser()) {
-            return ApiResponse::error([], 'You are not logged in', 401);
+            return ApiResponseService::error([], 'You are not logged in', 401);
         }
         /** @var User $user */
         $user = $this->getUser();
@@ -156,13 +157,13 @@ class BasketController extends AbstractController
         $quantity = isset($requestBody['quantity']) ? (int) $requestBody['quantity'] : 1;
 
         for ($i = 0; $i < $quantity; $i++) {
-            $item = Basket::getDefaultItem($basket->getItems()->toArray(), $id);
+            $item = BasketService::getDefaultItem($basket->getItems()->toArray(), $id);
             $basket->removeItem($item);
         }
 
         $this->em->flush();
 
-        return ApiResponse::success();
+        return ApiResponseService::success();
     }
 
     #[Route('/basket/validate', name: 'app_basket_validate')]
@@ -170,7 +171,7 @@ class BasketController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $items = Basket::listItems($user->getBasket()->getItems()->toArray());
+        $items = BasketService::listItems($user->getBasket()->getItems()->toArray());
         return $this->render('basket/validate.html.twig', [
             'items' => $items,
         ]);
@@ -179,7 +180,7 @@ class BasketController extends AbstractController
     #[Route('/basket/confirm', name: 'app_basket_confirm')]
     public function confirm(): Response
     {
-        dd(json_decode($this->requestStack->getMainRequest()->getContent(), true));
-        return new Response('ok');
+        $request = json_decode($this->requestStack->getMainRequest()->getContent(), true);
+        return TransactionService::createTransaction($this->em, $request, $this->getUser()->getBasket());
     }
 }

@@ -135,3 +135,28 @@ select option:checked, select option:checked:focus {
     font-size: 2rem;
     margin-bottom: 10px;
 }
+
+nav {
+    color: var(--text-color);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.pagination .page-link {
+    color: var(--primary-color) !important;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+}

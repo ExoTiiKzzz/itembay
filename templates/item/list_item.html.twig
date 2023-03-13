@@ -9,8 +9,8 @@
         <div class="mt-auto text-right">
             <p> {{ item.buyPrice | itemPrice | raw }} </p>
 
-            <a href="/item/{{ item.uuid }}" class="btn btn-sm btn-primary mt-auto form-control">
-            Voir les choix
+            <a href="{{ path('app_item', { 'uuid': item.uuid }) }}" class="btn btn-sm btn-primary mt-auto form-control">
+                Voir les choix
             </a>
         </div>
     </div>

@@ -8,9 +8,10 @@ use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpFoundation\Request;
 
-class Basket
+class BasketService
 {
-    #[Pure] #[ArrayShape(['defaultItems' => "array", 'customItems' => "array", 'totalCount' => "int"])] public static function listItems(array $items): array
+    #[Pure] #[ArrayShape(['defaultItems' => "array", 'customItems' => "array", 'totalCount' => "int"])]
+    public static function listItems(array $items): array
     {
         $defaultItems = [];
         $customItems = [];
@@ -73,7 +74,7 @@ class Basket
             } else {
                 for ($i = 0; $i < $requestItem['quantity']; $i++) {
                     /** @var Item $item */
-                    $item = DefaultItem::getOneItemAvailable($em, $defaultItem->getId(), $ids);
+                    $item = DefaultItemService::getOneItemAvailable($em, $defaultItem->getId(), $ids);
                     if ($item) {
                         $ids[] = $item->getId();
                         $total += $item->getBuyPrice();
@@ -101,7 +102,7 @@ class Basket
                 $customItems[] = $item;
             }
         }
-        $defaultItems = DefaultItem::getAllAvailableItems($em, $ids);
+        $defaultItems = DefaultItemService::getAllAvailableItems($em, $ids);
         return array_merge($defaultItems, $customItems);
     }
 }

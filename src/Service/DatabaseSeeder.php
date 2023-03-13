@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Account;
 use App\Entity\DefaultItem;
 use App\Entity\Item;
 use App\Entity\ItemNature;
@@ -157,6 +158,13 @@ class DatabaseSeeder
         $user->setMoney(1000000);
         $user->setRoles(['ROLE_ADMIN']);
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $account = new Account();
+        $account->setUser($user);
+        $account->setClass($this->entityManager->getRepository(PlayerClass::class)->findOneBy([], ['id' => 'ASC']));
+        $account->setName('Admin');
+        $this->entityManager->persist($account);
         $this->entityManager->flush();
     }
 }

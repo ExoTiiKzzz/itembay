@@ -4,7 +4,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiResponse
+class ApiResponseService
 {
     public static function success(mixed $data = null, string $message = null, int $status = 200): Response
     {

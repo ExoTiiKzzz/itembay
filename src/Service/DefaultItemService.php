@@ -10,7 +10,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class DefaultItem
+class DefaultItemService
 {
     private PaginatorInterface $paginator;
     private EntityManagerInterface $em;
@@ -110,7 +110,8 @@ class DefaultItem
         $qb = $em->createQueryBuilder();
         $qb->select('i')
             ->from(\App\Entity\Item::class, 'i')
-            ->innerJoin(\App\Entity\DefaultItem::class, 'di', 'WITH', 'i.defaultItem = di.id');
+            ->innerJoin(\App\Entity\DefaultItem::class, 'di', 'WITH', 'i.defaultItem = di.id')
+            ->andWhere('i.account IS NULL');
 
         if ($id) {
             $qb->andWhere('di.id = :id')
