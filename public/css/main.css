@@ -159,4 +159,18 @@ nav a {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
     color: var(--text-color) !important;
+    
+.text-sm {
+    font-size: 0.875rem;
+}
+
+
+.hover-grow:hover {
+    transform: scale(1.2);
+    transition: transform 0.1s ease-in-out;
+}
+
+.active-account {
+    border: 7px solid var(--primary-color) !important;
+    border-radius: 10px !important;
 }

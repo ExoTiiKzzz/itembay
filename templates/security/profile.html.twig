@@ -5,7 +5,7 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
-    <div class="container text-white">
+    <div class="container text-white mt-5">
         <h2>Mon profil</h2>
         <form action="{{ path('app_update_profile') }}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
@@ -15,27 +15,42 @@
             <div class="mb-3">
 
                 <div class="d-flex">
-                    <img src="{{ asset('uploads/users/avatars/' ~ app.user.avatar) }}"
+                    <img id="avatarPreview" src="{{ asset('uploads/users/avatars/' ~ app.user.avatar) }}"
                          class="rounded-circle me-3"
                          alt="{{ app.user.avatar }}" width="24" height="24">
-                    <input class="form-control form-control-sm" type="file" name="avatar">
+                    <input id="avatarInput" class="form-control form-control-sm" type="file" name="avatar"
+                           onchange="updateAvatarPreview()">
                 </div>
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-sm btn-outline-light ml-auto">Enregistrer</button>
             </div>
         </form>
-        <div class="account-list-container">
-            {% include '/user/parts/list_account.html.twig' %}
-        </div>
     </div>
-
-
 {% endblock %}
 
 {% block javascripts %}
 
 {{ parent() }}
+    <script>
+        function updateAvatarPreview() {
+            const avatarInput = document.getElementById('avatarInput');
+            const avatarPreview = document.getElementById('avatarPreview');
+
+            const file = avatarInput.files[0];
+            const reader = new FileReader();
+
+            reader.addEventListener('load', () => {
+                avatarPreview.setAttribute('src', reader.result);
+            });
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                avatarPreview.setAttribute('src', '#');
+            }
+        }
+    </script>
 
 {% endblock %}
 

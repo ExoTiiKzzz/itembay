@@ -41,6 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserBasket $basket = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Account $activeAccount = null;
+
     /**
      * Constructor
      */
@@ -215,5 +219,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->basket = new UserBasket();
         $this->basket->setUser($this);
+    }
+
+    public function getActiveAccount(): Account
+    {
+        return $this->activeAccount;
+    }
+
+    public function setActiveAccount(Account $activeAccount): self
+    {
+        $this->activeAccount = $activeAccount;
+
+        return $this;
     }
 }

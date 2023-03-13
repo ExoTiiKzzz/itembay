@@ -1,0 +1,24 @@
+{% if app.user %}
+    <div id="activeAccount"
+         class="position-fixed bg-dark rounded-circle shadow-lg border border-white border-3 hover-grow"
+         style="width: 80px; height: 80px;bottom:30px;right:30px;cursor:pointer;">
+        <div class="w-100 overflow-hidden" style="height:60%;">
+            <img src="{{ app.user.activeAccount.class.imageUrl }}" alt="account" class="img-fluid">
+        </div>
+        <p class="d-block text-truncate text-center text-white small">{{ app.user.activeAccount.name }}</p>
+    </div>
+{% endif %}
+
+<script>
+    document.getElementById("activeAccount").addEventListener("click", function () {
+        window.location.href = "{{ path('app_accounts') }}";
+    });
+
+    function hideActiveAccount() {
+        document.getElementById("activeAccount").style.display = "none";
+    }
+
+    function showActiveAccount() {
+        document.getElementById("activeAccount").style.display = "block";
+    }
+</script>
