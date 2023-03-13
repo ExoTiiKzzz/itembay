@@ -2,7 +2,7 @@
 
 {# Profile management #}
 
-{% block title %}Mon profil{% endblock %}
+{% block title %}ItemBay - Mon profil{% endblock %}
 
 {% block body %}
     <div class="container text-white mt-5">
@@ -17,13 +17,13 @@
                 <div class="d-flex">
                     <img id="avatarPreview" src="{{ asset('uploads/users/avatars/' ~ app.user.avatar) }}"
                          class="rounded-circle me-3"
-                         alt="{{ app.user.avatar }}" width="24" height="24">
+                         alt="{{ app.user.avatar }}" width="32" height="32">
                     <input id="avatarInput" class="form-control form-control-sm" type="file" name="avatar"
                            onchange="updateAvatarPreview()">
                 </div>
             </div>
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-sm btn-outline-light ml-auto">Enregistrer</button>
+                <button type="submit" class="btn btn-sm btn-primary ml-auto">Enregistrer</button>
             </div>
         </form>
     </div>
