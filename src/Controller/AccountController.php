@@ -157,6 +157,7 @@ class AccountController extends AbstractController
         return $this->render('account/inventory.html.twig', [
             'inventory' => $inventory,
         ]);
+    }
 
     #[Route('/account/delete/{id}', name: 'app_account_delete')]
     public function delete(int $id): Response
