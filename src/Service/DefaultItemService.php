@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Account;
+use App\Entity\DefaultItem;
 use App\Entity\Item;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Pure;
@@ -50,10 +52,11 @@ class DefaultItemService
         $limit = $request->query->getInt('limit', 40);
         $page = $request->query->getInt('page', 1);
 
-        $itemNature = $request->query->all('nature');
+        $itemNature = $request->query->get('nature');
         $priceRange = $request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;
+        $search = $request->query->get('search') ?? '';
 
         $orderBy = $this->orderBy[$request->query->get('orderBy', '')] ?? 'i.id';
 
@@ -79,6 +82,11 @@ class DefaultItemService
         if ($maxPrice) {
             $qb->andWhere('i.buy_price <= :maxPrice')
                 ->setParameter('maxPrice', $maxPrice);
+        }
+
+        if ($search) {
+            $qb->andWhere('i.name LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
         }
 
         $qb->orderBy($orderBy['column'], $orderBy['dir']);
@@ -144,5 +152,17 @@ class DefaultItemService
             'isDefaultItem' => true,
             'account'       => null,
         ]));
+    }
+
+    public static function canAccountReview(DefaultItem $defaultItem, Account $account, EntityManagerInterface $em): bool
+    {
+        $item = $em->getRepository(Item::class)->findOneBy([
+            'defaultItem'   => $defaultItem,
+            'account'       => $account,
+        ]);
+
+
+
+        return $item !== null;
     }
 }

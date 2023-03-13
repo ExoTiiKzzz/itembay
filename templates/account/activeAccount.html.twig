@@ -1,4 +1,4 @@
-{% if app.user %}
+{% if app.user and app.user.activeAccount is not null %}
     <div id="activeAccount"
          class="position-fixed bg-dark rounded-circle shadow-lg border border-white border-3 hover-grow"
          style="width: 80px; height: 80px;bottom:30px;right:30px;cursor:pointer;">

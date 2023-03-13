@@ -50,9 +50,13 @@ class DefaultItem
     #[ORM\JoinColumn(nullable: false)]
     private ?ItemNature $itemNature = null;
 
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Review::class)]
+    private Collection $reviews;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -188,6 +192,36 @@ class DefaultItem
     public function setItemNature(?ItemNature $itemNature): self
     {
         $this->itemNature = $itemNature;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getItem() === $this) {
+                $review->setItem(null);
+            }
+        }
 
         return $this;
     }

@@ -32,10 +32,14 @@ class Account
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Transaction::class)]
     private Collection $transactions;
 
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Review::class)]
+    private Collection $reviews;
+
     public function __construct()
     {
         $this->inventory = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,6 +141,36 @@ class Account
             // set the owning side to null (unless already changed)
             if ($transaction->getAccount() === $this) {
                 $transaction->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getAccount() === $this) {
+                $review->setAccount(null);
             }
         }
 

@@ -95,4 +95,9 @@ class SecurityController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+    public function checkIfUserHasAccount()
+    {
+        dd($this->getUser());
+    }
 }

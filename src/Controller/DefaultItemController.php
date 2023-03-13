@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\DefaultItem;
 use App\Entity\ItemNature;
 use App\Service\DefaultItemService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,6 +37,7 @@ class DefaultItemController extends AbstractController
             'minPrice'          => $minPrice,
             'maxPrice'          => $maxPrice,
             'requestData'       => $requestData,
+            'search'            => $request->query->get('search') ?? '',
         ]);
     }
 
@@ -58,5 +60,14 @@ class DefaultItemController extends AbstractController
             file_put_contents( $item->getId() . '.png', file_get_contents($item->getImageUrl()));
         }
         return new Response('ok');
+    }
+
+    #[Route('/item/{uuid}/review', name: 'app_item_review')]
+    public function review(DefaultItem $defaultItem): Response
+    {
+//        if (DefaultItemService::)
+        return $this->render('item/new_review.html.twig', [
+//            'item'  => $item,
+        ]);
     }
 }

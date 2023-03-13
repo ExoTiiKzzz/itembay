@@ -159,6 +159,7 @@ nav a {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
     color: var(--text-color) !important;
+}
     
 .text-sm {
     font-size: 0.875rem;

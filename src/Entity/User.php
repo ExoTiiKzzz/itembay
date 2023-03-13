@@ -221,7 +221,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->basket->setUser($this);
     }
 
-    public function getActiveAccount(): Account
+    public function getActiveAccount(): ?Account
     {
         return $this->activeAccount;
     }
