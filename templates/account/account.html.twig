@@ -1,6 +1,6 @@
-<div class="account-activate card position-relative hover-grow {% if app.user.activeAccount.id == account.id %}active-account{% endif %}"
+<div class="account-activate card position-relative hover-grow {% if app.user.activeAccount is not null and app.user.activeAccount.id == account.id %}active-account{% endif %}"
      style="width:20%;cursor:pointer;" data-id="{{ account.id }}">
-    {% if app.user.activeAccount.id == account.id %}
+    {% if app.user.activeAccount is not null and app.user.activeAccount.id == account.id %}
         <i class="position-absolute fa-solid fa-check text-dark" style="top:10px;right:10px;"></i>
     {% endif %}
     <img src="{{ account.class.imageUrl }}" class="card-img-top mt-2" alt="{{ account.class.name }}" loading="lazy"
@@ -14,7 +14,7 @@
             <i class="fas fa-box account-inventory" data-id="{{ account.id }}" title="Inventaire"></i>
             <div class="d-flex gap-1 ms-auto">
                 <i class="fas fa-edit account-edit" data-id="{{ account.id }}" title="Modifier"></i>
-                {% if app.user.activeAccount.id != account.id %}
+                {% if not app.user.activeAccount or (app.user.activeAccount.id != account.id) %}
                     <i class="fas fa-trash-alt account-delete" data-id="{{ account.id }}" title="Supprimer"></i>
                 {% endif %}
             </div>
