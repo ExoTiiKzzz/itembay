@@ -136,6 +136,30 @@ select option:checked, select option:checked:focus {
     margin-bottom: 10px;
 }
 
+nav {
+    color: var(--text-color);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.pagination .page-link {
+    color: var(--primary-color) !important;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+    
 .text-sm {
     font-size: 0.875rem;
 }

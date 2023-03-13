@@ -166,5 +166,12 @@ class DatabaseSeeder
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        $account = new Account();
+        $account->setUser($user);
+        $account->setClass($this->entityManager->getRepository(PlayerClass::class)->findOneBy([], ['id' => 'ASC']));
+        $account->setName('Admin');
+        $this->entityManager->persist($account);
+        $this->entityManager->flush();
     }
 }

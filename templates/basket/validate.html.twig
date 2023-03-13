@@ -228,7 +228,11 @@
                     let data = getCheckedItems();
 					let url = '{{ path('app_basket_confirm') }}';
 					let response = await apiFetch(url, data);
-					console.log(response);
+					if (response.success) {
+						let url = '{{ path('app_transaction_details', {'id': 'transaction_id'}) }}';
+						url = url.replace('transaction_id', response.data.transaction.id);
+						location.href = url;
+					}
                 });
 			{% endif %}
 

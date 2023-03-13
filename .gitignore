@@ -20,3 +20,5 @@
 ###< symfony/phpunit-bridge ###
 .php-version
 .env
+
+.idea/

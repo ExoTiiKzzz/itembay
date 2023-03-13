@@ -10,14 +10,17 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto gap-3">
                 {% if app.user %}
-                    <div class="text-white d-flex align-items-center gap-1 mr-2">
+                    <div class="d-flex align-items-center gap-1 mr-2">
                         {{ app.user.money | itemPrice | raw }}
                     </div>
                     <div class="d-flex align-items-center user-basket gap-1">
-                        <span class="text-white">
+                        <span>
                             <i class="fas fa-shopping-basket"></i>
                         </span>
                         <span class="badge bg-danger rounded-pill basket-count">{{ app.user.basket.items | length }}</span>
+                    </div>
+                    <div class="d-flex align-items-center user-inventory gap-1">
+                        <a href="{{ path('app_account_inventory') }}"><i class="fa-solid fa-box"></i></a>
                     </div>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button"
@@ -33,6 +36,10 @@
                             </li>
                             <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
                             <li><a class="dropdown-item" href="{{ path('app_accounts') }}">Mes comptes</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ path('app_transaction_list') }}">Mes commandes</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

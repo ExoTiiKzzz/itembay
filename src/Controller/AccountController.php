@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\PlayerClass;
-use App\Service\ApiResponse;
+use App\Service\AccountService;
+use App\Service\ApiResponseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,7 +33,7 @@ class AccountController extends AbstractController
 
         $html = $this->render('account/list_account.html.twig');
 
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'html' => $html->getContent(),
         ]);
     }
@@ -45,7 +46,7 @@ class AccountController extends AbstractController
             'classes' => $classes,
         ]);
 
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'html' => $html->getContent(),
         ]);
     }
@@ -86,12 +87,12 @@ class AccountController extends AbstractController
             $this->em->persist($account);
             $this->em->flush();
 
-            return ApiResponse::success([
+            return ApiResponseService::success([
                 'message' => 'Account created',
             ]);
 
         } catch (\Exception $e) {
-            return ApiResponse::error([], $e->getMessage());
+            return ApiResponseService::error([], $e->getMessage());
         }
     }
 
@@ -105,7 +106,7 @@ class AccountController extends AbstractController
             'account' => $account,
         ]);
 
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'html' => $html->getContent(),
         ]);
     }
@@ -139,14 +140,23 @@ class AccountController extends AbstractController
             $this->em->persist($account);
             $this->em->flush();
 
-            return ApiResponse::success([
+            return ApiResponseService::success([
                 'message' => 'Account updated',
             ]);
 
         } catch (\Exception $e) {
-            return ApiResponse::error([], $e->getMessage());
+            return ApiResponseService::error([], $e->getMessage());
         }
     }
+
+
+    #[Route('/inventory', name: 'app_account_inventory')]
+    public function inventory(): Response
+    {
+        $inventory = AccountService::getInvetoryItems($this->getUser()->getAccounts()[0]);
+        return $this->render('account/inventory.html.twig', [
+            'inventory' => $inventory,
+        ]);
 
     #[Route('/account/delete/{id}', name: 'app_account_delete')]
     public function delete(int $id): Response
