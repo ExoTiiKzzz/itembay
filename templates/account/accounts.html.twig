@@ -59,7 +59,10 @@
                 element.addEventListener('click', async (event) => {
                     if (!event.target.matches('.account-edit, .account-delete, .account-inventory')) {
                         let result = await apiFetch('/account/activate/' + element.dataset.id);
-                        if (result.success) refreshAccountList();
+                        if (result.success) {
+                            setInnerHTML(document.querySelector('.account-list-container'), result.data.html);
+                            addAccountsListeners();
+                        }
                     }
                 });
             })

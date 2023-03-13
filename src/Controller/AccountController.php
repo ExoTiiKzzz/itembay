@@ -167,7 +167,7 @@ class AccountController extends AbstractController
             'account' => $account,
         ]);
 
-        return ApiResponse::success([
+        return ApiResponseService::success([
             'html' => $html->getContent(),
         ]);
     }
@@ -189,12 +189,12 @@ class AccountController extends AbstractController
             $this->em->remove($account);
             $this->em->flush();
 
-            return ApiResponse::success([
+            return ApiResponseService::success([
                 'message' => 'Account deleted',
             ]);
 
         } catch (\Exception $e) {
-            return ApiResponse::error([], $e->getMessage());
+            return ApiResponseService::error([], $e->getMessage());
         }
     }
 
@@ -216,12 +216,13 @@ class AccountController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            return ApiResponse::success([
-                'message' => 'Account activated',
-            ]);
+            $html = $this->render('account/list_account.html.twig');
+            return ApiResponseService::success([
+                'html' => $html->getContent(),
+            ], 'Account activated');
 
         } catch (\Exception $e) {
-            return ApiResponse::error([], $e->getMessage());
+            return ApiResponseService::error([], $e->getMessage());
         }
     }
 }
