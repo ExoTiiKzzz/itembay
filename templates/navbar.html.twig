@@ -19,9 +19,11 @@
                         </span>
                         <span class="badge bg-danger rounded-pill basket-count">{{ app.user.basket.items | length }}</span>
                     </div>
+                    {% if app.user.activeAccount is not null %}
                     <div class="d-flex align-items-center user-inventory gap-1">
                         <a href="{{ path('app_account_inventory') }}"><i class="fa-solid fa-box"></i></a>
                     </div>
+                    {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button"
                            data-toggle="dropdown" aria-expanded="false">

@@ -11,15 +11,9 @@
                 Ajouter un compte
             </button>
         </div>
-        {% if app.user.accounts | length <= 0 %}
-            <tr>
-                <td colspan="3">Aucun compte</td>
-            </tr>
-        {% else %}
-            <div class="account-list-container">
-                {% include 'account/list_account.html.twig' %}
-            </div>
-        {% endif %}
+        <div class="account-list-container">
+            {% include 'account/list_account.html.twig' %}
+        </div>
     </div>
 {% endblock %}
 
@@ -30,11 +24,14 @@
         window.addEventListener('DOMContentLoaded', function () {
             hideActiveAccount();
             addAccountsListeners();
-            document.querySelector('.account-add').addEventListener('click', async () => {
-                sidenav.open();
-                sidenav.setTitle('Ajouter un compte');
-                await sidenav.setContentFromUrl('/account/add');
-                sidenav.hideLoader();
+            document.querySelectorAll('.account-add').forEach((element) => {
+                element.addEventListener('click', async () => {
+                    sidenav.open();
+                    sidenav.setTitle('Ajouter un compte');
+                    await sidenav.setContentFromUrl('/account/add');
+                    sidenav.hideLoader();
+                    refreshAccountList();
+                });
             });
         })
 

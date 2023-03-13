@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,8 +97,18 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_profile');
     }
 
+    /**
+     * @return RedirectResponse|void
+     */
     public function checkIfUserHasAccount()
     {
-        dd($this->getUser());
+        $user = $this->getUser();
+        if (!$user) return;
+
+        $routes = ['app_accounts', 'app_account_add', 'app_account_create', 'app_account_edit', 'app_account_activate', 'app_account_delete', 'app_account_confirm_delete'];
+        if (($user->getAccounts()->count() == 0 || $user->getActiveAccount() == null) && !str_contains( $this->request->get('_route'), 'app_account')) {
+            $response = new RedirectResponse($this->generateUrl('app_accounts'));
+            $response->send();
+        }
     }
 }

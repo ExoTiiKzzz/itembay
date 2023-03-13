@@ -1,12 +1,18 @@
 {% extends '/base.html.twig' %}
 
-{% block title %}ItemBay - Mon inventaire{% endblock %}
+{% block title %}ItemBay - Inventaire de {{ app.user.activeAccount.name }}{% endblock %}
 
 {% block body %}
+<<<<<<< Updated upstream
     <div class="container">
         <h1>Mon inventaire</h1>
         {% if inventory.defaultItems is defined %}
         <div class="d-flex flex-wrap gap-5">
+=======
+    <div class="container text-white mt-5">
+        <h2>Mon inventaire</h2>
+        <div class="d-flex flex-wrap gap-5 mt-5">
+>>>>>>> Stashed changes
             {% for item in inventory.defaultItems %}
                 <div class="card" style="width: 20%;">
                     <img src="{{ item.imageUrl }}" class="card-img-top mt-2" alt="{{ item.name }}" loading="lazy"

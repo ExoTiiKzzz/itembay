@@ -1,7 +1,13 @@
-<ul class="d-flex flex-wrap gap-5 text-black mt-5 px-0">
-    {% for account in app.user.accounts %}
-        {% include '/account/account.html.twig' with {
-            'account': account,
-        } %}
-    {% endfor %}
-</ul>
+{% if app.user.accounts | length <= 0 %}
+    <div class="alert alert-danger account-add pointer" role="alert">
+        Vous devez enregistrer au moins un compte pour pouvoir utiliser toutes les fonctionnalités de ItemBay.
+    </div>
+{% else %}
+    <ul class="d-flex flex-wrap gap-5 text-black mt-5 px-0">
+        {% for account in app.user.accounts %}
+            {% include '/account/account.html.twig' with {
+                'account': account,
+            } %}
+        {% endfor %}
+    </ul>
+{% endif %}

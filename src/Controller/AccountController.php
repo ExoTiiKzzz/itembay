@@ -56,7 +56,8 @@ class AccountController extends AbstractController
     {
         $request = $request->getCurrentRequest();
         try {
-            if (!$this->getUser()) {
+            $user = $this->getUser();
+            if (!$user) {
                 throw new \Exception('You must be logged in to create an account');
             }
 
@@ -83,6 +84,9 @@ class AccountController extends AbstractController
             $account->setUser($this->getUser());
             $account->setName($username);
             $account->setClass($class);
+
+            if ($user->getActiveAccount() === null) $user->setActiveAccount($account);
+
 
             $this->em->persist($account);
             $this->em->flush();
