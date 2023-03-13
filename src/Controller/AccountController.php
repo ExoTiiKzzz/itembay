@@ -157,7 +157,7 @@ class AccountController extends AbstractController
     #[Route('/inventory', name: 'app_account_inventory')]
     public function inventory(): Response
     {
-        $inventory = AccountService::getInvetoryItems($this->getUser()->getAccounts()[0]);
+        $inventory = AccountService::getInvetoryItems($this->getUser()->getActiveAccount());
         return $this->render('account/inventory.html.twig', [
             'inventory' => $inventory,
         ]);

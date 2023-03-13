@@ -34,7 +34,7 @@ class TransactionService
         }
 
         /** @var Account $account */
-        $account = $basket->getUser()->getAccounts()[0];
+        $account = $basket->getUser()->getActiveAccount();
         if (!$account) {
             return ApiResponseService::error([], 'Vous n\'avez pas de compte de jeu.', Response::HTTP_UNAUTHORIZED);
         }
@@ -49,7 +49,7 @@ class TransactionService
 
         //create transaction for available items
         $transaction = new \App\Entity\Transaction();
-        $transaction->setAccount($basket->getUser()->getAccounts()[0]);
+        $transaction->setAccount($basket->getUser()->getActiveAccount);
         $em->persist($transaction);
         $em->flush();
 

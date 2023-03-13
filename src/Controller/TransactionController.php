@@ -17,7 +17,7 @@ class TransactionController extends AbstractController
     #[Route('/transaction', name: 'app_transaction_list')]
     public function index(): Response
     {
-        $transactions = $this->em->getRepository(Transaction::class)->findBy(['account' => $this->getUser()->getAccounts()[0]]);
+        $transactions = $this->em->getRepository(Transaction::class)->findBy(['account' => $this->getUser()->getActiveAccount()]);
         return $this->render('transaction/index.html.twig', [
             'transactions' => $transactions,
         ]);
