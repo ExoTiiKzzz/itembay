@@ -49,7 +49,7 @@ class TransactionService
 
         //create transaction for available items
         $transaction = new \App\Entity\Transaction();
-        $transaction->setAccount($basket->getUser()->getActiveAccount);
+        $transaction->setAccount($basket->getUser()->getActiveAccount());
         $em->persist($transaction);
         $em->flush();
 

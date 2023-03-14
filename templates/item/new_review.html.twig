@@ -4,11 +4,9 @@
 
 {% block body %}
 
-<form action="">
-    <!-- Fais 5 etoiles que l'on peut cocher -->
-    <div class="rating">
-        <i class="fa-regular fa-star gold"></i>
-    </div>
+<form action="" class="p-4">
+    <input type="hidden" name="rating" value="5">
+    {% include '/common/rating.html.twig' %}
 </form>
 
 {% endblock %}
@@ -17,6 +15,28 @@
 
 {{ parent() }}
 
-    <script></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let rating_stars = document.querySelectorAll('.rating i');
+            console.log(rating_stars);
+            let rating_input = document.querySelector('input[name="rating"]');
+
+            rating_stars.forEach((star) => {
+                star.addEventListener('click', (e) => {
+                    let value = star.dataset.value;
+                    rating_input.value = value;
+                    rating_stars.forEach((star) => {
+                        star.classList.remove('fa-solid');
+                        star.classList.add('fa-regular');
+                    });
+                    for(let i = 0; i <= value; i++){
+                        rating_stars[i].classList.remove('fa-regular');
+                        rating_stars[i].classList.add('fa-solid');
+                    }
+                });
+            });
+        })
+
+    </script>
 
 {% endblock %}

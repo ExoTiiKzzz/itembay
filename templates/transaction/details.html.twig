@@ -17,7 +17,7 @@
                         <div class="mb-3">
                             Quantité : <strong>{{ item.quantity }}</strong>
                         </div>
-                        <a href="{{ path('app_item', {'uuid': item.defaultItem.uuid}) }}" class="btn btn-sm btn-primary mt-auto form-control">
+                        <a href="{{ path('app_item', {'uuid': item.defaultItem.uuid}) }}" class="btn btn-sm btn-primary mb-3 form-control">
                             En acheter plus
                         </a>
                         <a href="{{ path('app_item_review', {'uuid': item.defaultItem.uuid}) }}" class="btn btn-sm btn-secondary mt-auto form-control">
