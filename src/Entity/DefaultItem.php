@@ -225,4 +225,17 @@ class DefaultItem
 
         return $this;
     }
+
+    #[Pure] public function getAverageRating(): float
+    {
+        if (count($this->reviews) === 0) {
+            return 0;
+        }
+        $sum = 0;
+        /** @var Review $review */
+        foreach ($this->reviews as $review) {
+            $sum += $review->getNote();
+        }
+        return $sum / count($this->reviews);
+    }
 }

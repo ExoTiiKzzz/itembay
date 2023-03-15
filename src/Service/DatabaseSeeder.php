@@ -16,13 +16,11 @@ class DatabaseSeeder
 {
     private int $apiMaxLimit = 100;
     private string $baseApiUrl = 'https://eldenring.fanapis.com/api/';
-    private EntityManagerInterface $entityManager;
-    private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private UserPasswordHasherInterface $userPasswordHasher)
     {
-        $this->entityManager = $entityManager;
-        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     public function seed(): void

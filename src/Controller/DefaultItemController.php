@@ -62,12 +62,4 @@ class DefaultItemController extends AbstractController
         return new Response('ok');
     }
 
-    #[Route('/item/{uuid}/review', name: 'app_item_review')]
-    public function review(DefaultItem $defaultItem): Response
-    {
-//        if (DefaultItemService::)
-        return $this->render('item/new_review.html.twig', [
-//            'item'  => $item,
-        ]);
-    }
 }
