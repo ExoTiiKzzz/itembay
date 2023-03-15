@@ -14,8 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DatabaseSeeder
 {
-    private int $apiMaxLimit = 100;
-    private string $baseApiUrl = 'https://eldenring.fanapis.com/api/';
+    private string $baseApiUrl = 'https://fr.dofus.dofapi.fr/';
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -30,26 +29,19 @@ class DatabaseSeeder
         $this->seedUsers();
     }
 
-    private function getAllData(string $url): array
+    private function getAllData(string $suffix): array
     {
-        $data = [];
-        $page = 0;
-        do {
-            $response = json_decode(file_get_contents($url . '?page=' . $page . '&limit=' . $this->apiMaxLimit), true);
-            $data = array_merge($data, $response['data']);
-            $page++;
-        } while (count($response['data']) === $this->apiMaxLimit);
-        return $data;
+        return json_decode(file_get_contents($this->baseApiUrl . $suffix), true);
     }
 
     private function seedClasses(): void
     {
-        $classes = $this->getAllData($this->baseApiUrl . 'classes');
+        $classes = $this->getAllData('classes');
         foreach ($classes as $class) {
             $classEntity = new PlayerClass();
+            $classEntity->setAnkamaId($class['_id']);
             $classEntity->setName($class['name']);
             $classEntity->setDescription($class['description']);
-            $classEntity->setImageUrl($class['image']);
             $this->entityManager->persist($classEntity);
         }
         $this->entityManager->flush();
@@ -62,62 +54,46 @@ class DatabaseSeeder
         $this->entityManager->persist($itemType);
         $itemNatures = [
             [
-                'url' => 'ammos',
-                'itemTypeString' => 'type',
-                'itemNature' => 'Ammo'
+                'url' => 'consumables',
+                'itemNature' => 'Consommables'
             ],
             [
-                'url' => 'armors',
-                'itemTypeString' => 'category',
-                'itemNature' => 'Armor'
+                'url' => 'equipments',
+                'itemNature' => 'Equipements'
             ],
             [
-                'url' => 'ashes',
-                'itemTypeString' => 'unknown',
-                'itemNature' => 'Ash of War'
-            ],
-            [
-                'url' => 'items',
-                'itemTypeString' => 'type',
-                'itemNature' => 'Item'
-            ],
-            [
-                'url' => 'shields',
-                'itemTypeString' => 'category',
-                'itemNature' => 'Shield'
-            ],
-            [
-                'url' => 'talismans',
-                'itemTypeString' => 'unknown',
-                'itemNature' => 'Talisman'
+                'url' => 'resources',
+                'itemNature' => 'Ressources'
             ],
             [
                 'url' => 'weapons',
-                'itemTypeString' => 'category',
-                'itemNature' => 'Weapon'
-            ]
+                'itemNature' => 'Armes'
+            ],
         ];
         foreach ($itemNatures as $itemNature) {
             $itemNatureEntity = new ItemNature();
             $itemNatureEntity->setName($itemNature['itemNature']);
             $this->entityManager->persist($itemNatureEntity);
-            $this->seedItemEntitys($itemNature['url'], $itemNature['itemTypeString'], $itemNatureEntity);
+            $this->seedItemEntitys($itemNature['url'], $itemNatureEntity);
         }
         $this->entityManager->flush();
 
-        foreach ($this->entityManager->getRepository(DefaultItem::class)->findAll() as $defaultItem) {
+        $defaultItems = $this->entityManager->getRepository(DefaultItem::class)->findAll();
+
+        foreach ($defaultItems as $defaultItem) {
             for ($i = 0; $i < rand(1, 10); $i++) {
                 $item = new Item();
                 $item->setDefaultItem($defaultItem);
                 $this->entityManager->persist($item);
             }
         }
-        $this->entityManager->flush();
+//        $this->entityManager->flush();
     }
 
-    private function seedItemEntitys(string $url, string $itemTypeString, ItemNature $itemNature)
+    private function seedItemEntitys(string $suffix, ItemNature $itemNature)
     {
-        $data = $this->getAllData($this->baseApiUrl . $url);
+        $itemTypeString = 'type';
+        $data = $this->getAllData($suffix);
         $itemTypes = [];
         $unknownItemType = $this->entityManager->getRepository(ItemType::class)->findOneBy(['name' => 'Unknown']);
         foreach ($data as $item) {
@@ -135,13 +111,14 @@ class DatabaseSeeder
             }
             $buyPrice = rand(1, 1000);
             $itemEntity = new DefaultItem();
+            $itemEntity->setAnkamaId($item['_id']);
             $itemEntity->setName($item['name'] ?? '');
             $itemEntity->setDescription($item['description'] ?? '');
-            $itemEntity->setImageUrl($item['image'] ?? '');
             $itemEntity->setItemType($itemType);
             $itemEntity->setBuyPrice($buyPrice);
             $itemEntity->setSellPrice((int)$buyPrice * 0.8);
             $itemEntity->setItemNature($itemNature);
+            $itemEntity->setLevel($item['level'] ?? 0);
             $this->entityManager->persist($itemEntity);
         }
     }

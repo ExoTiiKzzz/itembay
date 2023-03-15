@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DefaultItemRepository;
+use App\Service\ApiImageService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -21,6 +22,9 @@ class DefaultItem
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $ankamaId = null;
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -33,9 +37,6 @@ class DefaultItem
 
     #[ORM\Column]
     private ?int $sell_price = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $image_url = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -53,6 +54,9 @@ class DefaultItem
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: Review::class)]
     private Collection $reviews;
 
+    #[ORM\Column]
+    private ?int $level = null;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -62,6 +66,18 @@ class DefaultItem
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAnkamaId(): ?int
+    {
+        return $this->ankamaId;
+    }
+
+    public function setAnkamaId(int $id): self
+    {
+        $this->ankamaId = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -76,7 +92,7 @@ class DefaultItem
         return $this;
     }
 
-    public function getUuid(): string
+    #[Pure] public function getUuid(): string
     {
         return $this->uuid->toRfc4122();
     }
@@ -113,16 +129,9 @@ class DefaultItem
         return $this;
     }
 
-    public function getImageUrl(): ?string
+    #[Pure] public function getImageUrl(): ?string
     {
-        return $this->image_url;
-    }
-
-    public function setImageUrl(string $image_url): self
-    {
-        $this->image_url = $image_url;
-
-        return $this;
+        return ApiImageService::$baseApiUrl . '/' . $this->getItemNature()->getName() . '/' . $this->ankamaId . '.png';
     }
 
     public function getDescription(): ?string
@@ -237,5 +246,17 @@ class DefaultItem
             $sum += $review->getNote();
         }
         return $sum / count($this->reviews);
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
     }
 }

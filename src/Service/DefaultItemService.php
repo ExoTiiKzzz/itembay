@@ -52,7 +52,7 @@ class DefaultItemService
         $limit = $request->query->getInt('limit', 40);
         $page = $request->query->getInt('page', 1);
 
-        $itemNature = $request->query->get('nature');
+        $itemNature = $request->query->all('nature') ?? [];
         $priceRange = $request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;

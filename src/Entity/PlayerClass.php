@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\PlayerClassRepository;
+use App\Service\ApiImageService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: PlayerClassRepository::class)]
 class PlayerClass
@@ -15,6 +17,9 @@ class PlayerClass
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $ankamaId = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -25,13 +30,10 @@ class PlayerClass
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $imageUrl = null;
-
     #[ORM\OneToMany(mappedBy: 'class', targetEntity: Account::class)]
     private Collection $accounts;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->canBuy = new ArrayCollection();
         $this->accounts = new ArrayCollection();
@@ -40,6 +42,18 @@ class PlayerClass
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAnkamaId(): ?int
+    {
+        return $this->ankamaId;
+    }
+
+    public function setAnkamaId(int $id): self
+    {
+        $this->ankamaId = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -97,14 +111,7 @@ class PlayerClass
 
     public function getImageUrl(): ?string
     {
-        return $this->imageUrl;
-    }
-
-    public function setImageUrl(?string $imageUrl): self
-    {
-        $this->imageUrl = $imageUrl;
-
-        return $this;
+        return ApiImageService::$baseApiUrl . 'classes/' . $this->ankamaId . '.png';
     }
 
     /**
