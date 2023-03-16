@@ -171,7 +171,10 @@
         function resetItemTypes() {
 			$('#itemTypeSelect option').prop('disabled', false);
 	        let allOptionsToHide = [];
-	        document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
+            if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
+                return;
+            }
+            document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
 		        let value = ch.value;
 		        let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
 		        options.forEach(function (option) {

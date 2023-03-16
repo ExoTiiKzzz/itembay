@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Entity\PlayerClass;
+use App\Entity\PlayerProfession;
+use App\Entity\Profession;
 use App\Service\AccountService;
 use App\Service\ApiResponseService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -89,6 +91,14 @@ class AccountController extends AbstractController
 
 
             $this->em->persist($account);
+
+            foreach ($this->em->getRepository(Profession::class)->findAll() as $profession) {
+                $job = new PlayerProfession();
+                $job->setPlayer($account);
+                $job->setProfession($profession);
+                $job->setLevel(1);
+                $this->em->persist($job);
+            }
             $this->em->flush();
 
             return ApiResponseService::success([

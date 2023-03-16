@@ -22,6 +22,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('itemSlug', [$this, 'formatItemSlug']),
             new TwigFilter('randomId', [$this, 'randomId']),
             new TwigFilter('itemStock', [$this, 'getItemStock']),
+            new TwigFilter('itemRating', [$this, 'getitemRating']),
         ];
     }
 
@@ -97,5 +98,34 @@ class AppExtension extends AbstractExtension
        $defaultItem = $this->em->getRepository(DefaultItem::class)->find($defaultItemId);
 
        return count($this->em->getRepository(Item::class)->findBy(['defaultItem' => $defaultItem, 'account' => null, 'isDefaultItem' => true ]));
+    }
+
+    public function getItemRating(int $defaultItemId): string
+    {
+        /** @var DefaultItem $defaultItem */
+        $defaultItem = $this->em->getRepository(DefaultItem::class)->find($defaultItemId);
+
+        if (!$defaultItem) {
+            return '';
+        }
+
+        $ratingCount = $defaultItem->getReviews()->count();
+
+        if ($ratingCount === 0) {
+            return 'Pas encore évalué';
+        }
+
+        $rating = $defaultItem->getAverageRating();
+        $evaluations = $ratingCount > 1 ? 'évaluations' : 'évaluation';
+
+        $roundedRating = round($rating);
+
+        $str = '<div class="d-flex align-items-center">';
+        $str .= str_repeat('<i class="fa-solid fa-star gold"></i>', $roundedRating);
+
+        $str .= str_repeat('<i class="fa-regular fa-star gold"></i>', 5 - $roundedRating);
+        $str .= '<div class="ms-1">' . $roundedRating . '</div> <div class="ms-1"> sur ' . $ratingCount . ' ' . $evaluations . '.</div></div>';
+
+        return $str;
     }
 }

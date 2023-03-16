@@ -30,9 +30,13 @@ class Profession
     #[ORM\OneToMany(mappedBy: 'profession', targetEntity: PlayerProfession::class)]
     private Collection $playerProfessions;
 
+    #[ORM\OneToMany(mappedBy: 'profession', targetEntity: DefaultItem::class)]
+    private Collection $harvestItems;
+
     public function __construct()
     {
         $this->playerProfessions = new ArrayCollection();
+        $this->harvestItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,5 +113,35 @@ class Profession
     #[Pure(true)] public function getImageUrl(): string
     {
         return ApiImageService::$baseApiUrl . 'metiers/' . $this->getAnkamaId() . '.png';
+    }
+
+    /**
+     * @return Collection<int, DefaultItem>
+     */
+    public function getHarvestItems(): Collection
+    {
+        return $this->harvestItems;
+    }
+
+    public function addHarvestItem(DefaultItem $harvestItem): self
+    {
+        if (!$this->harvestItems->contains($harvestItem)) {
+            $this->harvestItems->add($harvestItem);
+            $harvestItem->setProfession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHarvestItem(DefaultItem $harvestItem): self
+    {
+        if ($this->harvestItems->removeElement($harvestItem)) {
+            // set the owning side to null (unless already changed)
+            if ($harvestItem->getProfession() === $this) {
+                $harvestItem->setProfession(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -57,6 +57,12 @@ class DefaultItem
     #[ORM\Column]
     private ?int $level = null;
 
+    #[ORM\ManyToOne(inversedBy: 'harvestItems')]
+    private ?Profession $profession = null;
+
+    #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]
+    private ?Recipe $recipe = null;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -256,6 +262,35 @@ class DefaultItem
     public function setLevel(int $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getProfession(): ?Profession
+    {
+        return $this->profession;
+    }
+
+    public function setProfession(?Profession $profession): self
+    {
+        $this->profession = $profession;
+
+        return $this;
+    }
+
+    public function getRecipe(): ?Recipe
+    {
+        return $this->recipe;
+    }
+
+    public function setRecipe(Recipe $recipe): self
+    {
+        // set the owning side of the relation if necessary
+        if ($recipe->getItem() !== $this) {
+            $recipe->setItem($this);
+        }
+
+        $this->recipe = $recipe;
 
         return $this;
     }
