@@ -3,24 +3,28 @@ ini_set('max_execution_time', '6000');
 //retrieve dofus api images
 
 $types = [
-    'classes'       => [
-        'url'       => 'classes',
-        'property'  => 'maleImg'
-    ],
-    'consommables'         => [
-        'url'       => 'consumables',
-        'property'  => 'imgUrl'
-    ],
-    'equipements'          => [
-        'url'       => 'equipments',
-        'property'  => 'imgUrl'
-    ],
-    'ressources'           => [
-        'url'       => 'resources',
-        'property'  => 'imgUrl'
-    ],
-    'armes'                => [
-        'url'       => 'weapons',
+//    'classes'       => [
+//        'url'       => 'classes',
+//        'property'  => 'maleImg'
+//    ],
+//    'consommables'         => [
+//        'url'       => 'consumables',
+//        'property'  => 'imgUrl'
+//    ],
+//    'equipements'          => [
+//        'url'       => 'equipments',
+//        'property'  => 'imgUrl'
+//    ],
+//    'ressources'           => [
+//        'url'       => 'resources',
+//        'property'  => 'imgUrl'
+//    ],
+//    'armes'                => [
+//        'url'       => 'weapons',
+//        'property'  => 'imgUrl'
+//    ],
+    'metiers'              => [
+        'url'       => 'professions',
         'property'  => 'imgUrl'
     ],
 ];

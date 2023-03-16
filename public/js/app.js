@@ -24,4 +24,11 @@ document.querySelectorAll('[data-range-value]').forEach(el => {
 	});
 });
 
+document.querySelectorAll('.form-select').forEach(el => {
+	$(el).select2({
+		width: '100%',
+		minimumResultsForSearch: el.dataset.searchable ? 5 : -1,
+	});
+});
+
 const sidenav = new Sidebar();

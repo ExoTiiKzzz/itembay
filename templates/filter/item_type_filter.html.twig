@@ -1,0 +1,5 @@
+<select class="form-control form-select" name="itemType[]" id="itemTypeSelect" data-searchable multiple data-optgroup>
+    {% for itemType in itemTypes %}
+        <option value="{{ itemType.id }}" data-nature="{{ itemType.itemNature.id }}" {% if itemType.id in selectedItemTypes %}selected{% endif %}>{{ itemType.name }}</option>
+    {% endfor %}
+</select>

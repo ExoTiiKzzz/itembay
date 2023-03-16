@@ -24,6 +24,10 @@ class ItemType
     #[ORM\ManyToMany(targetEntity: PlayerClass::class, mappedBy: 'canBuy')]
     private Collection $playerClasses;
 
+    #[ORM\ManyToOne(inversedBy: 'itemTypes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ItemNature $itemNature = null;
+
     public function __construct()
     {
         $this->defaultItems = new ArrayCollection();
@@ -107,5 +111,17 @@ class ItemType
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getItemNature(): ?ItemNature
+    {
+        return $this->itemNature;
+    }
+
+    public function setItemNature(?ItemNature $ItemNature): self
+    {
+        $this->itemNature = $ItemNature;
+
+        return $this;
     }
 }

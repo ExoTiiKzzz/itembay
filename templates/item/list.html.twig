@@ -42,21 +42,36 @@
                     <div class="accordion-item">
                         <h5 class="accordion-header">
                             <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseNature" aria-controls="collapseNature">
-                                Catégories d'objet {{ selectedNatures|length > 0 ? '(' ~ selectedNatures|length ~ ')' }}
+                                Catégories d'objet <span class="natureCount" style="margin-left: 5px;">{{ selectedItemNatures|length > 0 ? '(' ~ selectedItemNatures|length ~ ')' }}</span>
                             </button>
                         </h5>
                         <div id="collapseNature" class="accordion-collapse collapse" data-parent="#accordion">
                             <div class="accordion-body">
                                 {% for nature in itemNatures %}
                                     {% set checked = '' %}
-                                    {% if nature.id in selectedNatures %}
+                                    {% if nature.id in selectedItemNatures %}
                                         {% set checked = 'checked' %}
                                     {% endif %}
                                     <div>
-                                        <input type="checkbox" id="nature-{{ nature.id }}" name="nature[]" value="{{ nature.id }}" {{ checked }}>
+                                        <input type="checkbox" id="nature-{{ nature.id }}" name="itemNature[]" value="{{ nature.id }}" {{ checked }}>
                                         <label for="nature-{{ nature.id }}">{{ nature.name }}</label>
                                     </div>
                                 {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header">
+                            <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseType" aria-controls="collapseType">
+                                Types d'objet <span class="typeCount ml-2" style="margin-left: 5px;">{{ selectedItemTypes|length > 0 ? '(' ~ selectedItemTypes|length ~ ')' }}</span>
+                            </button>
+                        </h5>
+                        <div id="collapseType" class="accordion-collapse collapse" data-parent="#accordion">
+                            <div class="accordion-body">
+                                {% include '/filter/item_type_filter.html.twig' with {
+                                    'itemTypes' : itemTypes,
+                                    'selectedItemTypes' : selectedItemTypes,
+                                } %}
                             </div>
                         </div>
                     </div>
@@ -122,8 +137,50 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        //change select value to selectedNatures
-        $('#natureSelect').val({{ selectedNatures|json_encode|raw }}).trigger('change');
-		console.log({{ selectedNatures|json_encode|raw }});
+        $(document).ready(function () {
+	        $('#itemTypeSelect').val({{ selectedItemTypes|json_encode|raw }}).trigger('change');
+
+
+            document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (event) {
+                    let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
+                    let count = document.querySelector('.natureCount');
+					if (checked.length === 0) {
+						count.innerHTML = '';
+                    } else {
+                        count.innerHTML = '(' + checked.length + ')';
+						resetItemTypes();
+					}
+                    $('#itemTypeSelect').val(null).trigger('change');
+                });
+            });
+
+	        $('#itemTypeSelect').on('change', function (e) {
+		        let count = document.querySelector('.typeCount');
+				let value = e.target.selectedOptions.length;
+				if (value === 0) {
+					count.innerHTML = '';
+				} else {
+					count.innerHTML = '(' + e.target.selectedOptions.length + ')';
+                }
+
+	        });
+	        resetItemTypes();
+        });
+
+        function resetItemTypes() {
+			$('#itemTypeSelect option').prop('disabled', false);
+	        let allOptionsToHide = [];
+	        document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
+		        let value = ch.value;
+		        let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
+		        options.forEach(function (option) {
+			        allOptionsToHide.push(option);
+		        });
+	        })
+	        allOptionsToHide.forEach(function (option) {
+		        option.disabled = true;
+	        });
+        }
     </script>
 {% endblock %}

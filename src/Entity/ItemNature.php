@@ -20,9 +20,13 @@ class ItemNature
     #[ORM\OneToMany(mappedBy: 'itemNature', targetEntity: DefaultItem::class, orphanRemoval: true)]
     private Collection $defaultItems;
 
+    #[ORM\OneToMany(mappedBy: 'itemNature', targetEntity: ItemType::class)]
+    private Collection $itemTypes;
+
     public function __construct()
     {
         $this->defaultItems = new ArrayCollection();
+        $this->itemTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,6 +70,36 @@ class ItemNature
             // set the owning side to null (unless already changed)
             if ($defaultItem->getItemNature() === $this) {
                 $defaultItem->setItemNature(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemType>
+     */
+    public function getItemTypes(): Collection
+    {
+        return $this->itemTypes;
+    }
+
+    public function addItemType(ItemType $itemType): self
+    {
+        if (!$this->itemTypes->contains($itemType)) {
+            $this->itemTypes->add($itemType);
+            $itemType->setItemNature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemType(ItemType $itemType): self
+    {
+        if ($this->itemTypes->removeElement($itemType)) {
+            // set the owning side to null (unless already changed)
+            if ($itemType->getItemNature() === $this) {
+                $itemType->setItemNature(null);
             }
         }
 

@@ -52,7 +52,8 @@ class DefaultItemService
         $limit = $request->query->getInt('limit', 40);
         $page = $request->query->getInt('page', 1);
 
-        $itemNature = $request->query->all('nature') ?? [];
+        $itemNature = $request->query->all('itemNature') ?? [];
+        $itemType = $request->query->all('itemType') ?? [];
         $priceRange = $request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;
@@ -65,13 +66,13 @@ class DefaultItemService
             ->from(\App\Entity\DefaultItem::class, 'i');
 
         if ($itemNature) {
-            if (is_array($itemNature)) {
-                $qb->andWhere('i.itemNature IN (:itemNature)')
-                    ->setParameter('itemNature', $itemNature);
-            } else {
-                $qb->andWhere('i.itemNature = :itemNature')
-                    ->setParameter('itemNature', $itemNature);
-            }
+            $qb->andWhere('i.itemNature IN (:itemNature)')
+                ->setParameter('itemNature', $itemNature);
+        }
+
+        if ($itemType) {
+            $qb->andWhere('i.itemType IN (:itemType)')
+                ->setParameter('itemType', $itemType);
         }
 
         if ($minPrice) {

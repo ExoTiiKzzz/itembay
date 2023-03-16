@@ -131,7 +131,7 @@ class DefaultItem
 
     #[Pure] public function getImageUrl(): ?string
     {
-        return ApiImageService::$baseApiUrl . '/' . $this->getItemNature()->getName() . '/' . $this->ankamaId . '.png';
+        return ApiImageService::$baseApiUrl . $this->getItemNature()->getName() . '/' . $this->ankamaId . '.png';
     }
 
     public function getDescription(): ?string

@@ -8,6 +8,8 @@ use App\Entity\Item;
 use App\Entity\ItemNature;
 use App\Entity\ItemType;
 use App\Entity\PlayerClass;
+use App\Entity\PlayerProfession;
+use App\Entity\Profession;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -25,6 +27,7 @@ class DatabaseSeeder
     public function seed(): void
     {
         $this->seedClasses();
+        $this->seedProfessions();
         $this->seedAllItems();
         $this->seedUsers();
     }
@@ -47,10 +50,30 @@ class DatabaseSeeder
         $this->entityManager->flush();
     }
 
+    private function seedProfessions(): void
+    {
+        $professions = $this->getAllData('professions');
+        foreach ($professions as $profession) {
+            $professionEntity = new Profession();
+            $professionEntity->setAnkamaId($profession['_id']);
+            $professionEntity->setName($profession['name']);
+            $professionEntity->setDescription($profession['description']);
+            $this->entityManager->persist($professionEntity);
+        }
+        $this->entityManager->flush();
+    }
+
     private function seedAllItems(): void
     {
+        $unknownItemNature = new ItemNature();
+        $unknownItemNature->setName('Unknown');
+        $this->entityManager->persist($unknownItemNature);
+        $this->entityManager->flush();
+
+
         $itemType = new ItemType();
         $itemType->setName('Unknown');
+        $itemType->setItemNature($unknownItemNature);
         $this->entityManager->persist($itemType);
         $itemNatures = [
             [
@@ -101,6 +124,7 @@ class DatabaseSeeder
                 if (!isset($itemTypes[$item[$itemTypeString]])) {
                     $itemType = new ItemType();
                     $itemType->setName($item[$itemTypeString]);
+                    $itemType->setItemNature($itemNature);
                     $this->entityManager->persist($itemType);
                     $itemTypes[$item[$itemTypeString]] = $itemType;
                 } else {
@@ -139,14 +163,16 @@ class DatabaseSeeder
         $user->addAccount($account);
         $user->setActiveAccount($account);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        foreach ($this->entityManager->getRepository(Profession::class)->findAll() as $profession)
+        {
+            $playerProfession = new PlayerProfession();
+            $playerProfession->setProfession($profession);
+            $playerProfession->setLevel(1);
+            $playerProfession->setPlayer($account);
+            $this->entityManager->persist($playerProfession);
+        }
 
-        $account = new Account();
-        $account->setUser($user);
-        $account->setClass($this->entityManager->getRepository(PlayerClass::class)->findOneBy([], ['id' => 'ASC']));
-        $account->setName('Admin');
-        $this->entityManager->persist($account);
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 }

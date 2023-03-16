@@ -35,11 +35,15 @@ class Account
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Review::class)]
     private Collection $reviews;
 
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerProfession::class)]
+    private Collection $playerProfessions;
+
     public function __construct()
     {
         $this->inventory = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->playerProfessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,6 +175,36 @@ class Account
             // set the owning side to null (unless already changed)
             if ($review->getAccount() === $this) {
                 $review->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlayerProfession>
+     */
+    public function getPlayerProfessions(): Collection
+    {
+        return $this->playerProfessions;
+    }
+
+    public function addPlayerProfession(PlayerProfession $playerProfession): self
+    {
+        if (!$this->playerProfessions->contains($playerProfession)) {
+            $this->playerProfessions->add($playerProfession);
+            $playerProfession->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayerProfession(PlayerProfession $playerProfession): self
+    {
+        if ($this->playerProfessions->removeElement($playerProfession)) {
+            // set the owning side to null (unless already changed)
+            if ($playerProfession->getPlayer() === $this) {
+                $playerProfession->setPlayer(null);
             }
         }
 

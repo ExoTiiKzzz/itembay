@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\DefaultItem;
 use App\Entity\ItemNature;
 use App\Service\DefaultItemService;
+use App\Service\ItemNatureService;
+use App\Service\ItemTypeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,15 +27,23 @@ class DefaultItemController extends AbstractController
     {
         $request = $requestStack->getMainRequest();
         $requestData = $request->query->all();
-        $activeItemNatures = $request->query->all('nature');
+
+        $activeItemNatures = $request->query->all('itemNature') ?? [];
+        $activeItemTypes = $request->query->all('itemType') ?? [];
         $priceRange = $request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;
+
+        $itemNatures = ItemNatureService::getItemNaturesForSelect($this->em);
+
+        $itemTypes = ItemTypeService::getItemTypesForSelect($this->em, $itemNatures);
         return $this->render('item/list.html.twig', [
             'controller_name'   => 'DefaultItemController',
             'items'             => $defaultItemService->getItems(),
-            'itemNatures'       => $this->em->getRepository(ItemNature::class)->findAll(),
-            'selectedNatures'   => $activeItemNatures ? $activeItemNatures : [],
+            'itemNatures'       => $itemNatures,
+            'selectedItemNatures'   => $activeItemNatures,
+            'itemTypes'         => $itemTypes,
+            'selectedItemTypes' => $activeItemTypes,
             'minPrice'          => $minPrice,
             'maxPrice'          => $maxPrice,
             'requestData'       => $requestData,
