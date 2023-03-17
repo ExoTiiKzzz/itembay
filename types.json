@@ -1,0 +1,98 @@
+[
+  {
+    "id": 2,
+    "name": "bucheron",
+    "types": [
+
+    ]
+  },
+  {
+    "id": 11,
+    "name": "forgeron",
+    "types": [
+
+    ]
+  },
+  {
+    "id": 13,
+    "name": "sculpteur",
+    "types": [
+      "arc",
+      "baguette",
+      "bâton",
+    ]
+  },
+  {
+    "id": 15,
+    "name": "cordonnier",
+    "types": [
+      "bottes",
+      "ceinture",
+    ]
+  },
+  {
+    "id": 16,
+    "name": "bijoutier",
+    "types": [
+      "amulette",
+      "anneau",
+    ]
+  },
+  {
+    "id": 24,
+    "name": "mineur",
+    "types": [
+      "alliage",
+    ]
+  },
+  {
+    "id": 26,
+    "name": "alchimiste",
+    "types": [
+
+    ]
+  },
+  {
+    "id": 27,
+    "name": "tailleur",
+    "types": [
+      "cape",
+      "chapeau",
+    ]
+  },
+  {
+    "id": 28,
+    "name": "paysan",
+    "types": [
+
+    ]
+  },
+  {
+    "id": 36,
+    "name": "pêcheur",
+    "types": [
+
+    ]
+  },
+  {
+    "id": 41,
+    "name": "chasseur",
+    "types": [
+
+    ]
+  },
+  {
+    "id": 60,
+    "name": "façonneur",
+    "types": [
+      "bouclier",
+    ]
+  },
+  {
+    "id": 65,
+    "name": "bricoleur",
+    "types": [
+      "clef",
+    ]
+  }
+]
