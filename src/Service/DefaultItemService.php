@@ -5,12 +5,14 @@ namespace App\Service;
 use App\Entity\Account;
 use App\Entity\DefaultItem;
 use App\Entity\Item;
+use App\Entity\PlayerProfession;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Pure;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Mercure\HubInterface;
 
 class DefaultItemService
 {
@@ -165,5 +167,50 @@ class DefaultItemService
 
 
         return $item !== null;
+    }
+
+    public static function generateItemForAccount(DefaultItem $defaultItem, EntityManagerInterface $em, Account $account, HubInterface $hub): Item
+    {
+        $item = new Item();
+        $item->setAccount($account);
+        $item->setIsDefaultItem(true);
+        $item->setDefaultItem($defaultItem);
+        $item->setBuyPrice($defaultItem->getBuyPrice());
+        $item->setSellPrice($defaultItem->getSellPrice());
+        $item->setIsForSell(false);
+
+        $em->persist($item);
+
+        $profession = $defaultItem->getProfession();
+        $expToAdd = $defaultItem->getLevel();
+        if (!$profession && $defaultItem->getRecipe() !== null && $defaultItem->getRecipe()->getProfession() !== null) {
+            $profession = $defaultItem->getRecipe()->getProfession();
+            $expToAdd = $expToAdd * 4;
+        }
+
+
+
+        if ($profession) {
+            /** @var PlayerProfession $playerProf */
+            $playerProf = $account->getPlayerProfessions()->filter(function (PlayerProfession $playerProfession) use ($profession) {
+                return $playerProfession->getProfession() === $profession;
+            })->first();
+            ExpService::addExpToPlayerProfession($playerProf, $expToAdd, $hub, $em);
+            $em->persist($playerProf);
+        }
+
+        $em->flush();
+
+        return $item;
+    }
+
+    #[Pure] public static function isResource(DefaultItem $defaultItem): bool
+    {
+        return $defaultItem->getItemNature()->getName() === 'Ressources';
+    }
+
+    #[Pure] public static function isFarmable(DefaultItem $defaultItem): bool
+    {
+        return self::isResource($defaultItem) && ($defaultItem->getRecipe() === null || $defaultItem->getProfession() !== null);
     }
 }

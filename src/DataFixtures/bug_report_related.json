@@ -1,0 +1,12 @@
+{
+    "status": [
+      "En cours",
+      "Terminé"
+    ],
+
+    "types": [
+        "Bug",
+        "Amélioration",
+        "Nouvelle fonctionnalité"
+    ]
+}

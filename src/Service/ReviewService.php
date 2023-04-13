@@ -2,19 +2,20 @@
 
 namespace App\Service;
 
+use App\Entity\Account;
 use App\Entity\DefaultItem;
 use App\Entity\Review;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ReviewService
 {
-    public static function createReview(EntityManagerInterface $em, RequestStack $requestStack, DefaultItem $defaultItem, User $user): void
+    public static function createReview(EntityManagerInterface $em, Request $request, DefaultItem $defaultItem, Account $account): void
     {
-        $data = $requestStack->getMainRequest()->request->all();
+        $data = $request->request->all();
         $review = new Review();
-        $review->setAccount($user->getActiveAccount());
+        $review->setAccount($account);
         $review->setComment($data['comment']);
         $review->setNote((int) $data['rating']);
         $review->setItem($defaultItem);

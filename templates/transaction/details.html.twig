@@ -4,8 +4,13 @@
 
 {% block body %}
     {% set items = transaction.itemsFormatted %}
-    <div class="container">
-        <h1>Résumé de ma commande</h1>
+    <div class="container text-white">
+        <h1 class="text-center my-5">Résumé de ma commande</h1>
+        {% if transaction.seller.id == transaction.account.id %}
+            Acheté au système
+        {% else %}
+            Acheté à {{ transaction.seller.name }}
+        {% endif %}
         {% for item in items.defaultItems.items %}
             <div class="d-flex flex-wrap gap-5">
                 <div class="card" style="width: 20%;">

@@ -45,12 +45,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?Account $activeAccount = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BugReport::class)]
+    private Collection $bugReports;
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
+        $this->bugReports = new ArrayCollection();
     }
 
     /**
@@ -229,6 +233,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActiveAccount(Account $activeAccount): self
     {
         $this->activeAccount = $activeAccount;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BugReport>
+     */
+    public function getBugReports(): Collection
+    {
+        return $this->bugReports;
+    }
+
+    public function addBugReport(BugReport $bugReport): self
+    {
+        if (!$this->bugReports->contains($bugReport)) {
+            $this->bugReports->add($bugReport);
+            $bugReport->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBugReport(BugReport $bugReport): self
+    {
+        if ($this->bugReports->removeElement($bugReport)) {
+            // set the owning side to null (unless already changed)
+            if ($bugReport->getUser() === $this) {
+                $bugReport->setUser(null);
+            }
+        }
 
         return $this;
     }

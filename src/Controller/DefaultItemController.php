@@ -2,35 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\Batch;
 use App\Entity\DefaultItem;
-use App\Entity\ItemNature;
 use App\Service\DefaultItemService;
 use App\Service\ItemNatureService;
 use App\Service\ItemTypeService;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultItemController extends AbstractController
+class DefaultItemController extends BaseController
 {
-    protected EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
 
     #[Route('/', name: 'app_home')]
-    public function index(DefaultItemService $defaultItemService, RequestStack $requestStack): Response
+    public function index(DefaultItemService $defaultItemService): Response
     {
-        $request = $requestStack->getMainRequest();
-        $requestData = $request->query->all();
+        $requestData = $this->request->query->all();
 
-        $activeItemNatures = $request->query->all('itemNature') ?? [];
-        $activeItemTypes = $request->query->all('itemType') ?? [];
-        $priceRange = $request->query->all('priceRange') ?? [];
+        $activeItemNatures = $this->request->query->all('itemNature') ?? [];
+        $activeItemTypes = $this->request->query->all('itemType') ?? [];
+        $priceRange = $this->request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;
 
@@ -47,17 +37,50 @@ class DefaultItemController extends AbstractController
             'minPrice'          => $minPrice,
             'maxPrice'          => $maxPrice,
             'requestData'       => $requestData,
-            'search'            => $request->query->get('search') ?? '',
+            'search'            => $this->request->query->get('search') ?? '',
         ]);
     }
 
     #[Route('/item/{uuid}', name: 'app_item')]
     public function item(string $uuid): Response
     {
-        $item = $this->em->getRepository(\App\Entity\DefaultItem::class)->findOneBy(['uuid' => $uuid]);
+        $item = $this->em->getRepository(DefaultItem::class)->findOneBy(['uuid' => $uuid]);
+        $batchs = [];
+        $one = $this->em->getRepository(Batch::class)->findBy(
+            ['defaultItem' => $item, 'quantity' => 1],
+            ['price' => 'ASC'],
+            10
+        );
+
+        $ten = $this->em->getRepository(Batch::class)->findBy(
+            ['defaultItem' => $item, 'quantity' => 10],
+            ['price' => 'ASC'],
+            10
+        );
+
+        $hundred = $this->em->getRepository(Batch::class)->findBy(
+            ['defaultItem' => $item, 'quantity' => 100],
+            ['price' => 'ASC'],
+            10
+        );
+
+        if (!empty($one)) {
+            $batchs['1'] = $one;
+        }
+
+        if (!empty($ten)) {
+            $batchs['10'] = $ten;
+        }
+
+        if (!empty($hundred)) {
+            $batchs['100'] = $hundred;
+        }
+
         return $this->render('item/item.html.twig', [
-            'item'  => $item,
-            'stock' => DefaultItemService::getStock($item, $this->em),
+            'item'          => $item,
+            'stock'         => DefaultItemService::getStock($item, $this->em),
+            'isFarmable'    => DefaultItemService::isFarmable($item),
+            'batchs'        => $batchs,
         ]);
     }
     
@@ -65,7 +88,7 @@ class DefaultItemController extends AbstractController
     #[Route('/item/generate/image', name: 'app_generate_image')]
     public function generateImage(): Response
     {
-        $items = $this->em->getRepository(\App\Entity\DefaultItem::class)->findAll();
+        $items = $this->em->getRepository(DefaultItem::class)->findAll();
         foreach ($items as $item) {
             file_put_contents( $item->getId() . '.png', file_get_contents($item->getImageUrl()));
         }

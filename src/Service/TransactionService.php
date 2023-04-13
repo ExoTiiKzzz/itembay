@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Account;
+use App\Entity\DefaultItem;
 use App\Entity\Item;
+use App\Entity\Transaction;
 use App\Entity\TransactionLine;
 use App\Entity\UserBasket;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,8 +19,8 @@ class TransactionService
         $ids = [];
         $requestItems = $request['items'];
         foreach ($requestItems as $requestItem) {
-            /** @var \App\Entity\DefaultItem $defaultItem */
-            $defaultItem = $em->getRepository(\App\Entity\DefaultItem::class)->find($requestItem['id']);
+            /** @var DefaultItem $defaultItem */
+            $defaultItem = $em->getRepository(DefaultItem::class)->find($requestItem['id']);
             $quantity = $requestItem['quantity'] ?? 1;
             for ($i = 0; $i < $quantity; $i++) {
                 $item = DefaultItemService::getOneItemAvailable($em, $defaultItem->getId(), $ids);
@@ -48,8 +50,9 @@ class TransactionService
         }
 
         //create transaction for available items
-        $transaction = new \App\Entity\Transaction();
+        $transaction = new Transaction();
         $transaction->setAccount($basket->getUser()->getActiveAccount());
+        $transaction->setSeller($basket->getUser()->getActiveAccount());
         $em->persist($transaction);
         $em->flush();
 

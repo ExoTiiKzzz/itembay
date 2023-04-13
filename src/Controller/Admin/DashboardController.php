@@ -3,8 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Account;
+use App\Entity\BugReport;
+use App\Entity\BugReportType;
 use App\Entity\DefaultItem;
 use App\Entity\Item;
+use App\Entity\ItemNature;
 use App\Entity\ItemType;
 use App\Entity\PlayerClass;
 use App\Entity\User;
@@ -52,9 +55,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Player Classes', 'fa-solid fa-swords', PlayerClass::class);
         yield MenuItem::linkToCrud('Item Types', 'fas fa-list', ItemType::class);
+        yield MenuItem::linkToCrud('Item Natures', 'fas fa-list', ItemNature::class);
         yield MenuItem::linkToCrud('Items', 'fas fa-list', Item::class);
         yield MenuItem::linkToCrud('Default Items', 'fas fa-list', DefaultItem::class);
         yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('Account', 'fas fa-list', Account::class);
+        yield MenuItem::linkToCrud('Bug Reports', 'fas fa-list', BugReport::class);
+        yield MenuItem::linkToCrud('Bug Report Type', 'fas fa-list', BugReportType::class);
     }
 }

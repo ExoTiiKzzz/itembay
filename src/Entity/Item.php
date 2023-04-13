@@ -37,6 +37,12 @@ class Item
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: TransactionLine::class)]
     private Collection $transactionLines;
 
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Batch $batch = null;
+
+    #[ORM\Column]
+    private ?bool $isForSell = null;
+
     public function __construct()
     {
         $this->transactionLines = new ArrayCollection();
@@ -141,6 +147,30 @@ class Item
                 $transactionLine->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBatch(): ?Batch
+    {
+        return $this->batch;
+    }
+
+    public function setBatch(?Batch $batch): self
+    {
+        $this->batch = $batch;
+
+        return $this;
+    }
+
+    public function isIsForSell(): ?bool
+    {
+        return $this->isForSell;
+    }
+
+    public function setIsForSell(bool $isForSell): self
+    {
+        $this->isForSell = $isForSell;
 
         return $this;
     }

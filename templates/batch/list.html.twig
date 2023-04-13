@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de mes articles en vente{% endblock %}
+
+{% block body %}
+    <div class="container text-white">
+        <h1 class="text-center py-5">Liste de mes articles en vente</h1>
+
+        <div id="table-container">
+            {% include 'batch/table.html.twig' with {
+                'batches': batches
+            } only %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let deleteBatch = async (id) => {
+            let res = await apiFetch('{{ path('app_batch_delete', {'id': 'ID'}) }}'.replace('ID', id), null, 'DELETE');
+            if (res.success) {
+                addLoader(document.querySelector('#table-container'));
+				swalSuccess('Votre item est retiré de la vente.');
+				setInnerHTML(
+					document.querySelector('#table-container'),
+                    res.data.html
+                );
+            }
+        }
+    </script>
+{% endblock %}

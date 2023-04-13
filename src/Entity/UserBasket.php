@@ -22,9 +22,13 @@ class UserBasket
     #[ORM\ManyToMany(targetEntity: Item::class)]
     private Collection $items;
 
+    #[ORM\ManyToMany(targetEntity: Batch::class, mappedBy: 'baskets')]
+    private Collection $batches;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->batches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,6 +68,33 @@ class UserBasket
     public function removeItem(Item $item): self
     {
         $this->items->removeElement($item);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Batch>
+     */
+    public function getBatches(): Collection
+    {
+        return $this->batches;
+    }
+
+    public function addBatch(Batch $batch): self
+    {
+        if (!$this->batches->contains($batch)) {
+            $this->batches->add($batch);
+            $batch->addBasket($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBatch(Batch $batch): self
+    {
+        if ($this->batches->removeElement($batch)) {
+            $batch->removeBasket($this);
+        }
 
         return $this;
     }

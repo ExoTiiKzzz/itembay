@@ -1,0 +1,28 @@
+{% extends '/base.html.twig' %}
+
+{% block title %}Signalement | {{ report.title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <form class="form pt-5 text-white" method="post" action="{{ path('app_bug_report_save') }}">
+            <div class="mb-3">
+                <label for="bugReportType">Type de problème rencontré</label>
+                <select name="bug_report[type]" id="bugReportType" class="form-control form-select">
+                    {% for bugType in bugReportTypes %}
+                        <option value="{{ bugType.id }}">{{ bugType.name }}</option>
+                    {% endfor %}
+                    <option value="">Autre</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="bugReportTitle">Titre</label>
+                <input type="text" class="form-control" name="bug_report[title]" id="bugReportTitle" value="{{ report.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="bugReportDescription">Description du problème</label>
+                <textarea class="form-control" name="bug_report[description]" id="bugReportDescription" cols="30" rows="10">{{ report.description }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+    </div>
+{% endblock %}

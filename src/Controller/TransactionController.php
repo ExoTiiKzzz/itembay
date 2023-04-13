@@ -3,21 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Transaction;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TransactionController extends AbstractController
+class TransactionController extends BaseController
 {
-    public function __construct(protected EntityManagerInterface $em)
-    {
-    }
 
     #[Route('/transaction', name: 'app_transaction_list')]
     public function index(): Response
     {
-        $transactions = $this->em->getRepository(Transaction::class)->findBy(['account' => $this->getUser()->getActiveAccount()]);
+        $account = $this->getActiveAccountOrRedirect();
+        $transactions = $this->em->getRepository(Transaction::class)->findBy(['account' => $account]);
         return $this->render('transaction/index.html.twig', [
             'transactions' => $transactions,
         ]);

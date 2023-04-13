@@ -38,12 +38,20 @@ class Account
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerProfession::class)]
     private Collection $playerProfessions;
 
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Batch::class)]
+    private Collection $batches;
+
+    #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Transaction::class)]
+    private Collection $sells;
+
     public function __construct()
     {
         $this->inventory = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->playerProfessions = new ArrayCollection();
+        $this->batches = new ArrayCollection();
+        $this->sells = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,6 +213,66 @@ class Account
             // set the owning side to null (unless already changed)
             if ($playerProfession->getPlayer() === $this) {
                 $playerProfession->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Batch>
+     */
+    public function getBatches(): Collection
+    {
+        return $this->batches;
+    }
+
+    public function addBatch(Batch $batch): self
+    {
+        if (!$this->batches->contains($batch)) {
+            $this->batches->add($batch);
+            $batch->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBatch(Batch $batch): self
+    {
+        if ($this->batches->removeElement($batch)) {
+            // set the owning side to null (unless already changed)
+            if ($batch->getAccount() === $this) {
+                $batch->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getSells(): Collection
+    {
+        return $this->sells;
+    }
+
+    public function addSell(Transaction $sell): self
+    {
+        if (!$this->sells->contains($sell)) {
+            $this->sells->add($sell);
+            $sell->setSeller($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSell(Transaction $sell): self
+    {
+        if ($this->sells->removeElement($sell)) {
+            // set the owning side to null (unless already changed)
+            if ($sell->getSeller() === $this) {
+                $sell->setSeller(null);
             }
         }
 

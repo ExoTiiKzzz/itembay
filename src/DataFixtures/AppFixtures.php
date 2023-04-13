@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', '4096M');
 
 use App\Entity\Account;
 use App\Entity\DefaultItem;
@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $seeder = new DatabaseSeeder($this->entityManager, $this->passwordEncoder);
+        $seeder = new DatabaseSeeder($this->entityManager, $this->passwordEncoder, __DIR__);
         $seeder->seed();
     }
 }

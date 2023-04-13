@@ -28,6 +28,22 @@ function swalError(message) {
 	});
 }
 
+function swalSuccess(message) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Success',
+		text: message,
+	});
+}
+
+function notieInfo(message, type = 'info') {
+	notie.alert({
+		type: type,
+		text: message,
+		time: 3
+	});
+}
+
 async function apiFetch(url, body = {}, method = 'POST') {
 	return await
 		fetch(url, {
@@ -110,4 +126,16 @@ function initBasketListeners() {
 			await removeBasketItem(id);
 		});
 	});
+}
+
+async function refreshBalance() {
+	let balance = document.querySelector('.balance-container');
+	if (balance) {
+		let result = await apiFetch('/balance');
+		balance.innerHTML = result.data.balance;
+	}
+}
+
+function addLoader(element) {
+	element.innerHTML = '<div class="fa fa-spinner fa-spin"></div>';
 }

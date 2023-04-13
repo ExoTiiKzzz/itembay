@@ -8,19 +8,27 @@ use App\Entity\PlayerProfession;
 use App\Entity\Profession;
 use App\Service\AccountService;
 use App\Service\ApiResponseService;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Twig\AppExtension;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AccountController extends AbstractController
+class AccountController extends BaseController
 {
-    protected EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
+    #[Route('/mercuretest', name: 'mercure_test')]
+    public function mercure_test(HubInterface $hub): Response
     {
-        $this->em = $em;
+        $update = new Update(
+            'http://localhost:8000/mercuretest',
+            json_encode(['hello' => 'world'])
+        );
+
+        $hub->publish($update);
+
+        return new Response('Published!');
     }
 
     #[Route('/accounts', name: 'app_accounts')]
@@ -54,36 +62,32 @@ class AccountController extends AbstractController
     }
 
     #[Route('/account/create', name: 'app_account_create')]
-    public function create(RequestStack $request): Response
+    public function create(): Response
     {
-        $request = $request->getCurrentRequest();
         try {
-            $user = $this->getUser();
-            if (!$user) {
-                throw new \Exception('You must be logged in to create an account');
-            }
+            $user = $this->getUserOrThrowException();
 
-            $data = json_decode($request->getContent(), true);
+            $data = json_decode($this->request->getContent(), true);
 
             $username = $data['username'];
             $class = $data['class'];
 
             if (empty($username)) {
-                throw new \Exception('Username is required');
+                throw new Exception('Username is required');
             }
 
             if (empty($class)) {
-                throw new \Exception('Class is required');
+                throw new Exception('Class is required');
             }
 
             $class = $this->em->getRepository(PlayerClass::class)->find($class);
 
             if (!$class) {
-                throw new \Exception('Class not found');
+                throw new Exception('Class not found');
             }
 
             $account = new Account();
-            $account->setUser($this->getUser());
+            $account->setUser($user);
             $account->setName($username);
             $account->setClass($class);
 
@@ -96,7 +100,7 @@ class AccountController extends AbstractController
                 $job = new PlayerProfession();
                 $job->setPlayer($account);
                 $job->setProfession($profession);
-                $job->setLevel(1);
+                $job->setExp(0);
                 $this->em->persist($job);
             }
             $this->em->flush();
@@ -105,7 +109,7 @@ class AccountController extends AbstractController
                 'message' => 'Account created',
             ]);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ApiResponseService::error([], $e->getMessage());
         }
     }
@@ -131,7 +135,7 @@ class AccountController extends AbstractController
         $request = $request->getCurrentRequest();
         try {
             if (!$this->getUser()) {
-                throw new \Exception('You must be logged in to update an account');
+                throw new Exception('You must be logged in to update an account');
             }
 
             $data = json_decode($request->getContent(), true);
@@ -140,13 +144,13 @@ class AccountController extends AbstractController
             $id = $data['id'];
 
             if (empty($username)) {
-                throw new \Exception('Username is required');
+                throw new Exception('Username is required');
             }
 
             $account = $this->em->getRepository(Account::class)->find($id);
 
             if (!$account) {
-                throw new \Exception('Account not found');
+                throw new Exception('Account not found');
             }
 
             $account->setName($username);
@@ -158,7 +162,7 @@ class AccountController extends AbstractController
                 'message' => 'Account updated',
             ]);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ApiResponseService::error([], $e->getMessage());
         }
     }
@@ -167,7 +171,8 @@ class AccountController extends AbstractController
     #[Route('/inventory', name: 'app_account_inventory')]
     public function inventory(): Response
     {
-        $inventory = AccountService::getInvetoryItems($this->getUser()->getActiveAccount());
+        $account = $this->getActiveAccountOrRedirect();
+        $inventory = AccountService::getInventoryItems($account);
         return $this->render('account/inventory.html.twig', [
             'inventory' => $inventory,
         ]);
@@ -190,14 +195,12 @@ class AccountController extends AbstractController
     public function confirmDelete(int $id): Response
     {
         try {
-            if (!$this->getUser()) {
-                throw new \Exception('You must be logged in to update an account');
-            }
+            $this->getUserOrThrowException();
 
             $account = $this->em->getRepository(Account::class)->find($id);
 
             if (!$account) {
-                throw new \Exception('Account not found');
+                throw new Exception('Account not found');
             }
 
             $this->em->remove($account);
@@ -207,7 +210,7 @@ class AccountController extends AbstractController
                 'message' => 'Account deleted',
             ]);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ApiResponseService::error([], $e->getMessage());
         }
     }
@@ -216,14 +219,11 @@ class AccountController extends AbstractController
     public function activate(int $id): Response
     {
         try {
-            $user = $this->getUser();
-            if (!$user) {
-                throw new \Exception('You must be logged in to update an account');
-            }
+            $user = $this->getUserOrThrowException();
 
             $account = $this->em->getRepository(Account::class)->find($id);
             if (!$account) {
-                throw new \Exception('Account not found');
+                throw new Exception('Account not found');
             }
 
             $user->setActiveAccount($account);
@@ -235,7 +235,26 @@ class AccountController extends AbstractController
                 'html' => $html->getContent(),
             ], 'Account activated');
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            return ApiResponseService::error([], $e->getMessage());
+        }
+    }
+
+    #[Route('/balance', name: 'app_user_balance')]
+    public function balance(): Response
+    {
+        try {
+            $user = $this->getUserOrThrowException();
+
+            $controller = new AppExtension($this->em);
+            $formattedMoney = $controller->formatItemPrice($user->getMoney());
+
+
+            return ApiResponseService::success([
+                'balance' => $formattedMoney,
+            ]);
+
+        } catch (Exception $e) {
             return ApiResponseService::error([], $e->getMessage());
         }
     }

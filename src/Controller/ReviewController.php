@@ -3,23 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\DefaultItem;
-use App\Entity\Review;
 use App\Service\ReviewService;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ReviewController extends AbstractController
+class ReviewController extends BaseController
 {
-    public function __construct(
-        protected EntityManagerInterface $em,
-    )
-    {
-    }
-
-
     #[Route('/item/{uuid}/review/new', name: 'app_item_review_new')]
     public function review(DefaultItem $defaultItem, string $uuid): Response
     {
@@ -32,9 +21,10 @@ class ReviewController extends AbstractController
     }
 
     #[Route('/item/{uuid}/review/create', name: 'app_item_review_create')]
-    public function create(DefaultItem $defaultItem, RequestStack $requestStack): Response
+    public function create(DefaultItem $defaultItem): Response
     {
-        ReviewService::createReview($this->em, $requestStack, $defaultItem, $this->getUser());
+        $account = $this->getActiveAccountOrRedirect();
+        ReviewService::createReview($this->em, $this->request, $defaultItem, $account);
 
         return $this->redirectToRoute('app_item', ['uuid' => $defaultItem->getUuid()]);
     }

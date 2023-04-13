@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlayerProfessionRepository;
+use App\Service\ProfessionService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerProfessionRepository::class)]
@@ -14,7 +16,7 @@ class PlayerProfession
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $level = null;
+    private ?int $exp = 0;
 
     #[ORM\ManyToOne(inversedBy: 'playerProfessions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,16 +31,21 @@ class PlayerProfession
         return $this->id;
     }
 
-    public function getLevel(): ?int
+    public function getExp(): ?int
     {
-        return $this->level;
+        return $this->exp;
     }
 
-    public function setLevel(int $level): self
+    public function setExp(int $exp): self
     {
-        $this->level = $level;
+        $this->exp = $exp;
 
         return $this;
+    }
+
+    public function getLevel(EntityManagerInterface $em): ?int
+    {
+        return ProfessionService::getProfessionLevelFromExp($this->getExp(), $em);
     }
 
     public function getProfession(): ?Profession

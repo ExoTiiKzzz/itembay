@@ -89,18 +89,14 @@
                                 {% if minPrice is defined %}
                                     {% set minValue = minPrice %}
                                 {% endif %}
-                                <input type="range" class="form-range" id="minPriceRange" min="0" max="10000" value="{{ minValue }}" name="priceRange[min]">
+                                <input type="number" class="form-control" id="minPriceRange" min="0" value="{{ minValue }}" name="priceRange[min]">
                                 <div data-range-value data-target="#minPriceRange">
                                     {% if minPrice is defined %}
                                         {{ minPrice | itemPrice | raw }}
                                     {% endif %}
                                 </div>
                                 <label for="maxPriceRange" class="form-label">Prix maximum</label>
-                                {% set maxValue = 0 %}
-                                {% if maxPrice is defined %}
-                                    {% set maxValue = maxPrice %}
-                                {% endif %}
-                                <input type="range" class="form-range" id="maxPriceRange" min="0" max="10000" value="{{ maxValue }}" name="priceRange[max]">
+                                <input type="number" class="form-control" id="maxPriceRange" min="0" value="{{ maxPrice }}" name="priceRange[max]">
                                 <div data-range-value data-target="#maxPriceRange">
                                     {% if maxPrice is defined %}
                                         {{ maxPrice | itemPrice | raw }}

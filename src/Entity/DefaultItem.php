@@ -63,10 +63,14 @@ class DefaultItem
     #[ORM\OneToOne(mappedBy: 'item', cascade: ['persist', 'remove'])]
     private ?Recipe $recipe = null;
 
+    #[ORM\OneToMany(mappedBy: 'defaultItem', targetEntity: Batch::class)]
+    private Collection $batches;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->batches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -291,6 +295,36 @@ class DefaultItem
         }
 
         $this->recipe = $recipe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Batch>
+     */
+    public function getBatches(): Collection
+    {
+        return $this->batches;
+    }
+
+    public function addBatch(Batch $batch): self
+    {
+        if (!$this->batches->contains($batch)) {
+            $this->batches->add($batch);
+            $batch->setDefaultItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBatch(Batch $batch): self
+    {
+        if ($this->batches->removeElement($batch)) {
+            // set the owning side to null (unless already changed)
+            if ($batch->getDefaultItem() === $this) {
+                $batch->setDefaultItem(null);
+            }
+        }
 
         return $this;
     }

@@ -12,6 +12,11 @@
                 <div class="card-body d-flex flex-column">
                     <h1 class="card-title">{{ item.name }}</h1>
                     {{ item.id | itemRating | raw }}
+                    {% if isFarmable %}
+                        <a class="btn btn-secondary" href="{{ path('app_item_farm', {'uuid': item.uuid }) }}">
+                            <i class="fas fa-seedling"></i> Récolter
+                        </a>
+                    {% endif %}
                     <hr>
                     <h5 class="card-title">Description : </h5>
                     <p class="card-text text-justify">{{ item.description }}</p>
@@ -58,6 +63,14 @@
         </div>
 
     </div>
+
+    <div class="batch-container">
+        {% include '/item/parts/batchs.html.twig' with {
+            'batchs': batchs,
+        } only %}
+    </div>
+
+
 
 {% endblock %}
 
@@ -107,6 +120,12 @@
                 }
             });
         });
+
+		let buyBatch = async function (id) {
+			let url = '{{ path('app_batch_buy', {'id': 'batch_id'}) }}';
+			url = url.replace('batch_id', id);
+	        await apiFetch(url);
+		}
 
     </script>
 {% endblock %}

@@ -22,6 +22,9 @@ class Recipe
     #[ORM\JoinColumn(nullable: false)]
     private ?DefaultItem $item = null;
 
+    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    private ?Profession $profession = null;
+
     public function __construct()
     {
         $this->recipeLines = new ArrayCollection();
@@ -70,6 +73,18 @@ class Recipe
     public function setItem(DefaultItem $item): self
     {
         $this->item = $item;
+
+        return $this;
+    }
+
+    public function getProfession(): ?Profession
+    {
+        return $this->profession;
+    }
+
+    public function setProfession(?Profession $profession): self
+    {
+        $this->profession = $profession;
 
         return $this;
     }

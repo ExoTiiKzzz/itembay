@@ -14,13 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class SecurityController extends BaseController
 {
-    private Request $request;
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->request = $requestStack->getCurrentRequest();
-    }
 
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -59,10 +54,9 @@ class SecurityController extends AbstractController
      * @throws Exception
      */
     #[Route(path: '/update-profile', name: 'app_update_profile', methods: ['POST'])]
-    public function updateProfile(Request $request, EntityManagerInterface $entityManager): Response
+    public function updateProfile(Request $request): Response
     {
-        $user = $entityManager->getRepository(User::class)->find($this->getUser()->getId());
-        if (!$user) return $this->redirectToRoute('app_login');
+        $user = $this->getUserOrRedirect();
 
         $user->setUsername($request->request->get('username'));
         $avatar = $request->files->get('avatar');
@@ -91,21 +85,21 @@ class SecurityController extends AbstractController
             }
         }
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $this->em->persist($user);
+        $this->em->flush();
 
         return $this->redirectToRoute('app_profile');
     }
 
     /**
-     * @return RedirectResponse|void
+     * @return void
      */
     public function checkIfUserHasAccount()
     {
         $user = $this->getUser();
         if (!$user) return;
+        $user = $this->getUserOrRedirect();
 
-        $routes = ['app_accounts', 'app_account_add', 'app_account_create', 'app_account_edit', 'app_account_activate', 'app_account_delete', 'app_account_confirm_delete'];
         if (($user->getAccounts()->count() == 0 || $user->getActiveAccount() == null) && !str_contains( $this->request->get('_route'), 'app_account')) {
             $response = new RedirectResponse($this->generateUrl('app_accounts'));
             $response->send();

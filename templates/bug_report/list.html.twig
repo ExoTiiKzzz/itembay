@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes signalements{% endblock %}
+
+{% block body %}
+    <div class="container text-white">
+        <h1 class="text-center mt-5">
+            Mes signalements
+        </h1>
+        <a class="btn btn-primary my-5" href="{{ path('app_bug_report') }}">
+            Signaler un bug
+        </a>
+        <div class="table-container">
+            {% include 'bug_report/table.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+	    let init = () => {
+		    $('.deleteBtn').click(async (e) => {
+			    e.preventDefault();
+			    let res = await apiFetch(e.target.href, null, 'DELETE');
+			    if (res.success) {
+				    toastr.success('Signalement supprimé');
+				    $('.table-container').html(res.data.html);
+					init();
+			    } else {
+				    swalError(res.message);
+			    }
+		    });
+        }
+        $(document).ready(function () {
+            init();
+        });
+    </script>
+{% endblock %}

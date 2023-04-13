@@ -1,0 +1,50 @@
+{% if recipes is not empty %}
+    {% for recipe in recipes %}
+        <div class="row recipe-row">
+            <div class="col-3">
+                <a href="{{ path('app_item', {'uuid': recipe.item.uuid}) }}">
+                    <img src="{{ recipe.item.imageUrl }}" alt="{{ recipe.item.name }}" class="recipe-item-image" title="{{ recipe.item.name }}" data-tooltip>
+                </a>
+            </div>
+            <div class="col-7">
+                <div class="gallery">
+                    <span class="ml-3 fw-bold">Niveau {{ recipe.item.level }}</span>
+                    {% for recipeLine in recipe.recipeLines %}
+                        <div class="gallery-item">
+                            <a href="{{ path('app_item', {'uuid': recipeLine.item.uuid}) }}">
+                                <img src="{{ recipeLine.item.imageUrl }}" loading="lazy" onerror="this.src = '/images/no-photo.png'"
+                                     alt="{{ recipeLine.item.name }}" class="gallery-image" title="{{ recipeLine.item.name }}" data-tooltip>
+                                <span class="gallery-quantity">
+                                    {{ recipeLine.quantity }}
+                                </span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-2 d-flex align-items-center">
+                <div class="text-center">
+                    {% set disabled = '' %}
+                    {% if recipe.maxCraftable == 0 %}
+                        {% set disabled = 'disabled' %}
+                    {% endif %}
+
+                    {% if disabled != '' %}
+                        <span title="Il vous manque des items pour en crafter" data-tooltip>
+                    {% endif %}
+                            <button href="{{ path('app_item_craft', {'id': recipe.id}) }}" class="btn btn-primary craftBtn" data-max="{{ recipe.maxCraftable }}" {{ disabled | raw }}>
+                                Craft {% if recipe.maxCraftable > 0 %} ({{ recipe.maxCraftable }} max) {% endif %}
+                            </button>
+                    {% if disabled != '' %}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">
+        Aucune recette trouvée, essayez de modifier les filtres.
+    </div>
+{% endif %}

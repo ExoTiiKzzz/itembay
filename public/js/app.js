@@ -31,4 +31,6 @@ document.querySelectorAll('.form-select').forEach(el => {
 	});
 });
 
+$('[data-tooltip]').tooltip();
+
 const sidenav = new Sidebar();

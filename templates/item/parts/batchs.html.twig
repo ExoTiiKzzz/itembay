@@ -1,0 +1,36 @@
+<div class="container">
+    {% if batchs is not empty %}
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody class="batch-container">
+            {% for quantity, batchArr in batchs %}
+                {% if batchArr is not empty %}
+                    {% set batch = batchArr[0] %}
+                    <tr>
+                        <td>{{ quantity }}</td>
+                        <td>{{ batch.price | itemPrice | raw }}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="buyBatch({{ batch.id }})">
+                                <i class="fas fa-basket-shopping"></i>
+                                Acheter
+                            </button>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            Aucun lot de joueurs disponible pour le moment.
+        </div>
+    {% endif %}
+</div>
+
+

@@ -33,10 +33,14 @@ class Profession
     #[ORM\OneToMany(mappedBy: 'profession', targetEntity: DefaultItem::class)]
     private Collection $harvestItems;
 
+    #[ORM\OneToMany(mappedBy: 'profession', targetEntity: Recipe::class)]
+    private Collection $recipes;
+
     public function __construct()
     {
         $this->playerProfessions = new ArrayCollection();
         $this->harvestItems = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,6 +143,36 @@ class Profession
             // set the owning side to null (unless already changed)
             if ($harvestItem->getProfession() === $this) {
                 $harvestItem->setProfession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->setProfession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): self
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            // set the owning side to null (unless already changed)
+            if ($recipe->getProfession() === $this) {
+                $recipe->setProfession(null);
             }
         }
 

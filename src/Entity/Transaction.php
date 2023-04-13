@@ -29,6 +29,10 @@ class Transaction
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'sells')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Account $seller = null;
+
     public function __construct()
     {
         $this->transactionLines = new ArrayCollection();
@@ -109,5 +113,17 @@ class Transaction
             $items[] = $transactionLine->getItem();
         }
         return BasketService::listItems($items);
+    }
+
+    public function getSeller(): ?Account
+    {
+        return $this->seller;
+    }
+
+    public function setSeller(?Account $seller): self
+    {
+        $this->seller = $seller;
+
+        return $this;
     }
 }

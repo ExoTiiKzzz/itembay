@@ -1,0 +1,9 @@
+cd .\mercure\
+set MERCURE_PUBLISHER_JWT_KEY=6E9BD5E85242B4A35BE4431513DAD
+set MERCURE_SUBSCRIBER_JWT_KEY=6E9BD5E85242B4A35BE4431513DAD
+set ALLOW_ANONYMOUS=1
+set JWT_KEY=azeaze
+set ADDR='localhost:3000'
+set MERCURE_EXTRA_DIRECTIVES="cors_origins http://localhost:8000"
+set CORS_ALLOWED_ORIGINS='http://localhost:8000'
+.\mercure.exe run --config .\Caddyfile.dev

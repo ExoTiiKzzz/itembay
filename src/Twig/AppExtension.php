@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use App\Entity\DefaultItem;
 use App\Entity\Item;
+use App\Service\ProfessionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -23,11 +24,15 @@ class AppExtension extends AbstractExtension
             new TwigFilter('randomId', [$this, 'randomId']),
             new TwigFilter('itemStock', [$this, 'getItemStock']),
             new TwigFilter('itemRating', [$this, 'getitemRating']),
+            new TwigFilter('professionLevelFromExp', [$this, 'getProfessionLevelFromExp']),
+            new TwigFilter('professionActualLevelMinExp', [$this, 'getProfessionActualLevelMinExp']),
+            new TwigFilter('professionNextLevelMinExp', [$this, 'getProfessionNextLevelMinExp']),
         ];
     }
 
     public function formatItemPrice($price): string
     {
+        $price = (int) $price;
         //1 gold piece = 10 silver pieces = 100 bronze pieces
         $gold = floor($price / 100);
         $silver = floor(($price - ($gold * 100)) / 10);
@@ -97,7 +102,7 @@ class AppExtension extends AbstractExtension
         /** @var DefaultItem $defaultItem */
        $defaultItem = $this->em->getRepository(DefaultItem::class)->find($defaultItemId);
 
-       return count($this->em->getRepository(Item::class)->findBy(['defaultItem' => $defaultItem, 'account' => null, 'isDefaultItem' => true ]));
+       return count($this->em->getRepository(Item::class)->findBy(['defaultItem' => $defaultItem, 'account' => null, 'isDefaultItem' => true, 'batch' => null ]));
     }
 
     public function getItemRating(int $defaultItemId): string
@@ -127,5 +132,20 @@ class AppExtension extends AbstractExtension
         $str .= '<div class="ms-1">' . $roundedRating . '</div> <div class="ms-1"> sur ' . $ratingCount . ' ' . $evaluations . '.</div></div>';
 
         return $str;
+    }
+
+    public function getProfessionLevelFromExp(int $exp): string
+    {
+        return ProfessionService::getProfessionLevelFromExp($exp, $this->em);
+    }
+
+    public function getProfessionActualLevelMinExp(int $exp): string
+    {
+        return ProfessionService::getProfessionActualLevelMinExp($exp, $this->em);
+    }
+
+    public function getProfessionNextLevelMinExp(int $exp): string
+    {
+        return ProfessionService::getProfessionNextLevelMinExp($exp, $this->em);
     }
 }

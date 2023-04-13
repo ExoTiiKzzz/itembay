@@ -1,0 +1,119 @@
+[
+  {
+    "id": 2,
+    "name": "bucheron",
+    "types": [
+      "Planche",
+      "Substrat"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "forgeron",
+    "types": [
+      "Dague",
+      "Épée",
+      "Faux",
+      "Hache",
+      "Marteau",
+      "Pelle",
+      "Pioche"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "sculpteur",
+    "types": [
+      "Arc",
+      "Baguette",
+      "Bâton",
+      "Matériel d'exploration",
+      "Outil"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "cordonnier",
+    "types": [
+      "Bottes",
+      "Ceinture"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "bijoutier",
+    "types": [
+      "Amulette",
+      "Anneau"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "mineur",
+    "types": [
+      "Alliage",
+      "Orbe de forgemagie"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "alchimiste",
+    "types": [
+      "Essence de gardien de donjon",
+      "Potion",
+      "Potion d'oubli Percepteur",
+      "Potion de conquête",
+      "Potion de forgemagie",
+      "Potion de téléportation",
+      "Préparation",
+      "Teinture"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "tailleur",
+    "types": [
+      "Cape",
+      "Chapeau",
+      "Sac à dos"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "paysan",
+    "types": [
+      "Pain"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "pêcheur",
+    "types": [
+      "Poisson comestible"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "chasseur",
+    "types": [
+        "Viande comestible"
+    ]
+  },
+  {
+    "id": 60,
+    "name": "façonneur",
+    "types": [
+      "Bouclier",
+      "Idole",
+      "Trophée"
+    ]
+  },
+  {
+    "id": 65,
+    "name": "bricoleur",
+    "types": [
+      "Clef",
+      "Objet d'élevage"
+    ]
+  }
+]

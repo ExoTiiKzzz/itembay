@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto gap-3">
                 {% if app.user %}
-                    <div class="d-flex align-items-center gap-1 mr-2">
+                    <div class="d-flex align-items-center gap-1 mr-2 balance-container">
                         {{ app.user.money | itemPrice | raw }}
                     </div>
                     <div class="d-flex align-items-center user-basket gap-1">
@@ -45,12 +45,15 @@
                                 <a class="dropdown-item" href="{{ path('app_transaction_list') }}">Mes commandes</a>
                             </li>
                             <li>
+                                <a class="dropdown-item" href="{{ path('app_batch_list') }}">Mes items en vente</a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" href="{{ path('app_player_jobs') }}">Mes métiers</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ path('app_transaction_list') }}">Centre d'aide</a>
+                            <li><a class="dropdown-item" href="{{ path('app_bug_report_list') }}">Centre d'aide</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

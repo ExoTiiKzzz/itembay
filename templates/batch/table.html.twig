@@ -1,0 +1,28 @@
+{% if batches is not empty %}
+    <table class="table table-dark table-striped">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for batch in batches %}
+            <tr>
+                <td>{{ batch.defaultItem.name }}</td>
+                <td>{{ batch.quantity }}</td>
+                <td>{{ batch.price | itemPrice | raw }}</td>
+                <td>
+                    <button class="btn btn-primary" onclick="deleteBatch({{ batch.id }})">Supprimer</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="alert alert-info">
+        Vous n'avez pas d'items en vente.
+    </div>
+{% endif %}
