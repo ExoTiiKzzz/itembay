@@ -111,6 +111,9 @@
         </div>
         <div class="col-md-9">
             <ul class="d-flex flex-wrap gap-5 text-black">
+                <h2 class="text-white w-100">
+                    Liste des objets
+                </h2>
                 {% if items | length > 0 %}
                     {% for item in items %}
                         {% include '/item/list_item.html.twig' with {
@@ -118,10 +121,14 @@
                         } %}
                     {% endfor %}
                 {% else %}
-                    <div class="alert alert-warning w-100" role="alert">
+                    <div class="alert alert-info w-100" role="alert">
                         Aucun résultat
                     </div>
                 {% endif %}
+            </ul>
+
+            <ul class="d-flex flex-wrap gap-5 mt-5">
+                {% include 'item/parts/top_sells.html.twig' %}
             </ul>
 
             <div class="d-flex justify-content-center">
@@ -136,6 +143,21 @@
         $(document).ready(function () {
 	        $('#itemTypeSelect').val({{ selectedItemTypes|json_encode|raw }}).trigger('change');
 
+            let items = document.querySelectorAll('.carousel .carousel-item')
+
+            items.forEach((el) => {
+                const minPerSlide = 4
+                let next = el.nextElementSibling
+                for (let i=1; i<minPerSlide; i++) {
+                    if (!next) {
+                        // wrap carousel by using first child
+                        next = items[0]
+                    }
+                    let cloneChild = next.cloneNode(true)
+                    el.appendChild(cloneChild.children[0])
+                    next = next.nextElementSibling
+                }
+            })
 
             document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
                 checkbox.addEventListener('change', function (event) {

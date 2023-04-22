@@ -213,4 +213,25 @@ class DefaultItemService
     {
         return self::isResource($defaultItem) && ($defaultItem->getRecipe() === null || $defaultItem->getProfession() !== null);
     }
+
+    public static function getTopSelledItems(EntityManagerInterface $em, int $limit = 10): array
+    {
+        $qb = $em->createQueryBuilder()
+            ->select('di as defaultItem, COUNT(tl.id) as totalSales')
+            ->from(DefaultItem::class, 'di')
+            ->leftJoin('di.items', 'i')
+            ->leftJoin('i.transactionLines', 'tl')
+            ->groupBy('di.id')
+            ->where('tl.transaction IS NOT NULL')
+            ->orderBy('totalSales', 'DESC')
+            ->setMaxResults(10);
+
+        $result = $qb->getQuery()->getResult();
+        $items = [];
+        foreach ($result as $item) {
+            $items[] = $item['defaultItem'];
+        }
+
+        return $items;
+    }
 }

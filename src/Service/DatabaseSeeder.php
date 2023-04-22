@@ -292,6 +292,7 @@ class DatabaseSeeder
     {
         $item = new Item();
         $item->setDefaultItem($defaultItem);
+        $item->setIsForSell(false);
         $this->entityManager->persist($item);
     }
 

@@ -27,6 +27,8 @@ class DefaultItemController extends BaseController
         $itemNatures = ItemNatureService::getItemNaturesForSelect($this->em);
 
         $itemTypes = ItemTypeService::getItemTypesForSelect($this->em, $itemNatures);
+
+        $topSelledItems = $defaultItemService::getTopSelledItems($this->em);
         return $this->render('item/list.html.twig', [
             'controller_name'   => 'DefaultItemController',
             'items'             => $defaultItemService->getItems(),
@@ -38,6 +40,7 @@ class DefaultItemController extends BaseController
             'maxPrice'          => $maxPrice,
             'requestData'       => $requestData,
             'search'            => $this->request->query->get('search') ?? '',
+            'topSelledItems'    => $topSelledItems,
         ]);
     }
 

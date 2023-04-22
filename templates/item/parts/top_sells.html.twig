@@ -1,0 +1,7 @@
+<h2 class="text-white w-100">
+    Les items les plus vendus
+</h2>
+
+{% for item in topSelledItems %}
+    {% include '/item/list_item.html.twig' %}
+{% endfor %}

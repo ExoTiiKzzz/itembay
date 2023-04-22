@@ -79,15 +79,15 @@
     </body>
     <script>
 	    {% if app.user %}
-        const eventSource = new EventSource("{{ mercure('http://localhost:8000/user/' ~ app.user.id, {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.In-xEYAn8T2ZvfpQoI1xpNFBYmmE-R-QOoG_uWkjvQw'})|escape('js') }}");
-        eventSource.onmessage = async (event) => {
-			let data = JSON.parse(event.data);
-	        notieInfo(data.message)
+        {#const eventSource = new EventSource("{{ mercure('http://localhost:8000/user/' ~ app.user.id, {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.In-xEYAn8T2ZvfpQoI1xpNFBYmmE-R-QOoG_uWkjvQw'})|escape('js') }}");#}
+        {#eventSource.onmessage = async (event) => {#}
+		{#	let data = JSON.parse(event.data);#}
+	    {#    notieInfo(data.message)#}
 
-            if(data.type === 'batch') {
-				document.querySelector('.balance-container').innerHTML = data.actualMoney
-            }
-        }
+        {#    if(data.type === 'batch') {#}
+		{#		document.querySelector('.balance-container').innerHTML = data.actualMoney#}
+        {#    }#}
+        {#}#}
         {% endif %}
     </script>
 </html>
