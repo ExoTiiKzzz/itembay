@@ -22,7 +22,9 @@
     {{ parent() }}
     <script>
         window.addEventListener('DOMContentLoaded', function () {
-            hideActiveAccount();
+	        {% if app.user.activeAccount is defined and app.user.activeAccount is not null %}
+                hideActiveAccount();
+            {% endif %}
             addAccountsListeners();
             document.querySelectorAll('.account-add').forEach((element) => {
                 element.addEventListener('click', async () => {

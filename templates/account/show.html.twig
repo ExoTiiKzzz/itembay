@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ account.name }}
+{% endblock %}
+
+{% block body %}
+    {% if account != app.user.activeAccount  %}
+        {% if account in app.user.activeAccount.followings %}
+            <form action="{{ path('app_remove_friend', {'id': account.id}) }}" method="post">
+                <button type="submit">
+                    Retirer de mes amis
+                </button>
+            </form>
+        {% else %}
+            <form action="{{ path('app_add_friend', {'id': account.id}) }}" method="post">
+                <button type="submit">
+                    Ajouter à mes amis
+                </button>
+            </form>
+        {% endif %}
+
+    {% endif %}
+{% endblock %}
+

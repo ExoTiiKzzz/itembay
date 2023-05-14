@@ -1,0 +1,3583 @@
+[
+    {
+        "id": 1,
+        "name": "Panoplie du Bouftou",
+        "items": [
+            2411,
+            2414,
+            2416,
+            2419,
+            2422,
+            2425,
+            2428
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Panoplie du Kwak de Flammes",
+        "items": [
+            2074,
+            2409,
+            2412,
+            2415,
+            2418,
+            2421,
+            2424,
+            2427
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Panoplie de l'Abraknyde",
+        "items": [
+            2410,
+            2413,
+            2417,
+            2420,
+            2423,
+            2426,
+            2429
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Panoplie du Bouftou Royal",
+        "items": [
+            2438,
+            2440,
+            2441,
+            2442,
+            2443,
+            2444,
+            2445
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Panoplie du Jeune Aventurier",
+        "items": [
+            2473,
+            2474,
+            2475,
+            2476,
+            2477,
+            2478
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Panoplie Gelax",
+        "items": [
+            2446,
+            2447,
+            2469,
+            2470,
+            2471,
+            2472
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Panoplie de Toady",
+        "items": [
+            2640,
+            2641
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Panoplie du Corbac",
+        "items": [
+            2544,
+            2545,
+            2546,
+            6449,
+            7703
+        ]
+    },
+    {
+        "id": 9,
+        "name": "Panoplie Tortue",
+        "items": [
+            2530,
+            2531,
+            2532,
+            7714
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Panoplie Végétatif",
+        "items": [
+            2485,
+            2489,
+            2498
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Panoplie de la Cawotte",
+        "items": [
+            6493,
+            6500,
+            6501
+        ]
+    },
+    {
+        "id": 12,
+        "name": "Panoplie de l'Homme Ours",
+        "items": [
+            6719,
+            6720,
+            6721,
+            6722,
+            6723,
+            6724,
+            6725
+        ]
+    },
+    {
+        "id": 13,
+        "name": "Panoplie du Kwak de Glace",
+        "items": [
+            2075,
+            2534,
+            2535,
+            2537,
+            6731,
+            6732,
+            6750,
+            6753
+        ]
+    },
+    {
+        "id": 14,
+        "name": "Panoplie du Kwak de Terre",
+        "items": [
+            2077,
+            6746,
+            6748,
+            6751,
+            6754,
+            6756,
+            6758,
+            6760
+        ]
+    },
+    {
+        "id": 15,
+        "name": "Panoplie du Kwak du Vent",
+        "items": [
+            2076,
+            6747,
+            6749,
+            6752,
+            6755,
+            6757,
+            6759,
+            6761
+        ]
+    },
+    {
+        "id": 16,
+        "name": "Panoplie Fourbasse",
+        "items": [
+            6742,
+            6743,
+            6745,
+            6762
+        ]
+    },
+    {
+        "id": 17,
+        "name": "Panoplie de Farle Ingalsse",
+        "items": [
+            6766,
+            6767,
+            6769,
+            6774,
+            6775,
+            6776,
+            6778
+        ]
+    },
+    {
+        "id": 18,
+        "name": "Panoplie Champêtre",
+        "items": [
+            6789,
+            6791,
+            6792,
+            6794,
+            6795,
+            6796,
+            6797
+        ]
+    },
+    {
+        "id": 19,
+        "name": "Panoplie du Chef Bwork",
+        "items": [
+            6804,
+            6805,
+            6807,
+            6811,
+            6812,
+            6813
+        ]
+    },
+    {
+        "id": 20,
+        "name": "Panoplie du Chef Crocodaille",
+        "items": [
+            6817,
+            6819,
+            6821,
+            6825,
+            6830,
+            6831,
+            6834
+        ]
+    },
+    {
+        "id": 21,
+        "name": "Panoplie du Sanglier",
+        "items": [
+            6908,
+            6909,
+            6910
+        ]
+    },
+    {
+        "id": 22,
+        "name": "Panoplie Arakne",
+        "items": [
+            6911,
+            6912,
+            6913,
+            6914
+        ]
+    },
+    {
+        "id": 23,
+        "name": "Panoplie Moskito",
+        "items": [
+            6915,
+            6916,
+            6917,
+            6918
+        ]
+    },
+    {
+        "id": 24,
+        "name": "Panoplie Champ Champ",
+        "items": [
+            6919,
+            6920,
+            6921,
+            6922
+        ]
+    },
+    {
+        "id": 25,
+        "name": "Panoplie du Bandit",
+        "items": [
+            6923,
+            6924,
+            6925,
+            6961
+        ]
+    },
+    {
+        "id": 26,
+        "name": "Panoplie du Craqueleur",
+        "items": [
+            6930,
+            6931,
+            6933,
+            6934,
+            6935,
+            6957
+        ]
+    },
+    {
+        "id": 27,
+        "name": "Panoplie du Scarafeuille Vert",
+        "items": [
+            6936,
+            6940,
+            6944,
+            6948
+        ]
+    },
+    {
+        "id": 28,
+        "name": "Panoplie du Scarafeuille Rouge",
+        "items": [
+            6937,
+            6942,
+            6945,
+            6950
+        ]
+    },
+    {
+        "id": 29,
+        "name": "Panoplie du Scarafeuille Blanc",
+        "items": [
+            6938,
+            6943,
+            6946,
+            6949
+        ]
+    },
+    {
+        "id": 30,
+        "name": "Panoplie du Scarafeuille Bleu",
+        "items": [
+            6939,
+            6941,
+            6947,
+            6951
+        ]
+    },
+    {
+        "id": 31,
+        "name": "Panoplie du Prespic",
+        "items": [
+            6926,
+            6927,
+            6928,
+            6929
+        ]
+    },
+    {
+        "id": 32,
+        "name": "Panoplie du Mulou",
+        "items": [
+            6952,
+            6953,
+            6954,
+            6955,
+            6956,
+            8129,
+            8130
+        ]
+    },
+    {
+        "id": 33,
+        "name": "Panoplie Larvesque",
+        "items": [
+            7106,
+            7107,
+            7108,
+            7109,
+            7110
+        ]
+    },
+    {
+        "id": 34,
+        "name": "Panoplie Akwadala",
+        "items": [
+            7226,
+            7230,
+            7238,
+            7242,
+            7246,
+            7250,
+            7254
+        ]
+    },
+    {
+        "id": 35,
+        "name": "Panoplie Aerdala",
+        "items": [
+            7229,
+            7233,
+            7241,
+            7245,
+            7249,
+            7253,
+            7256
+        ]
+    },
+    {
+        "id": 36,
+        "name": "Panoplie Terrdala",
+        "items": [
+            7227,
+            7231,
+            7239,
+            7243,
+            7247,
+            7251,
+            7255
+        ]
+    },
+    {
+        "id": 37,
+        "name": "Panoplie Feudala",
+        "items": [
+            7228,
+            7232,
+            7240,
+            7244,
+            7248,
+            7252,
+            7257
+        ]
+    },
+    {
+        "id": 38,
+        "name": "Panoplie O'Boul",
+        "items": [
+            204,
+            706,
+            7011,
+            7012
+        ]
+    },
+    {
+        "id": 39,
+        "name": "Panoplie d'Elya Wood",
+        "items": [
+            1695,
+            6494,
+            6998,
+            7003
+        ]
+    },
+    {
+        "id": 40,
+        "name": "Panoplie du Wa",
+        "items": [
+            969,
+            970,
+            971
+        ]
+    },
+    {
+        "id": 41,
+        "name": "Panoplie du Kitsou",
+        "items": [
+            7339,
+            7340,
+            7341,
+            7342
+        ]
+    },
+    {
+        "id": 42,
+        "name": "Panoplie Dindo",
+        "items": [
+            7552,
+            7553,
+            7554,
+            7555
+        ]
+    },
+    {
+        "id": 43,
+        "name": "Panoplie du Boufcoul",
+        "items": [
+            7880,
+            7881,
+            7882,
+            7883,
+            7884,
+            7885,
+            7886
+        ]
+    },
+    {
+        "id": 44,
+        "name": "Panoplie du Koulosse",
+        "items": [
+            7887,
+            7888,
+            7889,
+            7890
+        ]
+    },
+    {
+        "id": 45,
+        "name": "Panoplie du Champion",
+        "items": [
+            8067,
+            8068,
+            8069,
+            8070,
+            8071
+        ]
+    },
+    {
+        "id": 46,
+        "name": "Panoplie du Koalak",
+        "items": [
+            7911,
+            8003,
+            8004,
+            8005,
+            8006,
+            8007,
+            8008,
+            8009
+        ]
+    },
+    {
+        "id": 47,
+        "name": "Panoplie du Paysan",
+        "items": [
+            8123,
+            8124,
+            8125,
+            8126,
+            8127,
+            8128,
+            8131
+        ]
+    },
+    {
+        "id": 49,
+        "name": "Panoplie du Scarafeuille Noir",
+        "items": [
+            8132,
+            8133,
+            8134,
+            8136
+        ]
+    },
+    {
+        "id": 50,
+        "name": "Panoplie du Tofu",
+        "items": [
+            8108,
+            8109,
+            8110,
+            8111,
+            8112,
+            8113,
+            8114
+        ]
+    },
+    {
+        "id": 51,
+        "name": "Panoplie Scarabosse Doré",
+        "items": [
+            8116,
+            8117,
+            8118,
+            8119,
+            8120,
+            8121,
+            8122
+        ]
+    },
+    {
+        "id": 52,
+        "name": "Panoplie du Craqueleur Légendaire",
+        "items": [
+            8146,
+            8147,
+            8148,
+            8149,
+            8150,
+            8152,
+            8181
+        ]
+    },
+    {
+        "id": 53,
+        "name": "Panoplie de Shika Ingalsse",
+        "items": [
+            8298,
+            8299,
+            8300,
+            8301,
+            8302,
+            8303,
+            8304
+        ]
+    },
+    {
+        "id": 54,
+        "name": "Panoplie du Minotoror",
+        "items": [
+            707,
+            8268,
+            8269,
+            8274,
+            8276,
+            8279,
+            8282
+        ]
+    },
+    {
+        "id": 55,
+        "name": "Panoplie du Meulou",
+        "items": [
+            8262,
+            8263,
+            8264,
+            8265,
+            8266,
+            8267
+        ]
+    },
+    {
+        "id": 56,
+        "name": "Panoplie du Dragoeuf Vagabond",
+        "items": [
+            8288,
+            8290,
+            8291
+        ]
+    },
+    {
+        "id": 57,
+        "name": "Panoplie du Minotot",
+        "items": [
+            8270,
+            8272,
+            8275,
+            8277,
+            8280,
+            8283,
+            8284
+        ]
+    },
+    {
+        "id": 58,
+        "name": "Panoplie du Dragon Cochon",
+        "items": [
+            2808,
+            8271,
+            8273,
+            8278,
+            8281,
+            8285
+        ]
+    },
+    {
+        "id": 60,
+        "name": "Panoplie du Piou Rouge",
+        "items": [
+            8213,
+            8219,
+            8225,
+            8231,
+            8237,
+            8243
+        ]
+    },
+    {
+        "id": 61,
+        "name": "Panoplie du Piou Bleu",
+        "items": [
+            8214,
+            8220,
+            8226,
+            8232,
+            8238,
+            8244
+        ]
+    },
+    {
+        "id": 62,
+        "name": "Panoplie du Piou Violet",
+        "items": [
+            8215,
+            8221,
+            8227,
+            8234,
+            8239,
+            8245
+        ]
+    },
+    {
+        "id": 63,
+        "name": "Panoplie en Mousse",
+        "items": [
+            8253,
+            8254,
+            8255,
+            8256,
+            8257,
+            8258,
+            8259,
+            18659
+        ]
+    },
+    {
+        "id": 64,
+        "name": "Panoplie Cérémoniale",
+        "items": [
+            8457,
+            8458,
+            8459,
+            8460,
+            8461,
+            8462
+        ]
+    },
+    {
+        "id": 65,
+        "name": "Panoplie Ancestrale",
+        "items": [
+            8463,
+            8464,
+            8465,
+            8466,
+            8467,
+            8468
+        ]
+    },
+    {
+        "id": 66,
+        "name": "Panoplie du Chêne Mou",
+        "items": [
+            8469,
+            8470,
+            8471,
+            8472,
+            8473,
+            8474
+        ]
+    },
+    {
+        "id": 67,
+        "name": "Panoplie du Rat Blanc",
+        "items": [
+            8451,
+            8452,
+            8453,
+            8454,
+            8455,
+            8456
+        ]
+    },
+    {
+        "id": 68,
+        "name": "Panoplie du Rat Noir",
+        "items": [
+            8442,
+            8443,
+            8445,
+            8446,
+            8447,
+            8448
+        ]
+    },
+    {
+        "id": 69,
+        "name": "Panoplie du Boune",
+        "items": [
+            8533,
+            8534,
+            8535,
+            8536,
+            8537,
+            8538
+        ]
+    },
+    {
+        "id": 70,
+        "name": "Panoplie du Piou Rose",
+        "items": [
+            8218,
+            8224,
+            8230,
+            8235,
+            8242,
+            8248
+        ]
+    },
+    {
+        "id": 71,
+        "name": "Panoplie du Piou Vert",
+        "items": [
+            8216,
+            8222,
+            8228,
+            8233,
+            8240,
+            8246
+        ]
+    },
+    {
+        "id": 72,
+        "name": "Panoplie du Piou Jaune",
+        "items": [
+            8217,
+            8223,
+            8229,
+            8236,
+            8241,
+            8247
+        ]
+    },
+    {
+        "id": 77,
+        "name": "Panoplie Vassale",
+        "items": [
+            8819,
+            8845,
+            8858,
+            8874
+        ]
+    },
+    {
+        "id": 78,
+        "name": "Panoplie Souveraine",
+        "items": [
+            8818,
+            8844,
+            8859
+        ]
+    },
+    {
+        "id": 79,
+        "name": "Panoplie Claire",
+        "items": [
+            8822,
+            8835,
+            8869,
+            8871
+        ]
+    },
+    {
+        "id": 80,
+        "name": "Panoplie Sombre",
+        "items": [
+            8823,
+            8834,
+            8870
+        ]
+    },
+    {
+        "id": 81,
+        "name": "Panoplie Téméraire",
+        "items": [
+            8619,
+            8639,
+            8651,
+            8663,
+            8717
+        ]
+    },
+    {
+        "id": 82,
+        "name": "Panoplie du Prince des voleurs",
+        "items": [
+            8636,
+            8648,
+            8660,
+            8714,
+            8728
+        ]
+    },
+    {
+        "id": 83,
+        "name": "Panoplie Altruiste",
+        "items": [
+            8631,
+            8643,
+            8655,
+            8667,
+            8720
+        ]
+    },
+    {
+        "id": 84,
+        "name": "Panoplie de l'Innombrable",
+        "items": [
+            8634,
+            8646,
+            8658,
+            8670,
+            8716
+        ]
+    },
+    {
+        "id": 85,
+        "name": "Panoplie Vénérable",
+        "items": [
+            8638,
+            8650,
+            8662,
+            8719,
+            8726
+        ]
+    },
+    {
+        "id": 86,
+        "name": "Panoplie Intemporelle",
+        "items": [
+            8630,
+            8642,
+            8654,
+            8666,
+            8723
+        ]
+    },
+    {
+        "id": 87,
+        "name": "Panoplie Exsangue",
+        "items": [
+            8633,
+            8645,
+            8657,
+            8669,
+            8725
+        ]
+    },
+    {
+        "id": 88,
+        "name": "Panoplie de Gouttière",
+        "items": [
+            8628,
+            8640,
+            8652,
+            8664,
+            8715
+        ]
+    },
+    {
+        "id": 89,
+        "name": "Panoplie Criminelle",
+        "items": [
+            8629,
+            8641,
+            8653,
+            8665,
+            8722
+        ]
+    },
+    {
+        "id": 90,
+        "name": "Panoplie Sauvage",
+        "items": [
+            8632,
+            8644,
+            8656,
+            8668,
+            8724
+        ]
+    },
+    {
+        "id": 91,
+        "name": "Panoplie Indestructible",
+        "items": [
+            8637,
+            8649,
+            8661,
+            8718,
+            8727
+        ]
+    },
+    {
+        "id": 92,
+        "name": "Panoplie Ethylique",
+        "items": [
+            8635,
+            8647,
+            8659,
+            8713,
+            8721
+        ]
+    },
+    {
+        "id": 93,
+        "name": "Panoplie du Zoth Zotheur",
+        "items": [
+            8826,
+            8846
+        ]
+    },
+    {
+        "id": 94,
+        "name": "Panoplie du Zothuliste",
+        "items": [
+            8837,
+            8848
+        ]
+    },
+    {
+        "id": 95,
+        "name": "Panoplie du Zothicien",
+        "items": [
+            8827,
+            8847
+        ]
+    },
+    {
+        "id": 96,
+        "name": "Panoplie Baveuse",
+        "items": [
+            8824,
+            8864,
+            8865
+        ]
+    },
+    {
+        "id": 97,
+        "name": "Panoplie Ventouse",
+        "items": [
+            8877,
+            8991,
+            9464
+        ]
+    },
+    {
+        "id": 98,
+        "name": "Panoplie Blop Griotte",
+        "items": [
+            9122,
+            9149,
+            9158,
+            9167
+        ]
+    },
+    {
+        "id": 99,
+        "name": "Panoplie Blop Reinette",
+        "items": [
+            9123,
+            9150,
+            9159,
+            9168
+        ]
+    },
+    {
+        "id": 100,
+        "name": "Panoplie Blop Coco",
+        "items": [
+            9124,
+            9151,
+            9160,
+            9169
+        ]
+    },
+    {
+        "id": 101,
+        "name": "Panoplie Blop Indigo",
+        "items": [
+            9125,
+            9152,
+            9161,
+            9170
+        ]
+    },
+    {
+        "id": 102,
+        "name": "Panoplie Blop Griotte Royale",
+        "items": [
+            9126,
+            9153,
+            9162,
+            9171
+        ]
+    },
+    {
+        "id": 103,
+        "name": "Panoplie Blop Reinette Royale",
+        "items": [
+            9127,
+            9154,
+            9163,
+            9172
+        ]
+    },
+    {
+        "id": 104,
+        "name": "Panoplie Blop Coco Royale",
+        "items": [
+            9128,
+            9155,
+            9164,
+            9173
+        ]
+    },
+    {
+        "id": 105,
+        "name": "Panoplie Blop Indigo Royale",
+        "items": [
+            9129,
+            9156,
+            9165,
+            9174
+        ]
+    },
+    {
+        "id": 106,
+        "name": "Panoplie Blop Multicolore Royale",
+        "items": [
+            9148,
+            9157,
+            9166,
+            9175
+        ]
+    },
+    {
+        "id": 107,
+        "name": "Panoplie Tue-Mouche",
+        "items": [
+            9133,
+            9142,
+            9143,
+            9463
+        ]
+    },
+    {
+        "id": 108,
+        "name": "Panoplie du Bworker Berserker",
+        "items": [
+            9176,
+            9177,
+            9179,
+            9180
+        ]
+    },
+    {
+        "id": 109,
+        "name": "Panoplie du Bworker Gladiateur",
+        "items": [
+            9178,
+            9181,
+            9182,
+            9183
+        ]
+    },
+    {
+        "id": 118,
+        "name": "Panoplie Ougah",
+        "items": [
+            7680,
+            9117,
+            9130,
+            9146
+        ]
+    },
+    {
+        "id": 119,
+        "name": "Panoplignon",
+        "items": [
+            9131,
+            9137,
+            9141,
+            9147
+        ]
+    },
+    {
+        "id": 120,
+        "name": "Panoplie des Sous-bois",
+        "items": [
+            9138,
+            9139,
+            9145
+        ]
+    },
+    {
+        "id": 121,
+        "name": "Panoplycélium",
+        "items": [
+            9132,
+            9140,
+            9144
+        ]
+    },
+    {
+        "id": 144,
+        "name": "Panoplie de Grüt",
+        "items": [
+            10623,
+            10624,
+            10625
+        ]
+    },
+    {
+        "id": 145,
+        "name": "Panoplie de Kocksis",
+        "items": [
+            10627,
+            10628,
+            10629
+        ]
+    },
+    {
+        "id": 146,
+        "name": "Panoplie de Gobeuf",
+        "items": [
+            10631,
+            10632,
+            10633
+        ]
+    },
+    {
+        "id": 147,
+        "name": "Panoplie de Laikteur",
+        "items": [
+            10635,
+            10636,
+            10637
+        ]
+    },
+    {
+        "id": 148,
+        "name": "Panoplie de Rekto Topi",
+        "items": [
+            10639,
+            10640,
+            10641
+        ]
+    },
+    {
+        "id": 149,
+        "name": "Panoplie de Grizou",
+        "items": [
+            10643,
+            10644,
+            10645
+        ]
+    },
+    {
+        "id": 150,
+        "name": "Panoplie de l'intrépide",
+        "items": [
+            10784,
+            10785,
+            10794,
+            10797,
+            10798,
+            10799,
+            10800,
+            10801
+        ]
+    },
+    {
+        "id": 151,
+        "name": "Panoplie du Roks Or",
+        "items": [
+            10685,
+            10686,
+            10687,
+            10688,
+            10802
+        ]
+    },
+    {
+        "id": 152,
+        "name": "Panoplie d'Hulkrap",
+        "items": [
+            10847,
+            10849,
+            10852
+        ]
+    },
+    {
+        "id": 153,
+        "name": "Panoplie de Klüme",
+        "items": [
+            10848,
+            10850,
+            10854
+        ]
+    },
+    {
+        "id": 154,
+        "name": "Panoplie de Kloug",
+        "items": [
+            10851,
+            10853,
+            10855
+        ]
+    },
+    {
+        "id": 156,
+        "name": "Panoplie de Rapine",
+        "items": [
+            10963,
+            10964,
+            10965
+        ]
+    },
+    {
+        "id": 158,
+        "name": "Panoplie d'Hectaupe",
+        "items": [
+            10980,
+            10981,
+            10982
+        ]
+    },
+    {
+        "id": 173,
+        "name": "Frimanoplie",
+        "items": [
+            11468,
+            11469,
+            11473,
+            11474
+        ]
+    },
+    {
+        "id": 174,
+        "name": "Panoplie Grésil",
+        "items": [
+            11470,
+            11471,
+            11472,
+            11514
+        ]
+    },
+    {
+        "id": 176,
+        "name": "Panoplie du Royalmouth",
+        "items": [
+            11571,
+            11575,
+            11582,
+            11584
+        ]
+    },
+    {
+        "id": 177,
+        "name": "Panoplie du Mansot Royal",
+        "items": [
+            11572,
+            11577,
+            11580
+        ]
+    },
+    {
+        "id": 178,
+        "name": "Panoplie de Ben le Ripate",
+        "items": [
+            11573,
+            11578,
+            11585,
+            11586
+        ]
+    },
+    {
+        "id": 179,
+        "name": "Panoplie de l'Obsidiantre",
+        "items": [
+            11574,
+            11576,
+            11579,
+            11581,
+            11583
+        ]
+    },
+    {
+        "id": 180,
+        "name": "Panoplie de Grouillot",
+        "items": [
+            11354,
+            11355,
+            11356
+        ]
+    },
+    {
+        "id": 181,
+        "name": "Panoplie de Karotz",
+        "items": [
+            11350,
+            11351,
+            11352
+        ]
+    },
+    {
+        "id": 182,
+        "name": "Panoplie de Rapiat",
+        "items": [
+            11343,
+            11344,
+            11345
+        ]
+    },
+    {
+        "id": 183,
+        "name": "Panoplie de Kubitus",
+        "items": [
+            11358,
+            11359,
+            11360
+        ]
+    },
+    {
+        "id": 184,
+        "name": "Panoplie de Piggy Paupe",
+        "items": [
+            11362,
+            11363,
+            11364
+        ]
+    },
+    {
+        "id": 185,
+        "name": "Panoplie d'Ougicle",
+        "items": [
+            11346,
+            11347,
+            11348
+        ]
+    },
+    {
+        "id": 186,
+        "name": "Panoplie du Tengu Givrefoux",
+        "items": [
+            11707,
+            11708,
+            11709,
+            11710
+        ]
+    },
+    {
+        "id": 187,
+        "name": "Panoplie du Korriandre",
+        "items": [
+            11711,
+            11712,
+            11713,
+            11714
+        ]
+    },
+    {
+        "id": 188,
+        "name": "Panoplie de Kolosso",
+        "items": [
+            11715,
+            11716,
+            11717
+        ]
+    },
+    {
+        "id": 189,
+        "name": "Panoplie Glourséleste",
+        "items": [
+            11718,
+            11719,
+            11720,
+            11721,
+            11722
+        ]
+    },
+    {
+        "id": 193,
+        "name": "Panoplie du Harpirate",
+        "items": [
+            11601,
+            11635
+        ]
+    },
+    {
+        "id": 194,
+        "name": "Panoplie du Kanniboul Ebil",
+        "items": [
+            11977,
+            11979,
+            11982,
+            11983
+        ]
+    },
+    {
+        "id": 195,
+        "name": "Panoplie du Boostache",
+        "items": [
+            11976,
+            11978,
+            11980,
+            11981
+        ]
+    },
+    {
+        "id": 196,
+        "name": "Panoplie du Kwakwa",
+        "items": [
+            12018,
+            12019,
+            12020,
+            12021
+        ]
+    },
+    {
+        "id": 198,
+        "name": "Panoplie de Traçon",
+        "items": [
+            12023,
+            12024,
+            12025
+        ]
+    },
+    {
+        "id": 199,
+        "name": "Panoplie de Mirh",
+        "items": [
+            12027,
+            12028,
+            12029
+        ]
+    },
+    {
+        "id": 201,
+        "name": "Panoplie de Kalkanéus",
+        "items": [
+            12035,
+            12036,
+            12037
+        ]
+    },
+    {
+        "id": 202,
+        "name": "Panoplie d'Hichète",
+        "items": [
+            12039,
+            12040,
+            12041
+        ]
+    },
+    {
+        "id": 203,
+        "name": "Panoplie d'Haku",
+        "items": [
+            12043,
+            12044,
+            12045
+        ]
+    },
+    {
+        "id": 204,
+        "name": "Panoplie de Nelween",
+        "items": [
+            12069,
+            12070,
+            12071,
+            12072
+        ]
+    },
+    {
+        "id": 205,
+        "name": "Panoplie Moutheuze",
+        "items": [
+            12084,
+            12085,
+            12086,
+            12087
+        ]
+    },
+    {
+        "id": 206,
+        "name": "Panoplie de Frigostine",
+        "items": [
+            12088,
+            12089,
+            12090,
+            12091,
+            12092
+        ]
+    },
+    {
+        "id": 207,
+        "name": "Panoplie de Cantile",
+        "items": [
+            12093,
+            12094,
+            12095,
+            12096
+        ]
+    },
+    {
+        "id": 208,
+        "name": "Panoplie des Prophètes",
+        "items": [
+            12097,
+            12098,
+            12099
+        ]
+    },
+    {
+        "id": 209,
+        "name": "Panoplie de Guten Tak",
+        "items": [
+            12100,
+            12101,
+            12102,
+            12103
+        ]
+    },
+    {
+        "id": 210,
+        "name": "Panoplie de Boréale",
+        "items": [
+            12104,
+            12105,
+            12106,
+            12107
+        ]
+    },
+    {
+        "id": 211,
+        "name": "Panoplie du Professeur Xa",
+        "items": [
+            12108,
+            12109,
+            12110,
+            12111,
+            12112
+        ]
+    },
+    {
+        "id": 212,
+        "name": "Panoplie Gloursonne",
+        "items": [
+            12113,
+            12114,
+            12115
+        ]
+    },
+    {
+        "id": 213,
+        "name": "Panoplie de la Fuji Givrefoux",
+        "items": [
+            12117,
+            12118,
+            12119,
+            12120
+        ]
+    },
+    {
+        "id": 214,
+        "name": "Panoplie de Nowel",
+        "items": [
+            8333,
+            8334
+        ]
+    },
+    {
+        "id": 215,
+        "name": "Panoplie du Gorgouille",
+        "items": [
+            12370,
+            12371,
+            12372,
+            12373
+        ]
+    },
+    {
+        "id": 217,
+        "name": "Panoplie Explosive",
+        "items": [
+            12385,
+            12387,
+            12389,
+            12391,
+            12393
+        ]
+    },
+    {
+        "id": 218,
+        "name": "Panoplie Lunatique",
+        "items": [
+            12386,
+            12388,
+            12390,
+            12392,
+            12394
+        ]
+    },
+    {
+        "id": 219,
+        "name": "Panoplie du Vulkain",
+        "items": [
+            12409,
+            12410,
+            12411,
+            12414,
+            12417
+        ]
+    },
+    {
+        "id": 220,
+        "name": "Panoplie du Krokilleur",
+        "items": [
+            12407,
+            12413,
+            12415
+        ]
+    },
+    {
+        "id": 221,
+        "name": "Panoplie de Grozilla",
+        "items": [
+            12408,
+            12412,
+            12416,
+            12418
+        ]
+    },
+    {
+        "id": 226,
+        "name": "Panoplie HispaÑique",
+        "items": [
+            12615,
+            12616,
+            12617
+        ]
+    },
+    {
+        "id": 229,
+        "name": "Panoplie de Daïgoro",
+        "items": [
+            12674,
+            12675,
+            12676,
+            12677
+        ]
+    },
+    {
+        "id": 232,
+        "name": "Panoplie du Glutin",
+        "items": [
+            12848,
+            12849,
+            12850,
+            12851
+        ]
+    },
+    {
+        "id": 233,
+        "name": "Panoplie de Redolphe",
+        "items": [
+            12856,
+            12857,
+            12858,
+            12859
+        ]
+    },
+    {
+        "id": 234,
+        "name": "Panoplie du Nowel Cauchemardesque",
+        "items": [
+            12852,
+            12853,
+            12854,
+            12855
+        ]
+    },
+    {
+        "id": 239,
+        "name": "Panoplie des Anciens Chafers",
+        "items": [
+            13091,
+            13092,
+            13093,
+            13094
+        ]
+    },
+    {
+        "id": 240,
+        "name": "Panoplie de Brouce Boulgoure",
+        "items": [
+            13114,
+            13115,
+            13116
+        ]
+    },
+    {
+        "id": 241,
+        "name": "Panoplie d'Otomaï",
+        "items": [
+            13117,
+            13118,
+            13119
+        ]
+    },
+    {
+        "id": 242,
+        "name": "Panoplie de Danathor",
+        "items": [
+            13120,
+            13121,
+            13122
+        ]
+    },
+    {
+        "id": 243,
+        "name": "Panoplie d'Allister",
+        "items": [
+            13123,
+            13124,
+            13125
+        ]
+    },
+    {
+        "id": 244,
+        "name": "Panoplie de Léthaline",
+        "items": [
+            13127,
+            13128,
+            13129
+        ]
+    },
+    {
+        "id": 245,
+        "name": "Panoplie d'Ogivol",
+        "items": [
+            13130,
+            13131,
+            13132
+        ]
+    },
+    {
+        "id": 246,
+        "name": "Panoplie Coffre",
+        "items": [
+            13136,
+            13137,
+            13138,
+            13139
+        ]
+    },
+    {
+        "id": 250,
+        "name": "Panoplie Submersible",
+        "items": [
+            13261,
+            13262,
+            13263,
+            13264,
+            13265
+        ]
+    },
+    {
+        "id": 252,
+        "name": "Panoplitrouille",
+        "items": [
+            13326,
+            13327,
+            13328,
+            13329
+        ]
+    },
+    {
+        "id": 255,
+        "name": "Panoplie Rose",
+        "items": [
+            9366,
+            13582
+        ]
+    },
+    {
+        "id": 256,
+        "name": "Panoplie d'Henual",
+        "items": [
+            13629,
+            13630,
+            13631
+        ]
+    },
+    {
+        "id": 257,
+        "name": "Panoplie d'Oshimo",
+        "items": [
+            13632,
+            13633,
+            13634
+        ]
+    },
+    {
+        "id": 258,
+        "name": "Panoplie de Nevark",
+        "items": [
+            13635,
+            13636,
+            13637
+        ]
+    },
+    {
+        "id": 259,
+        "name": "Panoplie de Théodoran Ax",
+        "items": [
+            13638,
+            13639,
+            13640
+        ]
+    },
+    {
+        "id": 260,
+        "name": "Panoplie de Padgref",
+        "items": [
+            13641,
+            13642,
+            13643
+        ]
+    },
+    {
+        "id": 261,
+        "name": "Panoplie d'Hel Munster",
+        "items": [
+            13644,
+            13645,
+            13646
+        ]
+    },
+    {
+        "id": 262,
+        "name": "Panoplie d'Aermyne",
+        "items": [
+            13647,
+            13648,
+            13649
+        ]
+    },
+    {
+        "id": 264,
+        "name": "Panoplie du Frelon Noir",
+        "items": [
+            13850,
+            13851
+        ]
+    },
+    {
+        "id": 266,
+        "name": "Panoplie Infernale",
+        "items": [
+            11971,
+            14002,
+            14006
+        ]
+    },
+    {
+        "id": 267,
+        "name": "Panoplie Fluviale",
+        "items": [
+            11950,
+            14003,
+            14007
+        ]
+    },
+    {
+        "id": 268,
+        "name": "Panoplie Contrebandière",
+        "items": [
+            11955,
+            14004,
+            14008
+        ]
+    },
+    {
+        "id": 269,
+        "name": "Panoplie Meurtrière",
+        "items": [
+            11966,
+            14005,
+            14009
+        ]
+    },
+    {
+        "id": 270,
+        "name": "Panoplie du Comte Harebourg",
+        "items": [
+            14076,
+            14077,
+            14078
+        ]
+    },
+    {
+        "id": 271,
+        "name": "Panoplie Séculaire",
+        "items": [
+            14079,
+            14080,
+            14081
+        ]
+    },
+    {
+        "id": 272,
+        "name": "Panoplie Cryochrone",
+        "items": [
+            14088,
+            14089,
+            14090
+        ]
+    },
+    {
+        "id": 273,
+        "name": "Panoplie du Cycloïde",
+        "items": [
+            14091,
+            14092,
+            14093
+        ]
+    },
+    {
+        "id": 274,
+        "name": "Panoplie du Strigide",
+        "items": [
+            14094,
+            14095,
+            14096
+        ]
+    },
+    {
+        "id": 275,
+        "name": "Panoplie du Sinistrofu",
+        "items": [
+            14085,
+            14086,
+            14087
+        ]
+    },
+    {
+        "id": 276,
+        "name": "Panoplie du Granduk",
+        "items": [
+            14082,
+            14083,
+            14084
+        ]
+    },
+    {
+        "id": 277,
+        "name": "Panoplie du Nocturlabe",
+        "items": [
+            14097,
+            14098,
+            14099
+        ]
+    },
+    {
+        "id": 278,
+        "name": "Panoplie de Klime",
+        "items": [
+            14050,
+            14051,
+            14052
+        ]
+    },
+    {
+        "id": 279,
+        "name": "Panoplie Vicieuse",
+        "items": [
+            14053,
+            14054,
+            14056
+        ]
+    },
+    {
+        "id": 280,
+        "name": "Panoplie Glaciale",
+        "items": [
+            14057,
+            14058,
+            14059
+        ]
+    },
+    {
+        "id": 281,
+        "name": "Panoplie de Missiz Frizz",
+        "items": [
+            14060,
+            14061,
+            14062
+        ]
+    },
+    {
+        "id": 282,
+        "name": "Panoplie de Nileza",
+        "items": [
+            14064,
+            14065,
+            14066
+        ]
+    },
+    {
+        "id": 283,
+        "name": "Panoplie Instable",
+        "items": [
+            14067,
+            14068,
+            14069
+        ]
+    },
+    {
+        "id": 284,
+        "name": "Panoplie de Sylargh",
+        "items": [
+            14070,
+            14071,
+            14072
+        ]
+    },
+    {
+        "id": 285,
+        "name": "Panoplie du Kanimate",
+        "items": [
+            14073,
+            14074,
+            14075
+        ]
+    },
+    {
+        "id": 286,
+        "name": "Panoplie de Maître Nabur",
+        "items": [
+            7034,
+            14277
+        ]
+    },
+    {
+        "id": 287,
+        "name": "Panoplie Magmatique",
+        "items": [
+            14281,
+            14283,
+            14285
+        ]
+    },
+    {
+        "id": 288,
+        "name": "Panoplie Quartzésienne",
+        "items": [
+            14286,
+            14287,
+            14288
+        ]
+    },
+    {
+        "id": 293,
+        "name": "Panoplie du Wabbit",
+        "items": [
+            6492,
+            6498,
+            6499
+        ]
+    },
+    {
+        "id": 294,
+        "name": "Panoplie du Wa Wobot",
+        "items": [
+            14491,
+            14492,
+            14493
+        ]
+    },
+    {
+        "id": 295,
+        "name": "Panoplie du Blanc Pa Wabbit",
+        "items": [
+            14494,
+            14495,
+            14496
+        ]
+    },
+    {
+        "id": 296,
+        "name": "Panoplie du Wabbit Céphale",
+        "items": [
+            14497,
+            14498,
+            14499
+        ]
+    },
+    {
+        "id": 297,
+        "name": "Panoplie du Wabbit Garou",
+        "items": [
+            14500,
+            14501,
+            14502
+        ]
+    },
+    {
+        "id": 299,
+        "name": "Panoplie Dramatik",
+        "items": [
+            14579,
+            14580,
+            14581
+        ]
+    },
+    {
+        "id": 300,
+        "name": "Panoplie Talienne",
+        "items": [
+            14582,
+            14583,
+            14584
+        ]
+    },
+    {
+        "id": 313,
+        "name": "Panoplie Engloutie",
+        "items": [
+            14637,
+            14638,
+            14639,
+            14640
+        ]
+    },
+    {
+        "id": 318,
+        "name": "Pikoplie",
+        "items": [
+            14880,
+            14881,
+            14882
+        ]
+    },
+    {
+        "id": 319,
+        "name": "Panoplie du Cartographe",
+        "items": [
+            14883,
+            14884,
+            14885
+        ]
+    },
+    {
+        "id": 320,
+        "name": "Panoplie des Abysses",
+        "items": [
+            14877,
+            14878,
+            14879
+        ]
+    },
+    {
+        "id": 321,
+        "name": "Panoplie Obscure",
+        "items": [
+            14929,
+            14930,
+            14931
+        ]
+    },
+    {
+        "id": 322,
+        "name": "Panoplie d'Ombre",
+        "items": [
+            14932,
+            14933,
+            14934
+        ]
+    },
+    {
+        "id": 323,
+        "name": "Panoplie du Père Fwetar",
+        "items": [
+            15009,
+            15010,
+            15011
+        ]
+    },
+    {
+        "id": 324,
+        "name": "Panoplie de Flèche Mauve",
+        "items": [
+            15012,
+            15013,
+            15014
+        ]
+    },
+    {
+        "id": 325,
+        "name": "Panoplie d'Ambi Guman",
+        "items": [
+            15015,
+            15016,
+            15017
+        ]
+    },
+    {
+        "id": 326,
+        "name": "Panoplie du Kaniblou",
+        "items": [
+            15059,
+            15060,
+            15061
+        ]
+    },
+    {
+        "id": 327,
+        "name": "Panoplie de l'Orfélin",
+        "items": [
+            15062,
+            15063,
+            15064
+        ]
+    },
+    {
+        "id": 330,
+        "name": "Panoplie du Barbétoal",
+        "items": [
+            15183,
+            15184,
+            15185
+        ]
+    },
+    {
+        "id": 331,
+        "name": "Panoplie de Nidas",
+        "items": [
+            15186,
+            15187,
+            15188
+        ]
+    },
+    {
+        "id": 332,
+        "name": "Panoplie du Piloztère",
+        "items": [
+            15189,
+            15190,
+            15191
+        ]
+    },
+    {
+        "id": 333,
+        "name": "Panoplie du Lévitrof",
+        "items": [
+            15192,
+            15193,
+            15194
+        ]
+    },
+    {
+        "id": 334,
+        "name": "Panoplie du Kamasterisk",
+        "items": [
+            15195,
+            15196,
+            15197
+        ]
+    },
+    {
+        "id": 335,
+        "name": "Panoplie Phossile",
+        "items": [
+            15198,
+            15199,
+            15200
+        ]
+    },
+    {
+        "id": 336,
+        "name": "Panoplie du Père Phorreur",
+        "items": [
+            15201,
+            15202,
+            15203
+        ]
+    },
+    {
+        "id": 337,
+        "name": "Panoplie Précieuse",
+        "items": [
+            15207,
+            15208,
+            15210
+        ]
+    },
+    {
+        "id": 338,
+        "name": "Panoplie du Berserkoffre",
+        "items": [
+            15212,
+            15213,
+            15215
+        ]
+    },
+    {
+        "id": 340,
+        "name": "Panoplie Truche",
+        "items": [
+            15356,
+            15357,
+            15358
+        ]
+    },
+    {
+        "id": 341,
+        "name": "Gruchoplie",
+        "items": [
+            15359,
+            15360,
+            15361
+        ]
+    },
+    {
+        "id": 342,
+        "name": "Panoplie de la Cour Sombre",
+        "items": [
+            15428,
+            15429,
+            15430
+        ]
+    },
+    {
+        "id": 343,
+        "name": "Panoplie de Gein",
+        "items": [
+            15431,
+            15432,
+            15433
+        ]
+    },
+    {
+        "id": 344,
+        "name": "Panoplie de la Reine des Voleurs",
+        "items": [
+            15434,
+            15435,
+            15436
+        ]
+    },
+    {
+        "id": 345,
+        "name": "Panoplie des Malveilleurs",
+        "items": [
+            15437,
+            15438,
+            15439
+        ]
+    },
+    {
+        "id": 346,
+        "name": "Panoplie du Katcheur",
+        "items": [
+            15440,
+            15441,
+            15442
+        ]
+    },
+    {
+        "id": 347,
+        "name": "Panoplie Nécrotique",
+        "items": [
+            15499,
+            15500,
+            15501
+        ]
+    },
+    {
+        "id": 348,
+        "name": "Panoplie de Dremoan",
+        "items": [
+            15502,
+            15503,
+            15504
+        ]
+    },
+    {
+        "id": 350,
+        "name": "Panoplie du Capitaine Ekarlatte",
+        "items": [
+            15506,
+            15507,
+            15508
+        ]
+    },
+    {
+        "id": 351,
+        "name": "Panoplie d'Ali Grothor",
+        "items": [
+            15514,
+            15518,
+            15523
+        ]
+    },
+    {
+        "id": 352,
+        "name": "Panoplie de Frakacia Leukocytine",
+        "items": [
+            15524,
+            15525,
+            15526
+        ]
+    },
+    {
+        "id": 354,
+        "name": "Panoplibou",
+        "items": [
+            15737,
+            15738,
+            15739
+        ]
+    },
+    {
+        "id": 355,
+        "name": "Panoplie des égarés",
+        "items": [
+            15740,
+            15741,
+            15742
+        ]
+    },
+    {
+        "id": 356,
+        "name": "Panoplie de Vortex",
+        "items": [
+            15743,
+            15744,
+            15745
+        ]
+    },
+    {
+        "id": 357,
+        "name": "Harpinoplie",
+        "items": [
+            15746,
+            15747,
+            15748
+        ]
+    },
+    {
+        "id": 358,
+        "name": "Panoplie Pnose",
+        "items": [
+            15749,
+            15750,
+            15751
+        ]
+    },
+    {
+        "id": 359,
+        "name": "Panoplie de XLII",
+        "items": [
+            15762,
+            15764,
+            15768
+        ]
+    },
+    {
+        "id": 360,
+        "name": "Panoplie de Soissanth",
+        "items": [
+            15771,
+            15773,
+            15776
+        ]
+    },
+    {
+        "id": 361,
+        "name": "Panoplie de Fraktale",
+        "items": [
+            15778,
+            15780,
+            15783
+        ]
+    },
+    {
+        "id": 362,
+        "name": "Panoplie Xélomorphe",
+        "items": [
+            15784,
+            15789,
+            15791
+        ]
+    },
+    {
+        "id": 363,
+        "name": "Panoplie Fouduglen",
+        "items": [
+            15794,
+            15795,
+            15796
+        ]
+    },
+    {
+        "id": 364,
+        "name": "Microplie",
+        "items": [
+            15992,
+            15993,
+            15994,
+            15995
+        ]
+    },
+    {
+        "id": 365,
+        "name": "Panoplie Palliative",
+        "items": [
+            15996,
+            15997,
+            15998
+        ]
+    },
+    {
+        "id": 366,
+        "name": "Panoplie de la Voleuse",
+        "items": [
+            15999,
+            16003,
+            16004
+        ]
+    },
+    {
+        "id": 367,
+        "name": "Panoplie des Fonds marins",
+        "items": [
+            16005,
+            16006,
+            16007
+        ]
+    },
+    {
+        "id": 370,
+        "name": "Panoplie Transcendante",
+        "items": [
+            16140,
+            16141,
+            16142,
+            16143,
+            16144
+        ]
+    },
+    {
+        "id": 371,
+        "name": "Panoplie de la Tisseuse",
+        "items": [
+            16173,
+            16174,
+            16175
+        ]
+    },
+    {
+        "id": 372,
+        "name": "Panoplie de la Pondeuse",
+        "items": [
+            16176,
+            16177,
+            16178
+        ]
+    },
+    {
+        "id": 373,
+        "name": "Panoplie Invisible",
+        "items": [
+            16171,
+            16172,
+            19116
+        ]
+    },
+    {
+        "id": 375,
+        "name": "Panoplie de Kardorim",
+        "items": [
+            16500,
+            16501,
+            16502
+        ]
+    },
+    {
+        "id": 376,
+        "name": "Panoplie des Âmes",
+        "items": [
+            16503,
+            16504,
+            16505
+        ]
+    },
+    {
+        "id": 378,
+        "name": "Panoplie du Capitaine Pirate",
+        "items": [
+            17109,
+            17110,
+            17111
+        ]
+    },
+    {
+        "id": 379,
+        "name": "Panoplie de Moon",
+        "items": [
+            17092,
+            17093,
+            17094
+        ]
+    },
+    {
+        "id": 380,
+        "name": "Panoplie de Zatoïshwan",
+        "items": [
+            17098,
+            17099,
+            17100
+        ]
+    },
+    {
+        "id": 381,
+        "name": "Panoplie du Bretteur Céleste",
+        "items": [
+            17095,
+            17096,
+            17097
+        ]
+    },
+    {
+        "id": 382,
+        "name": "Panoplie du K.O.",
+        "items": [
+            17119,
+            17120,
+            17121
+        ]
+    },
+    {
+        "id": 383,
+        "name": "Panoplie de Voldelor",
+        "items": [
+            17103,
+            17104,
+            17105
+        ]
+    },
+    {
+        "id": 384,
+        "name": "Panoplie de Kongoku",
+        "items": [
+            17106,
+            17107,
+            17108
+        ]
+    },
+    {
+        "id": 391,
+        "name": "Panoplie du Chasseur Embusqué",
+        "items": [
+            6744,
+            6763,
+            6764
+        ]
+    },
+    {
+        "id": 392,
+        "name": "Panoplie Quadramentale",
+        "items": [
+            17448,
+            17449,
+            17450,
+            17451,
+            17452
+        ]
+    },
+    {
+        "id": 402,
+        "name": "Panoplie du Roi Joueur",
+        "items": [
+            17572,
+            17573,
+            17574
+        ]
+    },
+    {
+        "id": 403,
+        "name": "Panoplie de la Dame du Hasard",
+        "items": [
+            17575,
+            17576,
+            17577
+        ]
+    },
+    {
+        "id": 404,
+        "name": "Panoplie du Chalœil",
+        "items": [
+            17578,
+            17579,
+            17580
+        ]
+    },
+    {
+        "id": 405,
+        "name": "Panoplie du Valet Veinard",
+        "items": [
+            17581,
+            17582,
+            17583
+        ]
+    },
+    {
+        "id": 406,
+        "name": "Panoplie d'Atcham",
+        "items": [
+            17584,
+            17585,
+            17586
+        ]
+    },
+    {
+        "id": 407,
+        "name": "Panoplie de Ush",
+        "items": [
+            17587,
+            17588,
+            17589
+        ]
+    },
+    {
+        "id": 408,
+        "name": "Panoplie des Matougarous",
+        "items": [
+            17590,
+            17591,
+            17592
+        ]
+    },
+    {
+        "id": 409,
+        "name": "Panoplie du Pounicheur",
+        "items": [
+            17593,
+            17594,
+            17595
+        ]
+    },
+    {
+        "id": 410,
+        "name": "Panoplie des Ecaflipuces",
+        "items": [
+            17596,
+            17597,
+            17598
+        ]
+    },
+    {
+        "id": 413,
+        "name": "Poulplie",
+        "items": [
+            18019,
+            18020,
+            18021
+        ]
+    },
+    {
+        "id": 414,
+        "name": "Panoplie Trithon",
+        "items": [
+            18029,
+            18030,
+            18031
+        ]
+    },
+    {
+        "id": 415,
+        "name": "Panoplie de Meno",
+        "items": [
+            18022,
+            18023,
+            18024
+        ]
+    },
+    {
+        "id": 416,
+        "name": "Panoplie de l'Indicible",
+        "items": [
+            18025,
+            18026,
+            18028
+        ]
+    },
+    {
+        "id": 417,
+        "name": "Panoplie Luminescente",
+        "items": [
+            18032,
+            18033,
+            18034
+        ]
+    },
+    {
+        "id": 418,
+        "name": "Panoplie de R'lyugluglu",
+        "items": [
+            18035,
+            18036,
+            18037
+        ]
+    },
+    {
+        "id": 420,
+        "name": "Panoplie Ouroboulos",
+        "items": [
+            18423,
+            18424,
+            18425
+        ]
+    },
+    {
+        "id": 421,
+        "name": "Panoplie du Désert",
+        "items": [
+            18426,
+            18427,
+            18428
+        ]
+    },
+    {
+        "id": 422,
+        "name": "Panoplie Cacterre",
+        "items": [
+            18431,
+            18432,
+            18433
+        ]
+    },
+    {
+        "id": 423,
+        "name": "Panoplie d'El Piko",
+        "items": [
+            18434,
+            18435,
+            18436
+        ]
+    },
+    {
+        "id": 426,
+        "name": "Vernoplie",
+        "items": [
+            18584,
+            18585,
+            18586
+        ]
+    },
+    {
+        "id": 427,
+        "name": "Pernoplie",
+        "items": [
+            18587,
+            18588,
+            18589
+        ]
+    },
+    {
+        "id": 428,
+        "name": "Panoplie de Tal Kasha",
+        "items": [
+            18590,
+            18591,
+            18592
+        ]
+    },
+    {
+        "id": 429,
+        "name": "Panoplistik",
+        "items": [
+            18593,
+            18594,
+            18595
+        ]
+    },
+    {
+        "id": 430,
+        "name": "Panoplie Enragée",
+        "items": [
+            18615,
+            18616,
+            18617,
+            18621,
+            18622
+        ]
+    },
+    {
+        "id": 432,
+        "name": "Panoplie du Comte Razof",
+        "items": [
+            18774,
+            18775,
+            18776
+        ]
+    },
+    {
+        "id": 433,
+        "name": "Panoplie des Chassouilleurs",
+        "items": [
+            18777,
+            18778,
+            18779
+        ]
+    },
+    {
+        "id": 435,
+        "name": "Panoplie d'Anerice",
+        "items": [
+            19075,
+            19076,
+            19077
+        ]
+    },
+    {
+        "id": 436,
+        "name": "Panoplie de la Goule",
+        "items": [
+            19078,
+            19079,
+            19080
+        ]
+    },
+    {
+        "id": 437,
+        "name": "Panoplie du Scorbute",
+        "items": [
+            19081,
+            19082,
+            19083
+        ]
+    },
+    {
+        "id": 438,
+        "name": "Panoplie de Choudini",
+        "items": [
+            19084,
+            19085,
+            19086
+        ]
+    },
+    {
+        "id": 439,
+        "name": "Panoplie Riktus",
+        "items": [
+            19087,
+            19088,
+            19089
+        ]
+    },
+    {
+        "id": 440,
+        "name": "Panoplie du Muloubar",
+        "items": [
+            19090,
+            19091,
+            19092
+        ]
+    },
+    {
+        "id": 444,
+        "name": "Panoplie du Cœur Vaillant",
+        "items": [
+            19241,
+            19242,
+            19243
+        ]
+    },
+    {
+        "id": 445,
+        "name": "Panoplie du Cœur Saignant",
+        "items": [
+            19244,
+            19245,
+            19246
+        ]
+    },
+    {
+        "id": 446,
+        "name": "Panoplie de l'Esprit Salvateur",
+        "items": [
+            19247,
+            19248,
+            19249
+        ]
+    },
+    {
+        "id": 447,
+        "name": "Panoplie de l'Esprit Malsain",
+        "items": [
+            19250,
+            19251,
+            19252
+        ]
+    },
+    {
+        "id": 448,
+        "name": "Panoplie de l'Œil Attentif",
+        "items": [
+            19253,
+            19254,
+            19255
+        ]
+    },
+    {
+        "id": 449,
+        "name": "Panoplie de l'Œil Putride",
+        "items": [
+            19256,
+            19257,
+            19258
+        ]
+    },
+    {
+        "id": 450,
+        "name": "Panoplie d'Ilyzaelle",
+        "items": [
+            19261,
+            19262,
+            19263
+        ]
+    },
+    {
+        "id": 451,
+        "name": "Panoplie Brûlâme",
+        "items": [
+            19264,
+            19265,
+            19266
+        ]
+    },
+    {
+        "id": 453,
+        "name": "Panoplie Ardente",
+        "items": [
+            19585,
+            19586,
+            19589
+        ]
+    },
+    {
+        "id": 454,
+        "name": "Panoplie Volcanique",
+        "items": [
+            19590,
+            19591,
+            19592
+        ]
+    },
+    {
+        "id": 455,
+        "name": "Panoplie Submergée",
+        "items": [
+            19599,
+            19600,
+            19601
+        ]
+    },
+    {
+        "id": 456,
+        "name": "Panoplie de Bethel",
+        "items": [
+            19602,
+            19603,
+            19604
+        ]
+    },
+    {
+        "id": 458,
+        "name": "Grithriloplie",
+        "items": [
+            19976,
+            19977,
+            19978
+        ]
+    },
+    {
+        "id": 459,
+        "name": "Panoplie Martegel",
+        "items": [
+            19979,
+            19980,
+            19981
+        ]
+    },
+    {
+        "id": 460,
+        "name": "Panoplie Volkorne",
+        "items": [
+            19982,
+            19983,
+            19984,
+            19985
+        ]
+    },
+    {
+        "id": 466,
+        "name": "Panoplie du Vampyre maudit",
+        "items": [
+            10054,
+            10055,
+            10056,
+            10058,
+            10061,
+            10102
+        ]
+    },
+    {
+        "id": 467,
+        "name": "Panoplie Paztek",
+        "items": [
+            20463,
+            20464,
+            20465
+        ]
+    },
+    {
+        "id": 468,
+        "name": "Panoplie des Chocomanciens",
+        "items": [
+            20924,
+            20925,
+            20926
+        ]
+    },
+    {
+        "id": 469,
+        "name": "Panoplie du Mawabouaino",
+        "items": [
+            20850,
+            20851,
+            20852
+        ]
+    },
+    {
+        "id": 470,
+        "name": "Panoplie Croquante",
+        "items": [
+            20981,
+            20982,
+            20983
+        ]
+    },
+    {
+        "id": 471,
+        "name": "Panoplie Lunaire",
+        "items": [
+            21226,
+            21227,
+            21228
+        ]
+    },
+    {
+        "id": 472,
+        "name": "Panoplie de Torkélonia",
+        "items": [
+            21229,
+            21230,
+            21235
+        ]
+    },
+    {
+        "id": 473,
+        "name": "Panoplie du Dragoeuf Cuirassé",
+        "items": [
+            8286,
+            8287,
+            8289
+        ]
+    },
+    {
+        "id": 474,
+        "name": "Panoplie de Misère",
+        "items": [
+            22186,
+            22187,
+            22188
+        ]
+    },
+    {
+        "id": 475,
+        "name": "Panoplie de Guerre",
+        "items": [
+            22189,
+            22190,
+            22191
+        ]
+    },
+    {
+        "id": 476,
+        "name": "Panoplie de Servitude",
+        "items": [
+            22200,
+            22201,
+            22202
+        ]
+    },
+    {
+        "id": 477,
+        "name": "Panoplie de Corruption",
+        "items": [
+            22205,
+            22206,
+            22209
+        ]
+    },
+    {
+        "id": 478,
+        "name": "Panoplie Plantala",
+        "items": [
+            23254,
+            23256,
+            23258
+        ]
+    },
+    {
+        "id": 481,
+        "name": "Panoplie Kwapa",
+        "items": [
+            23253,
+            23255,
+            23257
+        ]
+    },
+    {
+        "id": 482,
+        "name": "Panoplie Kozaru",
+        "items": [
+            23262,
+            23264,
+            23266
+        ]
+    },
+    {
+        "id": 483,
+        "name": "Panoplie Tanuki",
+        "items": [
+            23261,
+            23263,
+            23265
+        ]
+    },
+    {
+        "id": 484,
+        "name": "Panoplie Firefoux",
+        "items": [
+            23269,
+            23271,
+            23273
+        ]
+    },
+    {
+        "id": 485,
+        "name": "Panoplie des Tombeaux",
+        "items": [
+            23622,
+            23623,
+            23624
+        ]
+    },
+    {
+        "id": 486,
+        "name": "Panoplie de Brume",
+        "items": [
+            23618,
+            23619,
+            23620
+        ]
+    },
+    {
+        "id": 488,
+        "name": "Panoplie du Wukin",
+        "items": [
+            24022,
+            24023,
+            24024
+        ]
+    },
+    {
+        "id": 489,
+        "name": "Panoplie du Wukang",
+        "items": [
+            24026,
+            24027,
+            24028
+        ]
+    },
+    {
+        "id": 491,
+        "name": "Panoplie de Wulan",
+        "items": [
+            24029,
+            24030,
+            24031
+        ]
+    },
+    {
+        "id": 495,
+        "name": "Panoplie Possédée",
+        "items": [
+            25214,
+            25215,
+            25216
+        ]
+    },
+    {
+        "id": 496,
+        "name": "Panoplie du Pandamonium",
+        "items": [
+            25217,
+            25218,
+            25219
+        ]
+    },
+    {
+        "id": 498,
+        "name": "Panoplie des Ravageurs",
+        "items": [
+            26006,
+            26007,
+            26008
+        ]
+    },
+    {
+        "id": 499,
+        "name": "Reliques de l'Aurore Pourpre",
+        "items": [
+            26018,
+            26019,
+            26020,
+            26021,
+            26022,
+            26023
+        ]
+    },
+    {
+        "id": 500,
+        "name": "Panoplie des Malters",
+        "items": [
+            26308,
+            26309,
+            26310
+        ]
+    },
+    {
+        "id": 501,
+        "name": "Panoplie d'Hell Mina",
+        "items": [
+            26311,
+            26313,
+            26314
+        ]
+    },
+    {
+        "id": 502,
+        "name": "Panoplie du Directeur Grunob",
+        "items": [
+            26336,
+            26337,
+            26343,
+            26344
+        ]
+    },
+    {
+        "id": 504,
+        "name": "Panoplie du Touitcheur",
+        "items": [
+            27314,
+            27315,
+            27316,
+            27317
+        ]
+    },
+    {
+        "id": 505,
+        "name": "Panoplie Ankarton",
+        "items": [
+            27265,
+            27266,
+            27267,
+            27268,
+            27278,
+            27280,
+            27282,
+            27284
+        ]
+    },
+    {
+        "id": 507,
+        "name": "Malédiction de Cire Momore",
+        "items": [
+            27510,
+            27511,
+            27512,
+            27513,
+            27514,
+            27515
+        ]
+    },
+    {
+        "id": 508,
+        "name": "Panoplie des Rebelles",
+        "items": [
+            27522,
+            27523,
+            27524
+        ]
+    },
+    {
+        "id": 509,
+        "name": "Panoplie de Rakoopeur",
+        "items": [
+            27527,
+            27529,
+            27530
+        ]
+    },
+    {
+        "id": 510,
+        "name": "Panoplie Clochecuivre",
+        "items": [
+            27525,
+            27526,
+            27528
+        ]
+    },
+    {
+        "id": 511,
+        "name": "Panoplie de guerrier albueran",
+        "items": [
+            27531,
+            27532,
+            27533
+        ]
+    },
+    {
+        "id": 512,
+        "name": "Panoplie de trappeur albueran",
+        "items": [
+            27534,
+            27535,
+            27536
+        ]
+    },
+    {
+        "id": 513,
+        "name": "Panoplie de Barbéryl",
+        "items": [
+            27541,
+            27542,
+            27543
+        ]
+    },
+    {
+        "id": 514,
+        "name": "Maléfices d'Ephedrya",
+        "items": [
+            27544,
+            27545,
+            27546,
+            27547,
+            27548,
+            27549
+        ]
+    },
+    {
+        "id": 515,
+        "name": "Panoplie de l'Héritage",
+        "items": [
+            27551,
+            27552,
+            27553,
+            27554,
+            27555
+        ]
+    },
+    {
+        "id": 516,
+        "name": "Panoplie des Marteaux-Aigris",
+        "items": [
+            27537,
+            27538,
+            27539,
+            27540
+        ]
+    }
+]

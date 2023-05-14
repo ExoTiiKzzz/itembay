@@ -23,6 +23,9 @@ class ItemNature
     #[ORM\OneToMany(mappedBy: 'itemNature', targetEntity: ItemType::class)]
     private Collection $itemTypes;
 
+    #[ORM\Column]
+    private ?int $ankamaId = null;
+
     public function __construct()
     {
         $this->defaultItems = new ArrayCollection();
@@ -102,6 +105,18 @@ class ItemNature
                 $itemType->setItemNature(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAnkamaId(): ?int
+    {
+        return $this->ankamaId;
+    }
+
+    public function setAnkamaId(int $ankamaId): self
+    {
+        $this->ankamaId = $ankamaId;
 
         return $this;
     }

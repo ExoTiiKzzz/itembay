@@ -36,7 +36,7 @@ function swalSuccess(message) {
 	});
 }
 
-function notieInfo(message, type = 'info') {
+function notif(message, type = 'info') {
 	notie.alert({
 		type: type,
 		text: message,
@@ -45,11 +45,17 @@ function notieInfo(message, type = 'info') {
 }
 
 async function apiFetch(url, body = {}, method = 'POST') {
+	let init = {
+		method: method,
+	}
+	if (method === 'POST') {
+		init.body = JSON.stringify(body);
+	}
+	if (method === 'GET') {
+		url += '?' + new URLSearchParams(body).toString();
+	}
 	return await
-		fetch(url, {
-			method: method,
-			body: JSON.stringify(body)
-		})
+		fetch(url, init)
 		.then(response => {
 			return response.json();
 		})

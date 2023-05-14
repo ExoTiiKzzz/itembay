@@ -6,6 +6,7 @@ use App\Entity\DefaultItem;
 use App\Service\AccountService;
 use App\Service\ApiResponseService;
 use App\Service\DefaultItemService;
+use Doctrine\ORM\EntityManager;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,9 +17,9 @@ class FarmController extends BaseController
     public function index(DefaultItem $defaultItem): Response
     {
         $account = $this->getActiveAccountOrRedirect();
-        if (!DefaultItemService::isFarmable($defaultItem)) {
-            return $this->redirectToRoute('app_home');
-        }
+//        if (!DefaultItemService::isFarmable($defaultItem, $account, $this->em)) {
+//            return $this->redirectToRoute('app_home');
+//        }
         return $this->render('farm/index.html.twig', [
             'defaultItem' => $defaultItem,
             'quantity' => AccountService::getItemQuantityInInventory($account, $defaultItem, $this->em),

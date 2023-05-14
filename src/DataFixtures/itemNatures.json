@@ -1,0 +1,114 @@
+[
+    {
+        "id": 1,
+        "name": "Amulette"
+    },
+    {
+        "id": 2,
+        "name": "Arme"
+    },
+    {
+        "id": 3,
+        "name": "Anneau"
+    },
+    {
+        "id": 4,
+        "name": "Ceinture"
+    },
+    {
+        "id": 5,
+        "name": "Bottes"
+    },
+    {
+        "id": 6,
+        "name": "Consommable"
+    },
+    {
+        "id": 7,
+        "name": "Bouclier"
+    },
+    {
+        "id": 8,
+        "name": "Capture"
+    },
+    {
+        "id": 9,
+        "name": "Ressource"
+    },
+    {
+        "id": 10,
+        "name": "Chapeau"
+    },
+    {
+        "id": 11,
+        "name": "Cape"
+    },
+    {
+        "id": 12,
+        "name": "Familier"
+    },
+    {
+        "id": 13,
+        "name": "Dofus \/ Trophée"
+    },
+    {
+        "id": 14,
+        "name": "Objet de quête"
+    },
+    {
+        "id": 15,
+        "name": "Mutation"
+    },
+    {
+        "id": 16,
+        "name": "Nourriture"
+    },
+    {
+        "id": 17,
+        "name": "Bénédiction"
+    },
+    {
+        "id": 18,
+        "name": "Malédiction"
+    },
+    {
+        "id": 19,
+        "name": "Bonus de jeu de rôle"
+    },
+    {
+        "id": 20,
+        "name": "Suiveur"
+    },
+    {
+        "id": 21,
+        "name": "Monture"
+    },
+    {
+        "id": 22,
+        "name": "Cosmétiques"
+    },
+    {
+        "id": 23,
+        "name": "Compagnon"
+    },
+    {
+        "id": 24,
+        "name": "Equipement de monture"
+    },
+    {
+        "id": 25,
+        "name": "Costume"
+    },
+    {
+        "id": 26,
+        "name": "Certificat"
+    },
+    {
+        "id": 27,
+        "name": "Fantôme de familier"
+    },
+    {
+        "id": 28,
+        "name": "Supprimé"
+    }
+]

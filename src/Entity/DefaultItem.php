@@ -66,11 +66,21 @@ class DefaultItem
     #[ORM\OneToMany(mappedBy: 'defaultItem', targetEntity: Batch::class)]
     private Collection $batches;
 
+    #[ORM\OneToMany(mappedBy: 'defaultItem', targetEntity: DefaultItemPossibleCharacteristic::class, orphanRemoval: true)]
+    private Collection $possibleCharacteristics;
+
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?ItemSet $itemSet = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $imageUrl = null;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->batches = new ArrayCollection();
+        $this->possibleCharacteristics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,11 +147,6 @@ class DefaultItem
         $this->sell_price = $sell_price;
 
         return $this;
-    }
-
-    #[Pure] public function getImageUrl(): ?string
-    {
-        return ApiImageService::$baseApiUrl . $this->getItemNature()->getName() . '/' . $this->ankamaId . '.png';
     }
 
     public function getDescription(): ?string
@@ -325,6 +330,60 @@ class DefaultItem
                 $batch->setDefaultItem(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DefaultItemPossibleCharacteristic>
+     */
+    public function getPossibleCharacteristics(): Collection
+    {
+        return $this->possibleCharacteristics;
+    }
+
+    public function addPossibleCharacteristic(DefaultItemPossibleCharacteristic $possibleCharacteristic): self
+    {
+        if (!$this->possibleCharacteristics->contains($possibleCharacteristic)) {
+            $this->possibleCharacteristics->add($possibleCharacteristic);
+            $possibleCharacteristic->setDefaultItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removePossibleCharacteristic(DefaultItemPossibleCharacteristic $possibleCharacteristic): self
+    {
+        if ($this->possibleCharacteristics->removeElement($possibleCharacteristic)) {
+            // set the owning side to null (unless already changed)
+            if ($possibleCharacteristic->getDefaultItem() === $this) {
+                $possibleCharacteristic->setDefaultItem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getItemSet(): ?ItemSet
+    {
+        return $this->itemSet;
+    }
+
+    public function setItemSet(?ItemSet $itemSet): self
+    {
+        $this->itemSet = $itemSet;
+
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }

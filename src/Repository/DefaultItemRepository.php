@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DefaultItem;
+use App\Entity\ItemNature;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,23 @@ class DefaultItemRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getAllIds(ItemNature $nature = null): array
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select('d.ankamaId as id');
+        if ($nature) {
+            $qb->andWhere('d.nature = :nature');
+            $qb->setParameter('nature', $nature);
+        }
+        $qb->orderBy('d.id', 'ASC');
+        $result = $qb->getQuery()->getResult();
+        $ids = [];
+        foreach ($result as $row) {
+            $ids[] = $row['id'];
+        }
+        return $ids;
     }
 
 //    /**

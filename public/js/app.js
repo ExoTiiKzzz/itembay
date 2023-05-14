@@ -24,12 +24,16 @@ document.querySelectorAll('[data-range-value]').forEach(el => {
 	});
 });
 
-document.querySelectorAll('.form-select').forEach(el => {
-	$(el).select2({
-		width: '100%',
-		minimumResultsForSearch: el.dataset.searchable ? 5 : -1,
+let initSelect2 = (element = document) => {
+	element.querySelectorAll('.form-select').forEach(el => {
+		$(el).select2({
+			width: '100%',
+			minimumResultsForSearch: el.dataset.searchable ? 5 : -1,
+		});
 	});
-});
+}
+
+initSelect2();
 
 $('[data-tooltip]').tooltip();
 

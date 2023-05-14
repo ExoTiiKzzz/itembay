@@ -63,20 +63,26 @@ class ProfessionService
             $qb->andWhere('i.level >= :minLevel')
                 ->setParameter('minLevel', $filters['minLevel']);
         }
-        if (isset($filters['maxLevel'])) {
-            $qb->andWhere('i.level <= :maxLevel')
-                ->setParameter('maxLevel', $filters['maxLevel']);
-        } else {
+        if (isset($filters['onlyCraftables']) && $filters['onlyCraftables'] === 'on') {
             $qb->andWhere('i.level <= :maxLevel')
                 ->setParameter('maxLevel', $playerProfession->getLevel($em));
+        } else {
+            if (isset($filters['maxLevel'])) {
+                $qb->andWhere('i.level <= :maxLevel')
+                    ->setParameter('maxLevel', $filters['maxLevel']);
+            } else {
+                $qb->andWhere('i.level <= :maxLevel')
+                    ->setParameter('maxLevel', $playerProfession->getLevel($em));
+            }
         }
+
         $qb->orderBy('i.level', 'ASC');
 
         $results = $qb->getQuery()->getResult();
 
         if ($filters && isset($filters['onlyCraftables']) && $filters['onlyCraftables'] === 'on' && $account) {
-            $results = array_filter($results, function (Recipe $recipe) use ($account, $em) {
-                $isCraftable = RecipeService::isRecipePossible($recipe, $account, $em);
+            $results = array_filter($results, function (Recipe $recipe) use ($account, $em, $request) {
+                $isCraftable = RecipeService::isRecipePossible($recipe, $account, $em, $request);
                 return $isCraftable['possible'];
             });
         }
@@ -89,7 +95,7 @@ class ProfessionService
             $std->id = $recipe->getId();
             $std->item = $recipe->getItem();
             $std->recipeLines = $recipe->getRecipeLines();
-            $std->maxCraftable = RecipeService::maxRecipePossible($account, $recipe, $em);
+            $std->maxCraftable = RecipeService::maxRecipePossible($account, $recipe, $em, $requestStack->getMainRequest());
             $recipes[] = $std;
         }
 

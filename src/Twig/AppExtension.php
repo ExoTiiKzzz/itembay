@@ -4,10 +4,14 @@ namespace App\Twig;
 
 use App\Entity\DefaultItem;
 use App\Entity\Item;
+use App\Entity\ItemType;
+use App\Service\ItemNatureService;
+use App\Service\ItemTypeService;
 use App\Service\ProfessionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
@@ -27,6 +31,14 @@ class AppExtension extends AbstractExtension
             new TwigFilter('professionLevelFromExp', [$this, 'getProfessionLevelFromExp']),
             new TwigFilter('professionActualLevelMinExp', [$this, 'getProfessionActualLevelMinExp']),
             new TwigFilter('professionNextLevelMinExp', [$this, 'getProfessionNextLevelMinExp']),
+        ];
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('getItemNaturesData', [$this, 'getItemNaturesData']),
+            new TwigFunction('getItemTypesData', [$this, 'getItemTypesData']),
         ];
     }
 
@@ -147,5 +159,15 @@ class AppExtension extends AbstractExtension
     public function getProfessionNextLevelMinExp(int $exp): string
     {
         return ProfessionService::getProfessionNextLevelMinExp($exp, $this->em);
+    }
+
+    public function getItemNaturesData(): array
+    {
+        return ItemNatureService::getItemNaturesForSelect($this->em);
+    }
+
+    public function getItemTypesData(): array
+    {
+        return ItemTypeService::getItemTypesForSelect($this->em, $this->getItemNaturesData());
     }
 }

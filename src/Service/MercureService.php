@@ -17,4 +17,10 @@ class MercureService
 
         $hub->publish($update);
     }
+
+    public static function sendNotificationToUser(array $data, HubInterface $hub, int $userId): void
+    {
+        $topic = '/user/' . $userId;
+        self::sendNotification($topic, $data, $hub);
+    }
 }

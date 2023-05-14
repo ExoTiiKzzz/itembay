@@ -5,109 +5,7 @@
 {% block body %}
     <div class="row text-white mt-5 mx-2">
         <div class="col-md-2">
-            <form action="">
-                <h3><label for="search">Rechercher par nom</label></h3>
-                <input type="search" name="search" id="search" class="form-control" value="{{ search }}">
-                <h3 class="mt-3"><label for="orderBy">Trier par:</label></h3>
-                <select id="orderBy" name="orderBy" class="form-control form-select">
-                    {% set possibilites = [
-                        {
-                            'value' : 'cheaper',
-                            'label' : 'Prix Croissant'
-                        },
-                        {
-                            'value' : 'expensive',
-                            'label' : 'Prix Décroissant'
-                        },
-                        {
-                            'value' : 'az',
-                            'label' : 'Nom A-Z'
-                        },
-                        {
-                            'value' : 'za',
-                            'label' : 'Nom Z-A'
-                        }
-                    ] %}
-                    <option value="">Défaut</option>
-                    {% for possibility in possibilites %}
-                        {% set selected = '' %}
-                        {% if requestData.orderBy is defined and possibility.value == requestData.orderBy %}
-                            {% set selected = 'selected' %}
-                        {% endif %}
-                        <option value="{{ possibility.value }}" {{ selected }}>{{ possibility.label }}</option>
-                    {% endfor %}
-                </select>
-                <h3 class="mt-4">Filtres</h3>
-                <div id="accordion" class="text-black accordion accordion-flush">
-                    <div class="accordion-item">
-                        <h5 class="accordion-header">
-                            <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseNature" aria-controls="collapseNature">
-                                Catégories d'objet <span class="natureCount" style="margin-left: 5px;">{{ selectedItemNatures|length > 0 ? '(' ~ selectedItemNatures|length ~ ')' }}</span>
-                            </button>
-                        </h5>
-                        <div id="collapseNature" class="accordion-collapse collapse" data-parent="#accordion">
-                            <div class="accordion-body">
-                                {% for nature in itemNatures %}
-                                    {% set checked = '' %}
-                                    {% if nature.id in selectedItemNatures %}
-                                        {% set checked = 'checked' %}
-                                    {% endif %}
-                                    <div>
-                                        <input type="checkbox" id="nature-{{ nature.id }}" name="itemNature[]" value="{{ nature.id }}" {{ checked }}>
-                                        <label for="nature-{{ nature.id }}">{{ nature.name }}</label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h5 class="accordion-header">
-                            <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseType" aria-controls="collapseType">
-                                Types d'objet <span class="typeCount ml-2" style="margin-left: 5px;">{{ selectedItemTypes|length > 0 ? '(' ~ selectedItemTypes|length ~ ')' }}</span>
-                            </button>
-                        </h5>
-                        <div id="collapseType" class="accordion-collapse collapse" data-parent="#accordion">
-                            <div class="accordion-body">
-                                {% include '/filter/item_type_filter.html.twig' with {
-                                    'itemTypes' : itemTypes,
-                                    'selectedItemTypes' : selectedItemTypes,
-                                } %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h5 class="accordion-header">
-                            <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapsePrice" aria-controls="collapsePrice">
-                                Prix
-                            </button>
-                        </h5>
-                        <div id="collapsePrice" class="accordion-collapse collapse" data-parent="#accordion">
-                            <div class="accordion-body">
-                                {% set id = '' | randomId %}
-                                <label for="minPriceRange" class="form-label">Prix minimum</label>
-                                {% set minValue = 0 %}
-                                {% if minPrice is defined %}
-                                    {% set minValue = minPrice %}
-                                {% endif %}
-                                <input type="number" class="form-control" id="minPriceRange" min="0" value="{{ minValue }}" name="priceRange[min]">
-                                <div data-range-value data-target="#minPriceRange">
-                                    {% if minPrice is defined %}
-                                        {{ minPrice | itemPrice | raw }}
-                                    {% endif %}
-                                </div>
-                                <label for="maxPriceRange" class="form-label">Prix maximum</label>
-                                <input type="number" class="form-control" id="maxPriceRange" min="0" value="{{ maxPrice }}" name="priceRange[max]">
-                                <div data-range-value data-target="#maxPriceRange">
-                                    {% if maxPrice is defined %}
-                                        {{ maxPrice | itemPrice | raw }}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary form-control mt-5">Filtrer</button>
-            </form>
+            {% include 'filter/item_list_filters.html.twig' %}
         </div>
         <div class="col-md-9">
             <ul class="d-flex flex-wrap gap-5 text-black">
@@ -127,9 +25,11 @@
                 {% endif %}
             </ul>
 
-            <ul class="d-flex flex-wrap gap-5 mt-5">
-                {% include 'item/parts/top_sells.html.twig' %}
-            </ul>
+            {% if topSelledItems | length > 0 %}
+                <ul class="d-flex flex-wrap gap-5 mt-5">
+                    {% include 'item/parts/top_sells.html.twig' %}
+                </ul>
+            {% endif %}
 
             <div class="d-flex justify-content-center">
                 {{ knp_pagination_render(items) }}
@@ -140,68 +40,52 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(document).ready(function () {
-	        $('#itemTypeSelect').val({{ selectedItemTypes|json_encode|raw }}).trigger('change');
+		$(document).ready(function () {
+			$('#itemTypeSelect').val({{ filters.selectedItemTypes|json_encode|raw }}).trigger('change');
 
-            let items = document.querySelectorAll('.carousel .carousel-item')
-
-            items.forEach((el) => {
-                const minPerSlide = 4
-                let next = el.nextElementSibling
-                for (let i=1; i<minPerSlide; i++) {
-                    if (!next) {
-                        // wrap carousel by using first child
-                        next = items[0]
-                    }
-                    let cloneChild = next.cloneNode(true)
-                    el.appendChild(cloneChild.children[0])
-                    next = next.nextElementSibling
-                }
-            })
-
-            document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
-                checkbox.addEventListener('change', function (event) {
-                    let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
-                    let count = document.querySelector('.natureCount');
+			document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
+				checkbox.addEventListener('change', function (event) {
+					let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
+					let count = document.querySelector('.natureCount');
 					if (checked.length === 0) {
 						count.innerHTML = '';
-                    } else {
-                        count.innerHTML = '(' + checked.length + ')';
+					} else {
+						count.innerHTML = '(' + checked.length + ')';
 						resetItemTypes();
 					}
-                    $('#itemTypeSelect').val(null).trigger('change');
-                });
-            });
+					$('#itemTypeSelect').val(null).trigger('change');
+				});
+			});
 
-	        $('#itemTypeSelect').on('change', function (e) {
-		        let count = document.querySelector('.typeCount');
+			$('#itemTypeSelect').on('change', function (e) {
+				let count = document.querySelector('.typeCount');
 				let value = e.target.selectedOptions.length;
 				if (value === 0) {
 					count.innerHTML = '';
 				} else {
 					count.innerHTML = '(' + e.target.selectedOptions.length + ')';
-                }
+				}
 
-	        });
-	        resetItemTypes();
-        });
+			});
+			resetItemTypes();
+		});
 
-        function resetItemTypes() {
+		function resetItemTypes() {
 			$('#itemTypeSelect option').prop('disabled', false);
-	        let allOptionsToHide = [];
-            if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
-                return;
-            }
-            document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
-		        let value = ch.value;
-		        let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
-		        options.forEach(function (option) {
-			        allOptionsToHide.push(option);
-		        });
-	        })
-	        allOptionsToHide.forEach(function (option) {
-		        option.disabled = true;
-	        });
-        }
+			let allOptionsToHide = [];
+			if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
+				return;
+			}
+			document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
+				let value = ch.value;
+				let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
+				options.forEach(function (option) {
+					allOptionsToHide.push(option);
+				});
+			})
+			allOptionsToHide.forEach(function (option) {
+				option.disabled = true;
+			});
+		}
     </script>
 {% endblock %}

@@ -73,4 +73,18 @@ class BaseController extends AbstractController
         }
         return $account;
     }
+
+    public function getRequestData(): array
+    {
+        //get request method
+        $method = $this->request->getMethod();
+
+        if($method === 'GET') {
+            return $this->request->query->all();
+        } elseif ($method === 'POST') {
+            return json_decode($this->request->getContent(), true);
+        } else {
+            return [];
+        }
+    }
 }

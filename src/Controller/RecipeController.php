@@ -20,7 +20,7 @@ class RecipeController extends BaseController
             $data = json_decode($this->request->getContent(), true);
             $account = $this->getActiveAccountOrThrowException();
             $quantity = $data['craftNumber'] ?? 1;
-            if(RecipeService::craftItem($recipe->getItem(), $account, $this->em, $this->hub, $quantity)) {
+            if(RecipeService::craftItem($recipe->getItem(), $account, $this->em, $this->hub, $this->request, $quantity)) {
                 $playerProfession = $this->em->getRepository(PlayerProfession::class)->find($data['playerProfessionId']);
                 $recipes = ProfessionService::getRecipes($playerProfession->getProfession(), $this->em, $this->requestStack, $account);
                 $data = [

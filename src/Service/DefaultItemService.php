@@ -5,8 +5,10 @@ namespace App\Service;
 use App\Entity\Account;
 use App\Entity\DefaultItem;
 use App\Entity\Item;
+use App\Entity\ItemCurrentCharacteristic;
 use App\Entity\PlayerProfession;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -19,28 +21,38 @@ class DefaultItemService
     private PaginatorInterface $paginator;
     private EntityManagerInterface $em;
     private RequestStack $requestStack;
-    private array $orderBy = [
+
+    const ORDER_BY_ARRAY = [
         '' => [
-            'column' => 'i.id',
-            'dir' => 'DESC',
+            'column' => 'di.ankamaId',
+            'dir' => 'ASC',
         ],
         'cheaper' => [
-            'column' => 'i.buy_price',
+            'column' => 'di.buy_price',
             'dir' => 'ASC',
         ],
         'expensive' => [
-            'column' => 'i.buy_price',
+            'column' => 'di.buy_price',
             'dir' => 'DESC',
         ],
         'az' => [
-            'column' => 'i.name',
+            'column' => 'di.name',
             'dir' => 'ASC',
         ],
         'za' => [
-            'column' => 'i.name',
+            'column' => 'di.name',
+            'dir' => 'DESC',
+        ],
+        'levelAsc' => [
+            'column' => 'di.level',
+            'dir' => 'ASC',
+        ],
+        'levelDesc' => [
+            'column' => 'di.level',
             'dir' => 'DESC',
         ],
     ];
+
     public function __construct(PaginatorInterface $paginator, EntityManagerInterface $em, RequestStack $requestStack)
     {
         $this->paginator = $paginator;
@@ -54,41 +66,41 @@ class DefaultItemService
         $limit = $request->query->getInt('limit', 40);
         $page = $request->query->getInt('page', 1);
 
-        $itemNature = $request->query->all('itemNature') ?? [];
-        $itemType = $request->query->all('itemType') ?? [];
+        $itemNatures = $request->query->all('itemNature') ?? [];
+        $itemTypes = $request->query->all('itemType') ?? [];
         $priceRange = $request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;
         $search = $request->query->get('search') ?? '';
 
-        $orderBy = $this->orderBy[$request->query->get('orderBy', '')] ?? 'i.id';
+        $orderBy = self::ORDER_BY_ARRAY[$request->query->get('orderBy', '')] ?? '';
 
         $qb = $this->em->createQueryBuilder();
-        $qb->select('i')
-            ->from(\App\Entity\DefaultItem::class, 'i');
+        $qb->select('di')
+            ->from(\App\Entity\DefaultItem::class, 'di');
 
-        if ($itemNature) {
-            $qb->andWhere('i.itemNature IN (:itemNature)')
-                ->setParameter('itemNature', $itemNature);
+        if ($itemNatures) {
+            $qb->andWhere('di.itemNature IN (:itemNature)')
+                ->setParameter('itemNature', $itemNatures);
         }
 
-        if ($itemType) {
-            $qb->andWhere('i.itemType IN (:itemType)')
-                ->setParameter('itemType', $itemType);
+        if ($itemTypes) {
+            $qb->andWhere('di.itemType IN (:itemType)')
+                ->setParameter('itemType', $itemTypes);
         }
 
         if ($minPrice) {
-            $qb->andWhere('i.buy_price >= :minPrice')
+            $qb->andWhere('di.buy_price >= :minPrice')
                 ->setParameter('minPrice', $minPrice);
         }
 
         if ($maxPrice) {
-            $qb->andWhere('i.buy_price <= :maxPrice')
+            $qb->andWhere('di.buy_price <= :maxPrice')
                 ->setParameter('maxPrice', $maxPrice);
         }
 
         if ($search) {
-            $qb->andWhere('i.name LIKE :search')
+            $qb->andWhere('di.name LIKE :search')
                 ->setParameter('search', '%' . $search . '%');
         }
 
@@ -169,7 +181,7 @@ class DefaultItemService
         return $item !== null;
     }
 
-    public static function generateItemForAccount(DefaultItem $defaultItem, EntityManagerInterface $em, Account $account, HubInterface $hub): Item
+    public static function generateItemForAccount(DefaultItem $defaultItem, EntityManagerInterface $em, Account $account, HubInterface $hub, bool $upProfession = true): Item
     {
         $item = new Item();
         $item->setAccount($account);
@@ -179,24 +191,32 @@ class DefaultItemService
         $item->setSellPrice($defaultItem->getSellPrice());
         $item->setIsForSell(false);
 
-        $em->persist($item);
-
-        $profession = $defaultItem->getProfession();
-        $expToAdd = $defaultItem->getLevel();
-        if (!$profession && $defaultItem->getRecipe() !== null && $defaultItem->getRecipe()->getProfession() !== null) {
-            $profession = $defaultItem->getRecipe()->getProfession();
-            $expToAdd = $expToAdd * 4;
+        foreach ($defaultItem->getPossibleCharacteristics() as $possibleCharacteristic) {
+            $value = rand($possibleCharacteristic->getMin(), $possibleCharacteristic->getMax());
+            $itemCharacteristic = new ItemCurrentCharacteristic();
+            $itemCharacteristic->setCharacteristic($possibleCharacteristic->getCharacteristic());
+            $itemCharacteristic->setValue($value);
+            $em->persist($itemCharacteristic);
+            $item->addCharacteristic($itemCharacteristic);
         }
 
+        $em->persist($item);
 
-
-        if ($profession) {
-            /** @var PlayerProfession $playerProf */
-            $playerProf = $account->getPlayerProfessions()->filter(function (PlayerProfession $playerProfession) use ($profession) {
-                return $playerProfession->getProfession() === $profession;
-            })->first();
-            ExpService::addExpToPlayerProfession($playerProf, $expToAdd, $hub, $em);
-            $em->persist($playerProf);
+        if ($upProfession) {
+            $profession = $defaultItem->getProfession();
+            $expToAdd = $defaultItem->getLevel();
+            if (!$profession && $defaultItem->getRecipe() !== null && $defaultItem->getRecipe()->getProfession() !== null) {
+                $profession = $defaultItem->getRecipe()->getProfession();
+                $expToAdd = $expToAdd * 4;
+            }
+            if ($profession) {
+                /** @var PlayerProfession $playerProf */
+                $playerProf = $account->getPlayerProfessions()->filter(function (PlayerProfession $playerProfession) use ($profession) {
+                    return $playerProfession->getProfession() === $profession;
+                })->first();
+                ExpService::addExpToPlayerProfession($playerProf, $expToAdd, $hub, $em);
+                $em->persist($playerProf);
+            }
         }
 
         $em->flush();
@@ -209,9 +229,38 @@ class DefaultItemService
         return $defaultItem->getItemNature()->getName() === 'Ressources';
     }
 
-    #[Pure] public static function isFarmable(DefaultItem $defaultItem): bool
+    public static function isFarmable(DefaultItem $defaultItem, ?Account $account, EntityManagerInterface $em): bool
     {
-        return self::isResource($defaultItem) && ($defaultItem->getRecipe() === null || $defaultItem->getProfession() !== null);
+        if (!self::isResource($defaultItem)) {
+            return false;
+        }
+
+        if ($defaultItem->getRecipe() !== null) {
+            return false;
+        }
+
+        if ($account === null) {
+            return false;
+        }
+
+        $itemProfession = $defaultItem->getProfession();
+
+        if ($itemProfession) {
+            /** @var PlayerProfession $playerProfession */
+            $playerProfession = $account->getPlayerProfessions()->filter(function (PlayerProfession $playerProfession) use ($itemProfession) {
+                return $playerProfession->getProfession() === $itemProfession;
+            })->first();
+            if ($playerProfession === null) {
+                return false;
+            }
+
+            if ($playerProfession->getLevel($em) < $defaultItem->getLevel()) {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 
     public static function getTopSelledItems(EntityManagerInterface $em, int $limit = 10): array
@@ -233,5 +282,33 @@ class DefaultItemService
         }
 
         return $items;
+    }
+
+    #[ArrayShape(['selectedItemNatures' => "array", 'selectedItemTypes' => "array", 'minPrice' => "int", 'maxPrice' => "int|null", 'search' => "null|string", 'orderBy' => "null|string"])]
+    public static function getItemFilters(array $data): array
+    {
+        /** @var array $activeItemNatures */
+        $activeItemNatures = $data['itemNature'] ?? [];
+        /** @var array $activeItemTypes */
+        $activeItemTypes = $data['itemType'] ?? [];
+        /** @var array $priceRange */
+        $priceRange = $data['priceRange'] ?? [];
+        /** @var int $minPrice */
+        $minPrice = $priceRange['min'] ?? 0;
+        /** @var int|null $maxPrice */
+        $maxPrice = $priceRange['max'] ?? null;
+        /** @var string|null $search */
+        $search = $data['search'] ?? null;
+        /** @var string|null $orderBy */
+        $orderBy = $data['orderBy'] ?? null;
+
+        return [
+            'selectedItemNatures'       => $activeItemNatures,
+            'selectedItemTypes'         => $activeItemTypes,
+            'minPrice'                  => $minPrice,
+            'maxPrice'                  => $maxPrice,
+            'search'                    => $search,
+            'orderBy'                   => $orderBy,
+        ];
     }
 }

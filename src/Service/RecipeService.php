@@ -11,15 +11,17 @@ use App\Entity\ProfessionExperience;
 use App\Entity\Recipe;
 use App\Repository\ProfessionExperienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\HubInterface;
 
 class RecipeService
 {
-    public static function isRecipePossible(Recipe $recipe, Account $account, EntityManagerInterface $em): array
+    public static function isRecipePossible(Recipe $recipe, Account $account, EntityManagerInterface $em, Request $request): array
     {
-        $inventory = AccountService::getInventoryItems($account);
+        $inventory = AccountService::getInventoryItems($account, $em, $request);
         if (count($inventory) === 0) {
             return [
                 'possible'      => false,
@@ -53,8 +55,24 @@ class RecipeService
 
     }
 
-    public static function craftItem(DefaultItem $defaultItem, Account $account, EntityManagerInterface $em, HubInterface $hub, int $quantity = 1)
+    /**
+     * @throws Exception
+     */
+    public static function craftItem(DefaultItem $defaultItem, Account $account, EntityManagerInterface $em, HubInterface $hub, Request $request, int $quantity = 1)
     {
+        $profession = $defaultItem->getRecipe()->getProfession();
+        if ($profession) {
+            $playerProfession = $em->getRepository(PlayerProfession::class)->findOneBy([
+                'player' => $account,
+                'profession' => $profession
+            ]);
+            if (!$playerProfession) {
+                throw new Exception('Vous n\'avez pas cette profession');
+            }
+            if ($playerProfession->getLevel($em) < $defaultItem->getLevel()) {
+                throw new Exception('Vous n\'avez pas le niveau requis pour craft cet objet');
+            }
+        }
         $recipeLines = $defaultItem->getRecipe()->getRecipeLines();
         $recipeItems = [];
         foreach ($recipeLines as $recipeLine) {
@@ -65,14 +83,12 @@ class RecipeService
         }
 
         for ($i = 0; $i < $quantity; $i++) {
-            $isPossible = self::isRecipePossible($defaultItem->getRecipe(), $account, $em);
+            $isPossible = self::isRecipePossible($defaultItem->getRecipe(), $account, $em, $request);
             if (!$isPossible['possible']) {
-                return ApiResponseService::error([],
-                    'Il vous manque des items pour craft cet objet ( ' . implode(', ', $isPossible['missingItems']) . ' )', 403
-                );
+                throw new Exception('Il vous manque des items pour craft cet objet ( ' . implode(', ', $isPossible['missingItems']) . ' )');
             }
 
-            $inventory = AccountService::getInventoryItems($account);
+            $inventory = AccountService::getInventoryItems($account, $em, $request);
             $inventory = $inventory['defaultItems'];
 
             foreach ($recipeItems as $recipeItem) {
@@ -91,13 +107,13 @@ class RecipeService
         return true;
     }
 
-    public static function maxRecipePossible(Account $account, Recipe $recipe, EntityManagerInterface $em): int
+    public static function maxRecipePossible(Account $account, Recipe $recipe, EntityManagerInterface $em, Request $request): int
     {
-        $inventory = AccountService::getInventoryItems($account);
+        $inventory = AccountService::getInventoryItems($account, $em, $request);
         if (count($inventory) === 0) {
             return 0;
         }
-        $isPossible = self::isRecipePossible($recipe, $account, $em)['possible'];
+        $isPossible = self::isRecipePossible($recipe, $account, $em, $request)['possible'];
         $inventory = $inventory['defaultItems'];
         $recipeLines = $recipe->getRecipeLines();
         $recipeItems = [];

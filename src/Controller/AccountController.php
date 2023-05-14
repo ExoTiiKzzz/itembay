@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\DefaultItem;
 use App\Entity\PlayerClass;
 use App\Entity\PlayerProfession;
 use App\Entity\Profession;
 use App\Service\AccountService;
 use App\Service\ApiResponseService;
+use App\Service\DefaultItemService;
 use App\Twig\AppExtension;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -172,9 +174,10 @@ class AccountController extends BaseController
     public function inventory(): Response
     {
         $account = $this->getActiveAccountOrRedirect();
-        $inventory = AccountService::getInventoryItems($account);
+        $inventory = AccountService::getInventoryItems($account, $this->em, $this->request);
         return $this->render('account/inventory.html.twig', [
             'inventory' => $inventory,
+            'filters'   => DefaultItemService::getItemFilters($this->getRequestData()),
         ]);
     }
 
@@ -257,5 +260,148 @@ class AccountController extends BaseController
         } catch (Exception $e) {
             return ApiResponseService::error([], $e->getMessage());
         }
+    }
+
+    #[Route('/account/{id}/inventory', name: 'app_other_account_inventory')]
+    public function otherAccountInventory(Account $account): Response
+    {
+        $canEdit = false;
+        $user = $this->getUser();
+        if ($user && $account->getUser() === $user) {
+            $canEdit = true;
+        }
+
+        $inventory = AccountService::getInventoryItems($account, $this->em, $this->request);
+        return $this->render('account/inventory.html.twig', [
+            'inventory' => $inventory,
+            'filters'   => DefaultItemService::getItemFilters($this->getRequestData()),
+            'canEdit'   => $canEdit,
+            'account'   => $account,
+        ]);
+    }
+
+    #[Route('/account/{accountId}/inventory/give/{itemId}', name: 'app_give_item_to_account')]
+    public function giveItemToAccount(int $accountId, int $itemId): Response
+    {
+        $currentUser = $this->getUserOrRedirect();
+        if (!$currentUser) {
+            return $this->redirectToRoute('app_home');
+        }
+        //check if user is admin
+        if (in_array('ROLE_ADMIN', $currentUser->getRoles())) {
+            $account = $this->em->getRepository(Account::class)->find($accountId);
+            $item = $this->em->getRepository(DefaultItem::class)->find($itemId);
+            if (!$account) {
+                $this->addFlash('error', 'Compte introuvable');
+                return $this->redirectToRoute('app_home');
+            }
+            if (!$item) {
+                $this->addFlash('error', 'Item introuvable');
+                return $this->redirectToRoute('app_home');
+            }
+
+            $quantity = $this->getRequestData()['quantity'] ?? 1;
+            for ($i = 0; $i < $quantity; $i++) {
+                DefaultItemService::generateItemForAccount($item, $this->em, $account, $this->hub, false);
+            }
+
+            $this->addFlash('success', 'Item(s) ajouté(s) au compte');
+            //get previous page
+            $referer = $this->request->headers->get('referer');
+            return $this->redirect($referer);
+        } else {
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour effectuer cette action');
+            return $this->redirectToRoute('app_home');
+        }
+    }
+
+    #[Route('/account/{id}/add', name: 'app_add_friend', methods: ['POST'])]
+    public function addFriend(Account $friend): Response
+    {
+        $account = $this->getActiveAccountOrRedirect();
+        $referer = $this->request->headers->get('referer');
+
+        try {
+            AccountService::addFriend($account, $friend, $this->em, $this->hub);
+        } catch (Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirect($referer);
+        }
+
+
+        $this->addFlash('success', 'Vous êtes maintenant ami avec ce compte');
+        return $this->redirect($referer);
+    }
+
+    #[Route('/account/{id}/remove', name: 'app_remove_friend', methods: ['POST'])]
+    public function removeFriend(Account $friend): Response
+    {
+        $account = $this->getActiveAccountOrRedirect();
+        $referer = $this->request->headers->get('referer');
+
+        if (!$account->getFollowings()->contains($friend)) {
+            $this->addFlash('error', 'Vous n\'êtes pas ami avec ce compte');
+            return $this->redirect($referer);
+        }
+
+        $account->removeFriend($friend);
+        $this->em->persist($account);
+        $this->em->flush();
+
+        $this->addFlash('success', 'Vous n\'êtes plus ami avec ce compte');
+        return $this->redirect($referer);
+    }
+
+    #[Route('/account/discussion/create', name: 'app_account_discussion_create', methods: ['GET'])]
+    public function createDiscussionForm(): Response
+    {
+        try {
+            $account = $this->getActiveAccountOrThrowException();
+            $friends = $account->getFriends();
+            if ($friends->isEmpty()) {
+                throw new Exception('Vous n\'avez pas d\'amis pour créer une discussion');
+            }
+
+            $html = $this->render('account/discussion_create.html.twig', [
+                'account' => $account,
+            ]);
+
+            return ApiResponseService::success([
+                'html' => $html->getContent(),
+            ]);
+
+        } catch (Exception $e) {
+            return ApiResponseService::error([], $e->getMessage());
+        }
+    }
+
+    #[Route('/account/discussion/create', name: 'app_account_discussion_create_post', methods: ['POST'])]
+    public function createDiscussion(): Response
+    {
+        try {
+            $account = $this->getActiveAccountOrRedirect();
+            $friendsIds = $this->getRequestData()['accounts'] ?? [];
+            $friends = $this->em->getRepository(Account::class)->findBy(['id' => $friendsIds]);
+
+            AccountService::createDiscussion($account, $friends, $this->em, $this->hub);
+
+            return ApiResponseService::success([], 'Discussion créée');
+        } catch (Exception $e) {
+            return ApiResponseService::error([], $e->getMessage());
+        }
+    }
+
+    #[Route('/account/{id}', name: 'app_account_show')]
+    public function show(Account $account): Response
+    {
+        $user = $this->getUserOrRedirect();
+        $canEdit = false;
+        if ($user && $account->getUser() === $user) {
+            $canEdit = true;
+        }
+        return $this->render('account/show.html.twig', [
+            'account'   => $account,
+            'canEdit'   => $canEdit,
+        ]);
     }
 }

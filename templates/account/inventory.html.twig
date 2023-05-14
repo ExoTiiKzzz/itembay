@@ -1,40 +1,125 @@
+
 {% extends '/base.html.twig' %}
 
 {% block title %}ItemBay - Inventaire de {{ app.user.activeAccount.name }}{% endblock %}
 
 {% block body %}
-    <div class="container text-white mt-5">
-        <h2>Mon inventaire</h2>
-        <hr>
-        {% if inventory is defined and inventory.defaultItems is defined and inventory.defaultItems|length > 0 %}
-        <div class="d-flex flex-wrap gap-5 mt-5">
-            {% for item in inventory.defaultItems %}
-                <div class="card" style="width: 20%;">
-                    <img src="{{ item.imageUrl }}" class="card-img-top mt-2" alt="{{ item.name }}" loading="lazy"
-                         height="100" width="100" onerror="this.src = '/images/no-photo.png'">
-                    <div class="card-body d-flex flex-column text-black">
-                        <h5 class="card-title">
-                            {{ item.name }}
-                        </h5>
-                        <div class="mb-3">
-                            Quantité : <strong>{{ item.quantity }}</strong>
-                        </div>
-                        <div class="button-container mt-auto">
-                            <a href="{{ path('app_item', {'uuid': item.uuid}) }}" class="btn btn-sm btn-primary form-control">
-                                En acheter plus
-                            </a>
-                            <a href="{{ path('app_sell_item', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
-                                Vendre
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+    {% set canEdit = canEdit ?? true %}
+
+    <style>
+        .tooltip-inner {
+            max-width: 500px; /* set this to your maximum fitting width */
+            width: inherit; /* will take up least amount of space */
+        }
+    </style>
+    <div class="row text-white mt-5 mx-2">
+        <div class="col-md-2">
+            {% include 'filter/item_list_filters.html.twig' with {
+                context: 'inventory'
+            } %}
         </div>
-        {% else %}
-            <div class="alert alert-info">
-                Vous n'avez pas encore d'items dans votre inventaire.
-            </div>
-        {% endif %}
+        <div class="col-md-9">
+                <ul class="d-flex flex-wrap gap-5 text-black">
+                    {% if canEdit %}
+                        <h2 class="text-white w-100">
+                            Mon inventaire
+                        </h2>
+                        {% if app.user.activeAccount.inventory|length > 0 %}
+                            {% if inventory|length > 0 %}
+                                {% for item in inventory.defaultItems %}
+                                    {% include 'item/list_item.html.twig' with {
+                                        item: item,
+                                        context: 'inventory'
+                                    } %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info w-100">
+                                    Aucun item trouvé avec ces filtres.
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-info w-100">
+                                Vous n'avez pas encore d'items dans votre inventaire.
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <h2 class="text-white w-100">
+                            Inventaire de {{ account.name }}
+                        </h2>
+                        {% if account.inventory|length > 0 %}
+                            {% if inventory|length > 0 %}
+                                {% for item in inventory.defaultItems %}
+                                    {% include 'item/list_item.html.twig' with {
+                                        item: item,
+                                        context: 'inventory',
+                                        canEdit: false
+                                    } %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info w-100">
+                                    Aucun item trouvé avec ces filtres.
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-info w-100">
+                                {{ account.name }} n'a pas encore d'items dans son inventaire.
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+        </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+		$(document).ready(function () {
+			$('#itemTypeSelect').val({{ filters.selectedItemTypes|json_encode|raw }}).trigger('change');
+
+			document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
+				checkbox.addEventListener('change', function (event) {
+					let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
+					let count = document.querySelector('.natureCount');
+					if (checked.length === 0) {
+						count.innerHTML = '';
+					} else {
+						count.innerHTML = '(' + checked.length + ')';
+						resetItemTypes();
+					}
+					$('#itemTypeSelect').val(null).trigger('change');
+				});
+			});
+
+			$('#itemTypeSelect').on('change', function (e) {
+				let count = document.querySelector('.typeCount');
+				let value = e.target.selectedOptions.length;
+				if (value === 0) {
+					count.innerHTML = '';
+				} else {
+					count.innerHTML = '(' + e.target.selectedOptions.length + ')';
+				}
+
+			});
+			resetItemTypes();
+		});
+
+		function resetItemTypes() {
+			$('#itemTypeSelect option').prop('disabled', false);
+			let allOptionsToHide = [];
+			if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
+				return;
+			}
+			document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
+				let value = ch.value;
+				let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
+				options.forEach(function (option) {
+					allOptionsToHide.push(option);
+				});
+			})
+			allOptionsToHide.forEach(function (option) {
+				option.disabled = true;
+			});
+		}
+    </script>
 {% endblock %}

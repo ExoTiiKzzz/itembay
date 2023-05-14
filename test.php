@@ -1,45 +1,40 @@
 <?php
-ini_set('max_execution_time', '6000');
+set_time_limit(0);
 //retrieve dofus api images
 
-$types = [
-//    'classes'       => [
-//        'url'       => 'classes',
-//        'property'  => 'maleImg'
-//    ],
-//    'consommables'         => [
-//        'url'       => 'consumables',
-//        'property'  => 'imgUrl'
-//    ],
-//    'equipements'          => [
-//        'url'       => 'equipments',
-//        'property'  => 'imgUrl'
-//    ],
-//    'ressources'           => [
-//        'url'       => 'resources',
-//        'property'  => 'imgUrl'
-//    ],
-//    'armes'                => [
-//        'url'       => 'weapons',
-//        'property'  => 'imgUrl'
-//    ],
-    'metiers'              => [
-        'url'       => 'professions',
-        'property'  => 'imgUrl'
-    ],
-];
-
-$base_url = 'https://fr.dofus.dofapi.fr/';
-
-foreach($types as $directory => $endpoint) {
-    $url = $base_url . $endpoint['url'];
+$limit = 50;
+$base_url = 'https://api.dofusdb.fr/items?$limit=' . $limit;
+$skip = 0;
+$items = [];
+$url = $base_url . '&$skip=' . $skip;
+$json = file_get_contents($url);
+$data = json_decode($json, true);
+do {
+    echo $skip . PHP_EOL;
+    $url = $base_url . '&$skip=' . $skip;
     $json = file_get_contents($url);
     $data = json_decode($json, true);
-    foreach($data as $item) {
-        $image_url = $item[$endpoint['property']];
-        $image = file_get_contents($image_url);
-        //save image in directory
-        $filename = $directory . '/' . $item['_id'] . '.png';
-        file_put_contents($filename, $image);
+    foreach($data['data'] as $item) {
+        $tmp = [
+            'id' => $item['id'],
+            'img' => $item['img'],
+        ];
+        $items[] = $tmp;
     }
+
+    $skip += $limit;
+} while (count($data['data']) > 0);
+
+echo 'Number of items: ' . count($items) . PHP_EOL;
+
+echo 'Downloading images...' . PHP_EOL;
+
+
+foreach($items as $item) {
+    echo $item['id'] . PHP_EOL;
+    $url = $item['img'];
+    $image = file_get_contents($url);
+    //save image in directory
+    $filename = $item['id'] . '.png';
+    file_put_contents($filename, $image);
 }

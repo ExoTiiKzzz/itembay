@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des panoplies{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">
+            Liste des panoplies
+        </h1>
+
+        {% if itemSets | length > 0 %}
+            <style>
+                .recipe-row {
+                    background-color: #171717;
+                    margin: 10px 0;
+                }
+
+                .recipe-item-image {
+                    width: 100px;
+                    height: 100px;
+                    object-fit: cover;
+                }
+
+                .gallery {
+                    display: flex;
+                    height: 100%;
+                    flex-wrap: wrap;
+                    align-items: center;
+                }
+
+                .gallery-item {
+                    position: relative;
+                    width: 50px;
+                    height: 50px;
+                    margin: 5px;
+                }
+
+                .gallery-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    background-color: var(--background-color);
+                }
+            </style>
+            <div class="row gap-5">
+                {% for itemSet in itemSets %}
+                    <div class="col-6">
+                        <div class="row recipe-row">
+                            <div class="col-3">
+                                <a href="{{ path('app_item_set_show', {'id': itemSet.id}) }}">
+                                    {{ itemSet.name }}
+                                </a>
+                            </div>
+                            <div class="col-9">
+                                <div class="gallery">
+                                    {% for item in itemSet.items %}
+                                        <div class="gallery-item">
+                                            <a href="{{ path('app_item', {'uuid': item.uuid}) }}">
+                                                <img src="{{ item.imageUrl }}" loading="lazy" onerror="this.src = '/images/no-photo.png'"
+                                                     alt="{{ item.name }}" class="gallery-image" title="{{ item.name }}" data-tooltip>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Aucune panoplie n'a été trouvée.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -41,7 +41,7 @@
 
 			if (max === 0) {
 				document.querySelector('#batchForm').remove();
-                notieInfo('Vous n\'avez pas d\'item à vendre', 'error');
+                notif('Vous n\'avez pas d\'item à vendre', 'error');
 			}
         }
         $(document).ready(() => {
@@ -68,7 +68,7 @@
 
                 let res = await apiFetch(url, data);
 				if (res.success) {
-					notieInfo('Vente enregistrée', 'success');
+					notif('Vente enregistrée', 'success');
 					document.querySelector('.item-quantity').innerHTML = res.data.quantity;
 					await refreshBalance();
 					max = res.data.quantity;

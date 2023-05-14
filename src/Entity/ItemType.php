@@ -28,6 +28,9 @@ class ItemType
     #[ORM\JoinColumn(nullable: false)]
     private ?ItemNature $itemNature = null;
 
+    #[ORM\Column]
+    private ?int $ankamaId = null;
+
     public function __construct()
     {
         $this->defaultItems = new ArrayCollection();
@@ -121,6 +124,18 @@ class ItemType
     public function setItemNature(?ItemNature $ItemNature): self
     {
         $this->itemNature = $ItemNature;
+
+        return $this;
+    }
+
+    public function getAnkamaId(): ?int
+    {
+        return $this->ankamaId;
+    }
+
+    public function setAnkamaId(int $ankamaId): self
+    {
+        $this->ankamaId = $ankamaId;
 
         return $this;
     }

@@ -5,6 +5,7 @@
     --text-color: #fff;
     --platinum-color: #D7DEDC;
     --tint-20-primary-color: #ffd9dd;
+    --success-text: #4ea43c;
 
     --acordion-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FF4057'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     --acordion-icon-active: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23FFF'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
@@ -44,6 +45,17 @@ img {
     border-radius: 3px !important;
 }
 
+.btn.btn-outline-primary {
+    background-color: var(--text-color) !important;
+    border: 1px solid var(--primary-color) !important;
+    border-radius: 3px !important;
+}
+
+.btn.btn-outline-primary:hover {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+}
+
 .btn.btn-secondary {
     background-color: var(--secondary-color) !important;
     border: var(--secondary-color) !important;
@@ -58,6 +70,10 @@ img {
 .btn-outline-secondary:hover {
     background-color: var(--secondary-color) !important;
     color: var(--text-color) !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
 }
 
 .user-basket {
@@ -117,6 +133,10 @@ select option:checked, select option:checked:focus {
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 35px !important;
     width: 35px !important;
+}
+
+.select2-container--default{
+    z-index: 10000;
 }
 
 .select2-selection[aria-expanded="true"] {
@@ -218,4 +238,39 @@ nav a {
 
 .bg-primary {
     background-color: var(--primary-color) !important;
+}
+
+.effect-text {
+    color: var(--success-text);
+}
+
+.discussion-container {
+    position: fixed;
+    bottom: -300px;
+    left: 10px;
+    width: 250px;
+    height: 350px;
+    background-color: var(--text-color);
+    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px 10px 0 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    padding: 0 10px;
+}
+
+.discussion-container-title {
+    display: flex;
+    align-items: center;
+    min-height: 50px;
+    cursor: pointer;
+}
+
+.discussion-container.show {
+    transform: translateY(-300px);
+}
+
+.discussion-add {
+    cursor: pointer;
 }

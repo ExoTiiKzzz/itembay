@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="container text-white">
+        <h1 class="text-center my-3">
+            Bienvenue sur la page de {{ user.username }}
+        </h1>
+
+        {% if user.accounts | length > 0 %}
+        <h2 class="text-center my-3">
+            Liste des comptes de {{ user.username }}
+        </h2>
+        <ul class="list-group">
+            {% for account in user.accounts %}
+                <li class="list-group-item">
+                    {{ account.name }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <div class="alert alert-info">
+                Cet utilisateur n'a pas de compte.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

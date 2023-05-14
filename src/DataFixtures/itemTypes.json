@@ -1,0 +1,1107 @@
+[
+    {
+        "id": 1,
+        "name": "Amulette",
+        "nature": 1
+    },
+    {
+        "id": 2,
+        "name": "Arc",
+        "nature": 2
+    },
+    {
+        "id": 3,
+        "name": "Baguette",
+        "nature": 2
+    },
+    {
+        "id": 4,
+        "name": "Bâton",
+        "nature": 2
+    },
+    {
+        "id": 5,
+        "name": "Dague",
+        "nature": 2
+    },
+    {
+        "id": 6,
+        "name": "Épée",
+        "nature": 2
+    },
+    {
+        "id": 7,
+        "name": "Marteau",
+        "nature": 2
+    },
+    {
+        "id": 8,
+        "name": "Pelle",
+        "nature": 2
+    },
+    {
+        "id": 9,
+        "name": "Anneau",
+        "nature": 3
+    },
+    {
+        "id": 10,
+        "name": "Ceinture",
+        "nature": 4
+    },
+    {
+        "id": 11,
+        "name": "Bottes",
+        "nature": 5
+    },
+    {
+        "id": 12,
+        "name": "Potion",
+        "nature": 6
+    },
+    {
+        "id": 13,
+        "name": "Parchemin d'expérience",
+        "nature": 6
+    },
+    {
+        "id": 14,
+        "name": "Objet de dons",
+        "nature": 6
+    },
+    {
+        "id": 15,
+        "name": "Ressources diverses",
+        "nature": 9
+    },
+    {
+        "id": 16,
+        "name": "Chapeau",
+        "nature": 10
+    },
+    {
+        "id": 17,
+        "name": "Cape",
+        "nature": 11
+    },
+    {
+        "id": 18,
+        "name": "Familier",
+        "nature": 12
+    },
+    {
+        "id": 19,
+        "name": "Hache",
+        "nature": 2
+    },
+    {
+        "id": 20,
+        "name": "Outil",
+        "nature": 2
+    },
+    {
+        "id": 21,
+        "name": "Pioche",
+        "nature": 2
+    },
+    {
+        "id": 22,
+        "name": "Faux",
+        "nature": 2
+    },
+    {
+        "id": 23,
+        "name": "Dofus",
+        "nature": 13
+    },
+    {
+        "id": 24,
+        "name": "Divers",
+        "nature": 14
+    },
+    {
+        "id": 25,
+        "name": "Document",
+        "nature": 6
+    },
+    {
+        "id": 26,
+        "name": "Potion de forgemagie",
+        "nature": 9
+    },
+    {
+        "id": 27,
+        "name": "Objet de Mutation",
+        "nature": 15
+    },
+    {
+        "id": 28,
+        "name": "Nourriture boost",
+        "nature": 16
+    },
+    {
+        "id": 29,
+        "name": "Bénédiction",
+        "nature": 17
+    },
+    {
+        "id": 30,
+        "name": "Malédiction",
+        "nature": 18
+    },
+    {
+        "id": 31,
+        "name": "Roleplay Buffs",
+        "nature": 19
+    },
+    {
+        "id": 32,
+        "name": "Personnage suiveur",
+        "nature": 20
+    },
+    {
+        "id": 33,
+        "name": "Pain",
+        "nature": 6
+    },
+    {
+        "id": 34,
+        "name": "Céréale",
+        "nature": 9
+    },
+    {
+        "id": 35,
+        "name": "Fleur",
+        "nature": 9
+    },
+    {
+        "id": 36,
+        "name": "Plante",
+        "nature": 9
+    },
+    {
+        "id": 37,
+        "name": "Bière",
+        "nature": 6
+    },
+    {
+        "id": 38,
+        "name": "Bois",
+        "nature": 9
+    },
+    {
+        "id": 39,
+        "name": "Minerai",
+        "nature": 9
+    },
+    {
+        "id": 40,
+        "name": "Alliage",
+        "nature": 9
+    },
+    {
+        "id": 41,
+        "name": "Poisson",
+        "nature": 9
+    },
+    {
+        "id": 42,
+        "name": "Friandise",
+        "nature": 6
+    },
+    {
+        "id": 43,
+        "name": "Potion de téléportation",
+        "nature": 6
+    },
+    {
+        "id": 46,
+        "name": "Fruit",
+        "nature": 9
+    },
+    {
+        "id": 47,
+        "name": "Os",
+        "nature": 9
+    },
+    {
+        "id": 48,
+        "name": "Poudre",
+        "nature": 9
+    },
+    {
+        "id": 49,
+        "name": "Poisson comestible",
+        "nature": 6
+    },
+    {
+        "id": 50,
+        "name": "Pierre précieuse",
+        "nature": 9
+    },
+    {
+        "id": 51,
+        "name": "Pierre brute",
+        "nature": 9
+    },
+    {
+        "id": 53,
+        "name": "Plume",
+        "nature": 9
+    },
+    {
+        "id": 54,
+        "name": "Poil",
+        "nature": 9
+    },
+    {
+        "id": 55,
+        "name": "Étoffe",
+        "nature": 9
+    },
+    {
+        "id": 56,
+        "name": "Cuir",
+        "nature": 9
+    },
+    {
+        "id": 57,
+        "name": "Laine",
+        "nature": 9
+    },
+    {
+        "id": 58,
+        "name": "Graine",
+        "nature": 9
+    },
+    {
+        "id": 59,
+        "name": "Peau",
+        "nature": 9
+    },
+    {
+        "id": 60,
+        "name": "Huile",
+        "nature": 9
+    },
+    {
+        "id": 61,
+        "name": "Peluche",
+        "nature": 9
+    },
+    {
+        "id": 63,
+        "name": "Viande",
+        "nature": 9
+    },
+    {
+        "id": 65,
+        "name": "Queue",
+        "nature": 9
+    },
+    {
+        "id": 66,
+        "name": "Métaria",
+        "nature": 9
+    },
+    {
+        "id": 68,
+        "name": "Légume",
+        "nature": 9
+    },
+    {
+        "id": 69,
+        "name": "Viande comestible",
+        "nature": 6
+    },
+    {
+        "id": 70,
+        "name": "Teinture",
+        "nature": 9
+    },
+    {
+        "id": 71,
+        "name": "Matériel d'alchimie",
+        "nature": 9
+    },
+    {
+        "id": 74,
+        "name": "Fée d'artifice",
+        "nature": 6
+    },
+    {
+        "id": 75,
+        "name": "Parchemin de sortilège",
+        "nature": 6
+    },
+    {
+        "id": 76,
+        "name": "Parchemin de caractéristique",
+        "nature": 6
+    },
+    {
+        "id": 78,
+        "name": "Rune de forgemagie",
+        "nature": 9
+    },
+    {
+        "id": 79,
+        "name": "Boisson",
+        "nature": 6
+    },
+    {
+        "id": 80,
+        "name": "Objet de mission",
+        "nature": 6
+    },
+    {
+        "id": 82,
+        "name": "Bouclier",
+        "nature": 7
+    },
+    {
+        "id": 83,
+        "name": "Pierre d'âme",
+        "nature": 2
+    },
+    {
+        "id": 84,
+        "name": "Clef",
+        "nature": 9
+    },
+    {
+        "id": 85,
+        "name": "Pierre d'âme pleine",
+        "nature": 6
+    },
+    {
+        "id": 87,
+        "name": "Parchemin de recherche",
+        "nature": 6
+    },
+    {
+        "id": 88,
+        "name": "Pierre magique",
+        "nature": 6
+    },
+    {
+        "id": 89,
+        "name": "Cadeau",
+        "nature": 6
+    },
+    {
+        "id": 93,
+        "name": "Objet d'élevage",
+        "nature": 6
+    },
+    {
+        "id": 94,
+        "name": "Objet utilisable",
+        "nature": 6
+    },
+    {
+        "id": 95,
+        "name": "Planche",
+        "nature": 9
+    },
+    {
+        "id": 96,
+        "name": "Écorce",
+        "nature": 9
+    },
+    {
+        "id": 97,
+        "name": "Certificat de Dragodinde",
+        "nature": 27
+    },
+    {
+        "id": 98,
+        "name": "Racine",
+        "nature": 9
+    },
+    {
+        "id": 99,
+        "name": "Filet de capture",
+        "nature": 2
+    },
+    {
+        "id": 100,
+        "name": "Sac de ressources",
+        "nature": 6
+    },
+    {
+        "id": 103,
+        "name": "Patte",
+        "nature": 9
+    },
+    {
+        "id": 104,
+        "name": "Aile",
+        "nature": 9
+    },
+    {
+        "id": 105,
+        "name": "Œuf",
+        "nature": 9
+    },
+    {
+        "id": 106,
+        "name": "Oreille",
+        "nature": 9
+    },
+    {
+        "id": 107,
+        "name": "Carapace",
+        "nature": 9
+    },
+    {
+        "id": 108,
+        "name": "Bourgeon",
+        "nature": 9
+    },
+    {
+        "id": 109,
+        "name": "Œil",
+        "nature": 9
+    },
+    {
+        "id": 110,
+        "name": "Gelée",
+        "nature": 9
+    },
+    {
+        "id": 111,
+        "name": "Coquille",
+        "nature": 9
+    },
+    {
+        "id": 112,
+        "name": "Prisme",
+        "nature": 6
+    },
+    {
+        "id": 113,
+        "name": "Objet vivant",
+        "nature": 22
+    },
+    {
+        "id": 114,
+        "name": "Arme magique",
+        "nature": 2
+    },
+    {
+        "id": 118,
+        "name": "Objets d'équipement",
+        "nature": 6
+    },
+    {
+        "id": 119,
+        "name": "Champignon",
+        "nature": 9
+    },
+    {
+        "id": 121,
+        "name": "Montilier",
+        "nature": 12
+    },
+    {
+        "id": 125,
+        "name": "Souvenir",
+        "nature": 9
+    },
+    {
+        "id": 126,
+        "name": "Quêtes principales",
+        "nature": 14
+    },
+    {
+        "id": 127,
+        "name": "Quêtes de temple",
+        "nature": 14
+    },
+    {
+        "id": 128,
+        "name": "Avis de recherche",
+        "nature": 14
+    },
+    {
+        "id": 129,
+        "name": "Alignement",
+        "nature": 14
+    },
+    {
+        "id": 131,
+        "name": "Événements",
+        "nature": 14
+    },
+    {
+        "id": 132,
+        "name": "Archipel de Vulkania",
+        "nature": 14
+    },
+    {
+        "id": 133,
+        "name": "Astrub",
+        "nature": 14
+    },
+    {
+        "id": 136,
+        "name": "Campement des Bworks",
+        "nature": 14
+    },
+    {
+        "id": 137,
+        "name": "Cania",
+        "nature": 14
+    },
+    {
+        "id": 138,
+        "name": "Château d'Amakna",
+        "nature": 14
+    },
+    {
+        "id": 139,
+        "name": "Île de Frigost",
+        "nature": 14
+    },
+    {
+        "id": 140,
+        "name": "Île d'Otomaï",
+        "nature": 14
+    },
+    {
+        "id": 141,
+        "name": "Île de Nowel",
+        "nature": 14
+    },
+    {
+        "id": 142,
+        "name": "Incarnam",
+        "nature": 14
+    },
+    {
+        "id": 143,
+        "name": "Montagne des Koalaks",
+        "nature": 14
+    },
+    {
+        "id": 144,
+        "name": "Pandala",
+        "nature": 14
+    },
+    {
+        "id": 145,
+        "name": "Port de Madrestam",
+        "nature": 14
+    },
+    {
+        "id": 146,
+        "name": "Province d'Amakna",
+        "nature": 14
+    },
+    {
+        "id": 147,
+        "name": "Krosmoz",
+        "nature": 14
+    },
+    {
+        "id": 148,
+        "name": "Jetons",
+        "nature": 14
+    },
+    {
+        "id": 149,
+        "name": "Île de Moon",
+        "nature": 14
+    },
+    {
+        "id": 150,
+        "name": "Îles des Wabbits",
+        "nature": 14
+    },
+    {
+        "id": 151,
+        "name": "Trophée",
+        "nature": 13
+    },
+    {
+        "id": 152,
+        "name": "Galet",
+        "nature": 9
+    },
+    {
+        "id": 153,
+        "name": "Nowel",
+        "nature": 9
+    },
+    {
+        "id": 154,
+        "name": "Emballage",
+        "nature": 9
+    },
+    {
+        "id": 155,
+        "name": "Sufokia",
+        "nature": 14
+    },
+    {
+        "id": 156,
+        "name": "Almanax",
+        "nature": 14
+    },
+    {
+        "id": 157,
+        "name": "Figurine",
+        "nature": 6
+    },
+    {
+        "id": 164,
+        "name": "Vêtement",
+        "nature": 9
+    },
+    {
+        "id": 165,
+        "name": "Potion de conquête",
+        "nature": 6
+    },
+    {
+        "id": 166,
+        "name": "Mimibiote",
+        "nature": 6
+    },
+    {
+        "id": 167,
+        "name": "Essence de gardien de donjon",
+        "nature": 9
+    },
+    {
+        "id": 168,
+        "name": "Justiciers",
+        "nature": 14
+    },
+    {
+        "id": 169,
+        "name": "Compagnon",
+        "nature": 23
+    },
+    {
+        "id": 171,
+        "name": "Dimensions Divines",
+        "nature": 14
+    },
+    {
+        "id": 172,
+        "name": "Coffre",
+        "nature": 6
+    },
+    {
+        "id": 173,
+        "name": "Parchemin d'attitude",
+        "nature": 6
+    },
+    {
+        "id": 174,
+        "name": "Carte",
+        "nature": 9
+    },
+    {
+        "id": 175,
+        "name": "Fragment de carte",
+        "nature": 9
+    },
+    {
+        "id": 176,
+        "name": "Boîte de fragments",
+        "nature": 6
+    },
+    {
+        "id": 178,
+        "name": "Idole",
+        "nature": 9
+    },
+    {
+        "id": 179,
+        "name": "Préparation",
+        "nature": 9
+    },
+    {
+        "id": 183,
+        "name": "Substrat",
+        "nature": 9
+    },
+    {
+        "id": 184,
+        "name": "Conteneur",
+        "nature": 6
+    },
+    {
+        "id": 185,
+        "name": "Sève",
+        "nature": 9
+    },
+    {
+        "id": 187,
+        "name": "Viande primitive",
+        "nature": 6
+    },
+    {
+        "id": 188,
+        "name": "Parchemin d'émoticônes",
+        "nature": 6
+    },
+    {
+        "id": 189,
+        "name": "Orbe de forgemagie",
+        "nature": 9
+    },
+    {
+        "id": 190,
+        "name": "Harnachements de Dragodinde",
+        "nature": 24
+    },
+    {
+        "id": 195,
+        "name": "Matériel d'exploration",
+        "nature": 9
+    },
+    {
+        "id": 196,
+        "name": "Certificat de Muldo",
+        "nature": 27
+    },
+    {
+        "id": 197,
+        "name": "Caution",
+        "nature": 9
+    },
+    {
+        "id": 198,
+        "name": "Saharach",
+        "nature": 14
+    },
+    {
+        "id": 199,
+        "name": "Costume",
+        "nature": 25
+    },
+    {
+        "id": 200,
+        "name": "Parchemin de titre",
+        "nature": 6
+    },
+    {
+        "id": 201,
+        "name": "Nimotopia",
+        "nature": 14
+    },
+    {
+        "id": 202,
+        "name": "Sidimote",
+        "nature": 14
+    },
+    {
+        "id": 203,
+        "name": "Objet invisible",
+        "nature": 26
+    },
+    {
+        "id": 205,
+        "name": "Tours de la Fratrie",
+        "nature": 14
+    },
+    {
+        "id": 206,
+        "name": "Potion de monture",
+        "nature": 6
+    },
+    {
+        "id": 207,
+        "name": "Certificat de Volkorne",
+        "nature": 27
+    },
+    {
+        "id": 209,
+        "name": "Nourriture pour familier",
+        "nature": 9
+    },
+    {
+        "id": 211,
+        "name": "Rune de transcendance",
+        "nature": 9
+    },
+    {
+        "id": 213,
+        "name": "Île de Pwâk",
+        "nature": 14
+    },
+    {
+        "id": 214,
+        "name": "Potion d'attitude",
+        "nature": 6
+    },
+    {
+        "id": 215,
+        "name": "Archipel des Écailles",
+        "nature": 14
+    },
+    {
+        "id": 216,
+        "name": "Bourse",
+        "nature": 6
+    },
+    {
+        "id": 217,
+        "name": "Prysmaradite",
+        "nature": 13
+    },
+    {
+        "id": 218,
+        "name": "Popoche de Havre-Sac",
+        "nature": 6
+    },
+    {
+        "id": 219,
+        "name": "Ressources des Songes",
+        "nature": 9
+    },
+    {
+        "id": 220,
+        "name": "Eliocalypse",
+        "nature": 14
+    },
+    {
+        "id": 222,
+        "name": "Parchemin d'ornement",
+        "nature": 6
+    },
+    {
+        "id": 230,
+        "name": "Obsolète",
+        "nature": 9
+    },
+    {
+        "id": 231,
+        "name": "Rabmablague",
+        "nature": 9
+    },
+    {
+        "id": 232,
+        "name": "Haïku",
+        "nature": 9
+    },
+    {
+        "id": 233,
+        "name": "Rune astrale",
+        "nature": 9
+    },
+    {
+        "id": 236,
+        "name": "Mots de haïku",
+        "nature": 6
+    },
+    {
+        "id": 242,
+        "name": "Atoll des Possédés",
+        "nature": 14
+    },
+    {
+        "id": 245,
+        "name": "Ressources obsolètes",
+        "nature": 6
+    },
+    {
+        "id": 246,
+        "name": "Chapeau d'apparat",
+        "nature": 22
+    },
+    {
+        "id": 247,
+        "name": "Cape d'apparat",
+        "nature": 22
+    },
+    {
+        "id": 248,
+        "name": "Bouclier d'apparat",
+        "nature": 22
+    },
+    {
+        "id": 249,
+        "name": "Familier d'apparat",
+        "nature": 22
+    },
+    {
+        "id": 250,
+        "name": "Montilier d'apparat",
+        "nature": 22
+    },
+    {
+        "id": 251,
+        "name": "Arme d'apparat",
+        "nature": 22
+    },
+    {
+        "id": 252,
+        "name": "Objet d'apparat divers",
+        "nature": 22
+    },
+    {
+        "id": 254,
+        "name": "Bonta & Brakmar",
+        "nature": 14
+    },
+    {
+        "id": 255,
+        "name": "Harnachements de Muldo",
+        "nature": 24
+    },
+    {
+        "id": 256,
+        "name": "Harnachements de Volkorne",
+        "nature": 24
+    },
+    {
+        "id": 258,
+        "name": "Gravure de forgemagie",
+        "nature": 9
+    },
+    {
+        "id": 259,
+        "name": "Bouataklône",
+        "nature": 6
+    },
+    {
+        "id": 260,
+        "name": "Forêt Maléfique",
+        "nature": 14
+    },
+    {
+        "id": 228,
+        "name": "Liquide",
+        "nature": 9
+    },
+    {
+        "id": 229,
+        "name": "Ressource de combat",
+        "nature": 9
+    },
+    {
+        "id": 253,
+        "name": "Cauchemar des Ravageurs",
+        "nature": 14
+    },
+    {
+        "id": 266,
+        "name": "Ressources des Anomalies Temporelles",
+        "nature": 9
+    },
+    {
+        "id": 267,
+        "name": "Idole d'expédition",
+        "nature": 51
+    },
+    {
+        "id": 268,
+        "name": "Expéditions",
+        "nature": 14
+    },
+    {
+        "id": 223,
+        "name": "Parchemins Temporis",
+        "nature": 6
+    },
+    {
+        "id": 262,
+        "name": "Matériel de mégaltération",
+        "nature": 9
+    },
+    {
+        "id": 271,
+        "name": "Lance",
+        "nature": 2
+    },
+    {
+        "id": 272,
+        "name": "Archipel de Valonia",
+        "nature": 14
+    },
+    {
+        "id": 225,
+        "name": "Temporis",
+        "nature": 14
+    },
+    {
+        "id": 226,
+        "name": "Objet utilisable de Temporis",
+        "nature": 6
+    },
+    {
+        "id": 241,
+        "name": "Ressources de Temporis",
+        "nature": 9
+    },
+    {
+        "id": 261,
+        "name": "Altérés",
+        "nature": 6
+    },
+    {
+        "id": 265,
+        "name": "Badge",
+        "nature": 13
+    },
+    {
+        "id": 273,
+        "name": "Fers de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 274,
+        "name": "Cuirasses de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 275,
+        "name": "Bannière de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 276,
+        "name": "Poignards de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 277,
+        "name": "Tunique de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 278,
+        "name": "Ressources de Percepteur",
+        "nature": 9
+    },
+    {
+        "id": 279,
+        "name": "Coffres de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 280,
+        "name": "Sacoches de Percepteur",
+        "nature": 69
+    },
+    {
+        "id": 284,
+        "name": "Relique d'Incarnation",
+        "nature": 6
+    },
+    {
+        "id": 286,
+        "name": "Compagnon de Temporis",
+        "nature": 23
+    },
+    {
+        "id": 287,
+        "name": "Porte-signe de Compagnon",
+        "nature": 14
+    }
+]

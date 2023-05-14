@@ -18,31 +18,16 @@ class DefaultItemController extends BaseController
     {
         $requestData = $this->request->query->all();
 
-        $activeItemNatures = $this->request->query->all('itemNature') ?? [];
-        $activeItemTypes = $this->request->query->all('itemType') ?? [];
-        $priceRange = $this->request->query->all('priceRange') ?? [];
-        $minPrice = $priceRange['min'] ?? 0;
-        $maxPrice = $priceRange['max'] ?? null;
-
-        $itemNatures = ItemNatureService::getItemNaturesForSelect($this->em);
-
-        $itemTypes = ItemTypeService::getItemTypesForSelect($this->em, $itemNatures);
-
         $topSelledItems = $defaultItemService::getTopSelledItems($this->em);
         return $this->render('item/list.html.twig', [
             'controller_name'   => 'DefaultItemController',
             'items'             => $defaultItemService->getItems(),
-            'itemNatures'       => $itemNatures,
-            'selectedItemNatures'   => $activeItemNatures,
-            'itemTypes'         => $itemTypes,
-            'selectedItemTypes' => $activeItemTypes,
-            'minPrice'          => $minPrice,
-            'maxPrice'          => $maxPrice,
-            'requestData'       => $requestData,
-            'search'            => $this->request->query->get('search') ?? '',
             'topSelledItems'    => $topSelledItems,
+            'filters'           => DefaultItemService::getItemFilters($this->getRequestData())
         ]);
     }
+
+
 
     #[Route('/item/{uuid}', name: 'app_item')]
     public function item(string $uuid): Response
@@ -79,23 +64,36 @@ class DefaultItemController extends BaseController
             $batchs['100'] = $hundred;
         }
 
+        $user = $this->getUser();
+        $account = null;
+        if ($user) {
+            $account = $user->getActiveAccount() ?? null;
+        }
+
         return $this->render('item/item.html.twig', [
             'item'          => $item,
             'stock'         => DefaultItemService::getStock($item, $this->em),
-            'isFarmable'    => DefaultItemService::isFarmable($item),
+            'isFarmable'    => DefaultItemService::isFarmable($item, $account, $this->em),
             'batchs'        => $batchs,
         ]);
     }
     
 
-    #[Route('/item/generate/image', name: 'app_generate_image')]
-    public function generateImage(): Response
+    //custom routes for admin to generate items
+    #[Route('/item/{uuid}/give/{quantity}', name: 'app_item_give')]
+    public function giveItem(DefaultItem $defaultItem, int $quantity): Response
     {
-        $items = $this->em->getRepository(DefaultItem::class)->findAll();
-        foreach ($items as $item) {
-            file_put_contents( $item->getId() . '.png', file_get_contents($item->getImageUrl()));
+        $isadmin = $this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+        if (!$isadmin) {
+            return $this->redirectToRoute('app_home');
         }
-        return new Response('ok');
+        $account = $this->getActiveAccountOrRedirect();
+
+        for ($i = 0; $i < $quantity; $i++) {
+            DefaultItemService::generateItemForAccount($defaultItem, $this->em, $account, $this->hub, false);
+        }
+
+        return $this->redirectToRoute('app_item', ['uuid' => $defaultItem->getUuid()]);
     }
 
 }

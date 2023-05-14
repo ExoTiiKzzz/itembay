@@ -1,0 +1,710 @@
+[
+    {
+        "id": 0,
+        "name": "Points de vie",
+        "categoryId": 1,
+        "order": 32
+    },
+    {
+        "id": 1,
+        "name": "Points d'action (PA)",
+        "categoryId": 2,
+        "order": 0
+    },
+    {
+        "id": 3,
+        "name": "Points de caractéristiques",
+        "categoryId": 1,
+        "order": 29
+    },
+    {
+        "id": 4,
+        "name": "Points de sorts",
+        "categoryId": 1,
+        "order": 31
+    },
+    {
+        "id": 5,
+        "name": "Niveau",
+        "categoryId": 1,
+        "order": 22
+    },
+    {
+        "id": 10,
+        "name": "Force",
+        "categoryId": 2,
+        "order": 6
+    },
+    {
+        "id": 11,
+        "name": "Vitalité",
+        "categoryId": 2,
+        "order": 3
+    },
+    {
+        "id": 12,
+        "name": "Sagesse",
+        "categoryId": 2,
+        "order": 10
+    },
+    {
+        "id": 13,
+        "name": "Chance",
+        "categoryId": 2,
+        "order": 5
+    },
+    {
+        "id": 14,
+        "name": "Agilité",
+        "categoryId": 2,
+        "order": 4
+    },
+    {
+        "id": 15,
+        "name": "Intelligence",
+        "categoryId": 2,
+        "order": 7
+    },
+    {
+        "id": 16,
+        "name": "Dommages",
+        "categoryId": 4,
+        "order": 0
+    },
+    {
+        "id": 18,
+        "name": "Critique",
+        "categoryId": 2,
+        "order": 9
+    },
+    {
+        "id": 19,
+        "name": "Portée",
+        "categoryId": 2,
+        "order": 2
+    },
+    {
+        "id": 20,
+        "name": "Réduction des dégats magiques",
+        "categoryId": 1,
+        "order": 40
+    },
+    {
+        "id": 21,
+        "name": "Réduction des dégats physiques",
+        "categoryId": 1,
+        "order": 41
+    },
+    {
+        "id": 22,
+        "name": "Boost : expérience",
+        "categoryId": 1,
+        "order": 10
+    },
+    {
+        "id": 23,
+        "name": "Points de mouvement (PM)",
+        "categoryId": 2,
+        "order": 1
+    },
+    {
+        "id": 24,
+        "name": "Invisibilité",
+        "categoryId": 1,
+        "order": 15
+    },
+    {
+        "id": 25,
+        "name": "Puissance",
+        "categoryId": 2,
+        "order": 8
+    },
+    {
+        "id": 26,
+        "name": "Invocation",
+        "categoryId": 3,
+        "order": 12
+    },
+    {
+        "id": 27,
+        "name": "Esquive PA",
+        "categoryId": 3,
+        "order": 1
+    },
+    {
+        "id": 28,
+        "name": "Esquive PM",
+        "categoryId": 3,
+        "order": 3
+    },
+    {
+        "id": 29,
+        "name": "Points d'énergie",
+        "categoryId": 1,
+        "order": 28
+    },
+    {
+        "id": 30,
+        "name": "Valeur d'alignement",
+        "categoryId": 1,
+        "order": 43
+    },
+    {
+        "id": 31,
+        "name": "Maitrise d'arme",
+        "categoryId": 4,
+        "order": 9
+    },
+    {
+        "id": 32,
+        "name": "Bonus aux dommages physiques",
+        "categoryId": 1,
+        "order": 2
+    },
+    {
+        "id": 33,
+        "name": "Terre (%)",
+        "categoryId": 5,
+        "order": 3
+    },
+    {
+        "id": 34,
+        "name": "Feu (%)",
+        "categoryId": 5,
+        "order": 5
+    },
+    {
+        "id": 35,
+        "name": "Eau (%)",
+        "categoryId": 5,
+        "order": 7
+    },
+    {
+        "id": 36,
+        "name": "Air (%)",
+        "categoryId": 5,
+        "order": 9
+    },
+    {
+        "id": 37,
+        "name": "Neutre (%)",
+        "categoryId": 5,
+        "order": 1
+    },
+    {
+        "id": 39,
+        "name": "Echec critique",
+        "categoryId": 1,
+        "order": 13
+    },
+    {
+        "id": 40,
+        "name": "Pods",
+        "categoryId": 1,
+        "order": 26
+    },
+    {
+        "id": 41,
+        "name": "Restriction sur l'acteur",
+        "categoryId": 1,
+        "order": 38
+    },
+    {
+        "id": 42,
+        "name": "Restriction sur les autres",
+        "categoryId": 1,
+        "order": 39
+    },
+    {
+        "id": 43,
+        "name": "Alignement",
+        "categoryId": 1,
+        "order": 0
+    },
+    {
+        "id": 44,
+        "name": "Initiative",
+        "categoryId": 3,
+        "order": 11
+    },
+    {
+        "id": 45,
+        "name": "Pourcentage de remise en magasin",
+        "categoryId": 1,
+        "order": 34
+    },
+    {
+        "id": 46,
+        "name": "Rang d'alignement",
+        "categoryId": 1,
+        "order": 36
+    },
+    {
+        "id": 47,
+        "name": "Maximum de points d'énergie",
+        "categoryId": 1,
+        "order": 18
+    },
+    {
+        "id": 48,
+        "name": "Prospection",
+        "categoryId": 3,
+        "order": 13
+    },
+    {
+        "id": 49,
+        "name": "Soins",
+        "categoryId": 3,
+        "order": 5
+    },
+    {
+        "id": 50,
+        "name": "Renvoi",
+        "categoryId": 4,
+        "order": 8
+    },
+    {
+        "id": 51,
+        "name": "Perte d'énergie",
+        "categoryId": 1,
+        "order": 25
+    },
+    {
+        "id": 52,
+        "name": "Points d'honneur",
+        "categoryId": 1,
+        "order": 27
+    },
+    {
+        "id": 53,
+        "name": "Points de déshonneur",
+        "categoryId": 1,
+        "order": 30
+    },
+    {
+        "id": 54,
+        "name": "Terre (fixe)",
+        "categoryId": 5,
+        "order": 2
+    },
+    {
+        "id": 55,
+        "name": "Feu (fixe)",
+        "categoryId": 5,
+        "order": 4
+    },
+    {
+        "id": 56,
+        "name": "Eau (fixe)",
+        "categoryId": 5,
+        "order": 6
+    },
+    {
+        "id": 57,
+        "name": "Air (fixe)",
+        "categoryId": 5,
+        "order": 8
+    },
+    {
+        "id": 58,
+        "name": "Neutre (fixe)",
+        "categoryId": 5,
+        "order": 0
+    },
+    {
+        "id": 69,
+        "name": "Pièges (Puissance)",
+        "categoryId": 4,
+        "order": 11
+    },
+    {
+        "id": 70,
+        "name": "Pièges (fixe)",
+        "categoryId": 4,
+        "order": 10
+    },
+    {
+        "id": 72,
+        "name": "Bonus de capture d'âme",
+        "categoryId": 1,
+        "order": 4
+    },
+    {
+        "id": 73,
+        "name": "Bonus d'expérience de monture",
+        "categoryId": 1,
+        "order": 3
+    },
+    {
+        "id": 74,
+        "name": "Confusion",
+        "categoryId": 1,
+        "order": 12
+    },
+    {
+        "id": 75,
+        "name": "Érosion",
+        "categoryId": 6,
+        "order": 0
+    },
+    {
+        "id": 76,
+        "name": "Poisse",
+        "categoryId": 1,
+        "order": 33
+    },
+    {
+        "id": 77,
+        "name": "Maximise les effets aléatories",
+        "categoryId": 1,
+        "order": 17
+    },
+    {
+        "id": 78,
+        "name": "Fuite",
+        "categoryId": 3,
+        "order": 7
+    },
+    {
+        "id": 79,
+        "name": "Tacle",
+        "categoryId": 3,
+        "order": 6
+    },
+    {
+        "id": 80,
+        "name": "Rayon d'auto aggression JcJ",
+        "categoryId": 1,
+        "order": 37
+    },
+    {
+        "id": 81,
+        "name": "Esquive auto aggression JcJ",
+        "categoryId": 1,
+        "order": 14
+    },
+    {
+        "id": 82,
+        "name": "Retrait PA",
+        "categoryId": 3,
+        "order": 0
+    },
+    {
+        "id": 83,
+        "name": "Retrait PM",
+        "categoryId": 3,
+        "order": 2
+    },
+    {
+        "id": 84,
+        "name": "Poussée",
+        "categoryId": 4,
+        "order": 12
+    },
+    {
+        "id": 85,
+        "name": "Poussée (fixe)",
+        "categoryId": 5,
+        "order": 11
+    },
+    {
+        "id": 86,
+        "name": "Dommages critiques",
+        "categoryId": 4,
+        "order": 2
+    },
+    {
+        "id": 87,
+        "name": "Coups critiques (fixe)",
+        "categoryId": 5,
+        "order": 10
+    },
+    {
+        "id": 88,
+        "name": "Terre (fixe)",
+        "categoryId": 4,
+        "order": 4
+    },
+    {
+        "id": 89,
+        "name": "Feu (fixe)",
+        "categoryId": 4,
+        "order": 5
+    },
+    {
+        "id": 90,
+        "name": "Eau (fixe)",
+        "categoryId": 4,
+        "order": 6
+    },
+    {
+        "id": 91,
+        "name": "Air (fixe)",
+        "categoryId": 4,
+        "order": 7
+    },
+    {
+        "id": 92,
+        "name": "Neutre (fixe)",
+        "categoryId": 4,
+        "order": 3
+    },
+    {
+        "id": 93,
+        "name": "Nombre max d'invocations de bombes",
+        "categoryId": 1,
+        "order": 23
+    },
+    {
+        "id": 94,
+        "name": "Bonus de combo de bombe",
+        "categoryId": 1,
+        "order": 5
+    },
+    {
+        "id": 95,
+        "name": "Bonus vitalité (n'enlève pas de PV quand dissipé)",
+        "categoryId": 1,
+        "order": 9
+    },
+    {
+        "id": 96,
+        "name": "Bouclier",
+        "categoryId": 1,
+        "order": 11
+    },
+    {
+        "id": 97,
+        "name": "Malus de vie temporaire",
+        "categoryId": 1,
+        "order": 16
+    },
+    {
+        "id": 98,
+        "name": "Bonus de dommage aux sorts (%)",
+        "categoryId": 1,
+        "order": 6
+    },
+    {
+        "id": 99,
+        "name": "Taille (fixe)",
+        "categoryId": 1,
+        "order": 42
+    },
+    {
+        "id": 100,
+        "name": "PasseSonTour",
+        "categoryId": 1,
+        "order": 24
+    },
+    {
+        "id": 101,
+        "name": "Pourcentage de résistance aux dommages",
+        "categoryId": 1,
+        "order": 35
+    },
+    {
+        "id": 103,
+        "name": "Bonus de puissance pour les armes",
+        "categoryId": 1,
+        "order": 7
+    },
+    {
+        "id": 104,
+        "name": "Multiplication des dommages reçus",
+        "categoryId": 1,
+        "order": 20
+    },
+    {
+        "id": 105,
+        "name": "Multiplication des dommages reçus en soins",
+        "categoryId": 1,
+        "order": 21
+    },
+    {
+        "id": 106,
+        "name": "Bonus de puissance pour les glyphes",
+        "categoryId": 1,
+        "order": 8
+    },
+    {
+        "id": 107,
+        "name": "Multiplicateur de dommages",
+        "categoryId": 1,
+        "order": 19
+    },
+    {
+        "id": 108,
+        "name": "Blocage de gains d'expérience",
+        "categoryId": 1,
+        "order": 1
+    },
+    {
+        "id": 109,
+        "name": "Inconnu",
+        "categoryId": 1,
+        "order": 44
+    },
+    {
+        "id": 110,
+        "name": "Bonus de puissance pour les runes",
+        "categoryId": 1,
+        "order": 45
+    },
+    {
+        "id": 120,
+        "name": "Distance",
+        "categoryId": 4,
+        "order": 15
+    },
+    {
+        "id": 121,
+        "name": "Distance",
+        "categoryId": 5,
+        "order": 14
+    },
+    {
+        "id": 122,
+        "name": "Arme",
+        "categoryId": 4,
+        "order": 14
+    },
+    {
+        "id": 123,
+        "name": "Sorts",
+        "categoryId": 4,
+        "order": 13
+    },
+    {
+        "id": 124,
+        "name": "Mêlée",
+        "categoryId": 5,
+        "order": 15
+    },
+    {
+        "id": 125,
+        "name": "Mêlée",
+        "categoryId": 4,
+        "order": 16
+    },
+    {
+        "id": 126,
+        "name": "Agilité %",
+        "categoryId": 1,
+        "order": 54
+    },
+    {
+        "id": 127,
+        "name": "Force %",
+        "categoryId": 1,
+        "order": 66
+    },
+    {
+        "id": 128,
+        "name": "Chance %",
+        "categoryId": 1,
+        "order": 55
+    },
+    {
+        "id": 129,
+        "name": "Intelligence %",
+        "categoryId": 1,
+        "order": 60
+    },
+    {
+        "id": 130,
+        "name": "Vitalité %",
+        "categoryId": 1,
+        "order": 58
+    },
+    {
+        "id": 131,
+        "name": "Sagesse %",
+        "categoryId": 1,
+        "order": 57
+    },
+    {
+        "id": 132,
+        "name": "Tacle %",
+        "categoryId": 1,
+        "order": 56
+    },
+    {
+        "id": 133,
+        "name": "Fuite %",
+        "categoryId": 1,
+        "order": 65
+    },
+    {
+        "id": 134,
+        "name": "Points d'action (PA) %",
+        "categoryId": 1,
+        "order": 59
+    },
+    {
+        "id": 135,
+        "name": "Points de mouvement (PM) %",
+        "categoryId": 1,
+        "order": 61
+    },
+    {
+        "id": 136,
+        "name": "Retrait (PA) %",
+        "categoryId": 1,
+        "order": 70
+    },
+    {
+        "id": 137,
+        "name": "Retrait (PM) %",
+        "categoryId": 1,
+        "order": 63
+    },
+    {
+        "id": 138,
+        "name": "Equive (PA) %",
+        "categoryId": 1,
+        "order": 64
+    },
+    {
+        "id": 139,
+        "name": "Equive (PM) %",
+        "categoryId": 1,
+        "order": 67
+    },
+    {
+        "id": 140,
+        "name": "Scale",
+        "categoryId": 1,
+        "order": 68
+    },
+    {
+        "id": 141,
+        "name": "Sorts",
+        "categoryId": 5,
+        "order": 12
+    },
+    {
+        "id": 142,
+        "name": "Arme",
+        "categoryId": 5,
+        "order": 13
+    },
+    {
+        "id": 146,
+        "name": "Inconnue",
+        "categoryId": 1,
+        "order": 69
+    },
+    {
+        "id": 147,
+        "name": "Érosion",
+        "categoryId": 4,
+        "order": 17
+    },
+    {
+        "id": 156,
+        "name": "Multiplicateur de soins",
+        "categoryId": 1,
+        "order": 62
+    }
+]

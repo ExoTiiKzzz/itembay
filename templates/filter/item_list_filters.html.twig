@@ -1,0 +1,128 @@
+{% set context = context ?? 'shop' %}
+{% set selectedItemNatures = filters.selectedItemNatures ?? [] %}
+{% set selectedItemTypes = filters.selectedItemTypes ?? [] %}
+{% set itemNatures = getItemNaturesData() %}
+{% set itemTypes = getItemTypesData() %}
+{% set minPrice = filters.minPrice %}
+{% set maxPrice = filters.maxPrice %}
+{% set search = filters.search ?? '' %}
+{% set orderBy = orderBy ?? '' %}
+
+<form action="">
+    <h3><label for="search">Rechercher par nom</label></h3>
+    <input type="search" name="search" id="search" class="form-control" value="{{ search ?? '' }}">
+    <h3 class="mt-3"><label for="orderBy">Trier par:</label></h3>
+    <select id="orderBy" name="orderBy" class="form-control form-select">
+        {% set possibilites = [
+            {
+                'value' : 'cheaper',
+                'label' : 'Prix Croissant',
+                'context' : ['shop']
+            },
+            {
+                'value' : 'expensive',
+                'label' : 'Prix Décroissant',
+                'context' : ['shop']
+            },
+            {
+                'value' : 'az',
+                'label' : 'Nom A-Z',
+                'context' : ['shop', 'inventory']
+            },
+            {
+                'value' : 'za',
+                'label' : 'Nom Z-A',
+                'context' : ['shop', 'inventory']
+            },
+            {
+                'value' : 'levelAsc',
+                'label' : 'Niveau croissant',
+                'context' : ['shop', 'inventory']
+            },
+            {
+                'value' : 'levelDesc',
+                'label' : 'Niveau décroissant',
+                'context' : ['shop', 'inventory']
+            },
+        ] %}
+        <option value="">Défaut</option>
+        {% for possibility in possibilites %}
+            {% if context in possibility.context %}
+                {% set selected = '' %}
+                {% if filters.orderBy is defined and possibility.value == filters.orderBy %}
+                    {% set selected = 'selected' %}
+                {% endif %}
+                <option value="{{ possibility.value }}" {{ selected }}>{{ possibility.label }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <h3 class="mt-4">Filtres</h3>
+    <div id="accordion" class="text-black accordion accordion-flush">
+        <div class="accordion-item">
+            <h5 class="accordion-header">
+                <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseNature" aria-controls="collapseNature">
+                    Catégories d'objet <span class="natureCount" style="margin-left: 5px;">{{ selectedItemNatures|length > 0 ? '(' ~ selectedItemNatures|length ~ ')' }}</span>
+                </button>
+            </h5>
+            <div id="collapseNature" class="accordion-collapse collapse" data-parent="#accordion">
+                <div class="accordion-body">
+                    {% for nature in itemNatures %}
+                        {% set checked = '' %}
+                        {% if nature.id in selectedItemNatures %}
+                            {% set checked = 'checked' %}
+                        {% endif %}
+                        <div>
+                            <input type="checkbox" id="nature-{{ nature.id }}" name="itemNature[]" value="{{ nature.id }}" {{ checked }}>
+                            <label for="nature-{{ nature.id }}">{{ nature.name }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h5 class="accordion-header">
+                <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapseType" aria-controls="collapseType">
+                    Types d'objet <span class="typeCount ml-2" style="margin-left: 5px;">{{ selectedItemTypes|length > 0 ? '(' ~ selectedItemTypes|length ~ ')' }}</span>
+                </button>
+            </h5>
+            <div id="collapseType" class="accordion-collapse collapse" data-parent="#accordion">
+                <div class="accordion-body">
+                    {% include '/filter/item_type_filter.html.twig' with {
+                        'itemTypes' : itemTypes,
+                        'selectedItemTypes' : selectedItemTypes,
+                    } %}
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h5 class="accordion-header">
+                <button type="button" class="accordion-button collapsed" data-toggle="collapse" data-target="#collapsePrice" aria-controls="collapsePrice">
+                    Prix
+                </button>
+            </h5>
+            <div id="collapsePrice" class="accordion-collapse collapse" data-parent="#accordion">
+                <div class="accordion-body">
+                    {% set id = '' | randomId %}
+                    <label for="minPriceRange" class="form-label">Prix minimum</label>
+                    {% if minPrice is defined %}
+                        {% set minValue = minPrice %}
+                    {% endif %}
+                    <input type="number" class="form-control" id="minPriceRange" min="0" value="{{ minValue }}" name="priceRange[min]">
+                    <div data-range-value data-target="#minPriceRange">
+                        {% if minPrice is defined %}
+                            {{ minPrice | itemPrice | raw }}
+                        {% endif %}
+                    </div>
+                    <label for="maxPriceRange" class="form-label">Prix maximum</label>
+                    <input type="number" class="form-control" id="maxPriceRange" min="0" value="{{ maxPrice }}" name="priceRange[max]">
+                    <div data-range-value data-target="#maxPriceRange">
+                        {% if maxPrice is defined %}
+                            {{ maxPrice | itemPrice | raw }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary form-control mt-5">Filtrer</button>
+</form>

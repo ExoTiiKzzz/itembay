@@ -5,9 +5,12 @@ namespace App\Service;
 use App\Entity\Account;
 use App\Entity\BugReportStatus;
 use App\Entity\BugReportType;
+use App\Entity\Characteristic;
 use App\Entity\DefaultItem;
+use App\Entity\DefaultItemPossibleCharacteristic;
 use App\Entity\Item;
 use App\Entity\ItemNature;
+use App\Entity\ItemSet;
 use App\Entity\ItemType;
 use App\Entity\PlayerClass;
 use App\Entity\PlayerProfession;
@@ -16,15 +19,11 @@ use App\Entity\ProfessionExperience;
 use App\Entity\Recipe;
 use App\Entity\RecipeLine;
 use App\Entity\User;
-use App\Repository\BugReportStatusRepository;
-use App\Repository\BugReportTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DatabaseSeeder
 {
-    private array $json = [];
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -38,7 +37,11 @@ class DatabaseSeeder
     {
         $this->seedClasses();
         $this->seedProfessions();
+        $this->seedCharacteristics();
+        $this->seedItemNatures();
+        $this->seedItemTypes();
         $this->seedAllItems();
+        $this->seedItemSets();
         $this->seedAllProfessionsItems();
         $this->seedXpTable();
         $this->seedUsers();
@@ -75,48 +78,94 @@ class DatabaseSeeder
         $this->entityManager->flush();
     }
 
+    private function seedCharacteristics()
+    {
+        $characteristicsJson = file_get_contents($this->baseDir . '/characteristics.json');
+        $characteristics = json_decode($characteristicsJson, true);
+        foreach ($characteristics as $characteristic) {
+            $professionEntity = new Characteristic();
+            $professionEntity->setAnkamaId($characteristic['id']);
+            $professionEntity->setName($characteristic['name']);
+            $professionEntity->setShowOrder($characteristic['order']);
+            $this->entityManager->persist($professionEntity);
+        }
+        $this->entityManager->flush();
+    }
+
+    private function seedItemNatures(): void
+    {
+        $itemNaturesJson = file_get_contents($this->baseDir . '/itemNatures.json');
+        $itemNatures = json_decode($itemNaturesJson, true);
+        foreach ($itemNatures as $itemNature) {
+            $itemNatureEntity = new ItemNature();
+            $itemNatureEntity->setName($itemNature['name']);
+            $itemNatureEntity->setAnkamaId($itemNature['id']);
+            $this->entityManager->persist($itemNatureEntity);
+        }
+        $this->entityManager->flush();
+    }
+
+    private function seedItemTypes(): void
+    {
+        $itemTypesJson = file_get_contents($this->baseDir . '/itemTypes.json');
+        $itemTypes = json_decode($itemTypesJson, true);
+        foreach ($itemTypes as $itemType) {
+            $itemNatureEntity = $this->entityManager->getRepository(ItemNature::class)->findOneBy(['ankamaId' => $itemType['nature']]);
+            if (!$itemNatureEntity) {
+                continue;
+            }
+            $itemTypeEntity = new ItemType();
+            $itemTypeEntity->setName($itemType['name']);
+            $itemTypeEntity->setItemNature($itemNatureEntity);
+            $itemTypeEntity->setAnkamaId($itemType['id']);
+            $this->entityManager->persist($itemTypeEntity);
+        }
+        $this->entityManager->flush();
+    }
+
     private function seedAllItems(): void
     {
         $unknownItemNature = new ItemNature();
         $unknownItemNature->setName('Unknown');
+        $unknownItemNature->setAnkamaId(0);
         $this->entityManager->persist($unknownItemNature);
-        $this->entityManager->flush();
 
 
         $unknownItemType = new ItemType();
         $unknownItemType->setName('Unknown');
+        $unknownItemType->setAnkamaId(0);
         $unknownItemType->setItemNature($unknownItemNature);
         $this->entityManager->persist($unknownItemType);
+
+        $this->entityManager->flush();
 
         $itemNatures = [];
         $itemNatures[$unknownItemNature->getName()] = $unknownItemNature;
 
-        $itemTypeString = 'type';
+        $itemTypes = [];
+        $itemTypes[$unknownItemType->getName()] = $unknownItemType;
 
-        $items = json_decode(file_get_contents($this->baseDir . '/items.json'), true);
+        $items = json_decode(file_get_contents($this->baseDir . '/items2.json'), true);
         foreach ($items as $item) {
             $nature = $item['nature'];
             if (!isset($itemNatures[$nature])) {
-                $itemNature = new ItemNature();
-                $itemNature->setName($nature);
-                $this->entityManager->persist($itemNature);
+                $itemNature = $this->entityManager->getRepository(ItemNature::class)->findOneBy(['name' => $nature]);
+                if (!$itemNature) {
+                    $itemNature = $unknownItemNature;
+                }
                 $itemNatures[$nature] = $itemNature;
             } else {
                 $itemNature = $itemNatures[$nature];
             }
 
-            if (array_key_exists($itemTypeString, $item) && $item[$itemTypeString] !== null) {
-                if (!isset($itemTypes[$item[$itemTypeString]])) {
-                    $itemType = new ItemType();
-                    $itemType->setName($item[$itemTypeString]);
-                    $itemType->setItemNature($itemNature);
-                    $this->entityManager->persist($itemType);
-                    $itemTypes[$item[$itemTypeString]] = $itemType;
-                } else {
-                    $itemType = $itemTypes[$item[$itemTypeString]];
+            if (!isset($itemTypes[$item['type']])) {
+                $itemType = $this->entityManager->getRepository(ItemType::class)->findOneBy(['name' => $item['type']]);
+                if (!$itemType) {
+                    $itemType = $unknownItemType;
                 }
+                $itemTypes[$item['type']] = $itemType;
             } else {
-                $itemType = $unknownItemType;
+                $itemType = $itemTypes[$item['type']];
             }
             $buyPrice = $this->randomPrice($item['level']);
             $itemEntity = new DefaultItem();
@@ -128,7 +177,34 @@ class DatabaseSeeder
             $itemEntity->setSellPrice($buyPrice * 0.8);
             $itemEntity->setItemNature($itemNature);
             $itemEntity->setLevel($item['level'] ?? 0);
+            $itemEntity->setImageUrl($item['imageUrl'] ?? '');
             $this->entityManager->persist($itemEntity);
+        }
+        $this->entityManager->flush();
+        $itemsEffectsJson = json_decode(file_get_contents($this->baseDir . '/itemEffects.json'), true);
+        foreach ($itemsEffectsJson as $item) {
+            $defaultItem = $this->entityManager->getRepository(DefaultItem::class)->findOneBy(['ankamaId' => $item['id']]);
+            if ($defaultItem === null) {
+                continue;
+            }
+            $itemEffects = $item['effects'];
+
+            foreach ($itemEffects as $itemEffect) {
+                $effectId = $itemEffect['effectId'];
+                if($effectId === -1) {
+                   $effectId = 92;
+                }
+                $characteristic = $this->entityManager->getRepository(Characteristic::class)->findOneBy(['ankamaId' => $effectId]);
+                if ($characteristic === null) {
+                    continue;
+                }
+                $itemEffectEntity = new DefaultItemPossibleCharacteristic();
+                $itemEffectEntity->setDefaultItem($defaultItem);
+                $itemEffectEntity->setCharacteristic($characteristic);
+                $itemEffectEntity->setMin($itemEffect['min']);
+                $itemEffectEntity->setMax($itemEffect['max']);
+                $this->entityManager->persist($itemEffectEntity);
+            }
         }
         $this->entityManager->flush();
 
@@ -138,27 +214,37 @@ class DatabaseSeeder
 
         /** @var DefaultItem $defaultItem */
         foreach ($defaultItems as $defaultItem) {
-            if (in_array($defaultItem->getItemNature()->getName(), ['Consommables', 'Ressources'])) {
-//                $toGenerate = $this->randomGeneration($defaultItem->getLevel() ?? 1);
-                $toGenerate = rand(1, 1000);
-            } else {
-//                $toGenerate = $this->randomGeneration($defaultItem->getLevel() ?? 1, 100, 1000);
-                $toGenerate = rand(1, 100);
+            if ($defaultItem->getRecipe() === null) {
+                for ($i = 0; $i < rand(1, 10); $i++) {
+                    $this->generateItemForMemory($defaultItem);
+                }
             }
-
-            for ($i = 0; $i < rand(1, 10); $i++) {
-                $this->generateItemForMemory($defaultItem);
-            }
-
-
         }
-//        $this->entityManager->flush();
+    }
+
+    private function seedItemSets(): void
+    {
+        $itemSetsJson = json_decode(file_get_contents($this->baseDir . '/itemSets.json'), true);
+        foreach ($itemSetsJson as $itemSet) {
+            $itemSetEntity = new ItemSet();
+            $itemSetEntity->setAnkamaId($itemSet['id']);
+            $itemSetEntity->setName($itemSet['name']);
+            foreach ($itemSet['items'] as $id) {
+                $defaultItem = $this->entityManager->getRepository(DefaultItem::class)->findOneBy(['ankamaId' => $id]);
+                if ($defaultItem === null) {
+                    continue;
+                }
+                $itemSetEntity->addItem($defaultItem);
+            }
+            $this->entityManager->persist($itemSetEntity);
+        }
+        $this->entityManager->flush();
     }
 
     private function seedRecipes(): void
     {
         $itemProfessionTypes = json_decode(file_get_contents($this->baseDir . '/types.json'), true);
-        $itemJson = file_get_contents($this->baseDir . '/items.json');
+        $itemJson = file_get_contents($this->baseDir . '/items2.json');
         $items = json_decode($itemJson, true);
         foreach ($items as $item) {
             if (array_key_exists('recipe', $item) && $item['recipe'] !== null) {
@@ -250,7 +336,7 @@ class DatabaseSeeder
         $user->setAvatar('default.png');
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'admin'));
         $user->setMoney(1000000);
-        $user->setRoles(['ROLE_ADMIN']);
+        $user->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
         $user->addAccount($account);
         $user->setActiveAccount($account);
 
@@ -271,21 +357,6 @@ class DatabaseSeeder
     {
         $price = rand($min, $max);
         return ($price * ($level - 1)) + rand(1, 100);
-    }
-
-
-    private function randomGeneration(int $level, int $min_count = 10000, int $max_count = 100000): int
-    {
-
-        // Calculer la plage de nombres possibles pour le nombre d'items en fonction du niveau.
-        $min_level = 1;
-        $max_level = 200;
-        $min_item_count = 3000;
-        $max_item_count = 20000;
-
-        $range_min = $min_count + (($max_count - $min_count) / ($max_level - $min_level)) * ($level - $min_level);
-        $range_max = $min_count + (($max_count - $min_count) / ($max_level - $min_level)) * ($level - $min_level + 1);
-        return (int) rand($range_min, $range_max);
     }
 
     private function generateItemForMemory(DefaultItem $defaultItem): void

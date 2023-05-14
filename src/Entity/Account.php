@@ -44,6 +44,15 @@ class Account
     #[ORM\OneToMany(mappedBy: 'seller', targetEntity: Transaction::class)]
     private Collection $sells;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'friends')]
+    private Collection $friends;
+
+    #[ORM\OneToMany(mappedBy: 'fromAccount', targetEntity: PrivateMessage::class)]
+    private Collection $privateMessages;
+
+    #[ORM\ManyToMany(targetEntity: Discussion::class, mappedBy: 'accounts')]
+    private Collection $discussions;
+
     public function __construct()
     {
         $this->inventory = new ArrayCollection();
@@ -52,6 +61,9 @@ class Account
         $this->playerProfessions = new ArrayCollection();
         $this->batches = new ArrayCollection();
         $this->sells = new ArrayCollection();
+        $this->friends = new ArrayCollection();
+        $this->privateMessages = new ArrayCollection();
+        $this->discussions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -274,6 +286,112 @@ class Account
             if ($sell->getSeller() === $this) {
                 $sell->setSeller(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getFriends(): Collection
+    {
+        $friends = new ArrayCollection();
+        /** @var self $friend */
+        foreach ($this->friends as $friend) {
+            if ($friend->getFollowings()->contains($this)) {
+                $friends->add($friend);
+            }
+        }
+
+        return $friends;
+    }
+
+    public function getFollowings(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function getFollowers(): Collection
+    {
+        $followers = new ArrayCollection();
+        foreach ($this->friends as $friend) {
+            if ($friend->getFriends()->contains($this)) {
+                $followers->add($friend);
+            }
+        }
+
+        return $followers;
+    }
+
+    public function addFriend(self $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(self $friend): self
+    {
+        $this->friends->removeElement($friend);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PrivateMessage>
+     */
+    public function getPrivateMessages(): Collection
+    {
+        return $this->privateMessages;
+    }
+
+    public function addPrivateMessage(PrivateMessage $privateMessage): self
+    {
+        if (!$this->privateMessages->contains($privateMessage)) {
+            $this->privateMessages->add($privateMessage);
+            $privateMessage->setFromAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrivateMessage(PrivateMessage $privateMessage): self
+    {
+        if ($this->privateMessages->removeElement($privateMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($privateMessage->getFromAccount() === $this) {
+                $privateMessage->setFromAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Discussion>
+     */
+    public function getDiscussions(): Collection
+    {
+        return $this->discussions;
+    }
+
+    public function addDiscussion(Discussion $discussion): self
+    {
+        if (!$this->discussions->contains($discussion)) {
+            $this->discussions->add($discussion);
+            $discussion->addAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscussion(Discussion $discussion): self
+    {
+        if ($this->discussions->removeElement($discussion)) {
+            $discussion->removeAccount($this);
         }
 
         return $this;

@@ -1,14 +1,38 @@
 <div id="activeAccount">
-    {% if app.user and app.user.activeAccount != null %}
-        <div class="position-fixed bg-dark rounded-circle shadow-lg border border-white border-3 hover-grow"
-             style="width: 80px; height: 80px;bottom:30px;right:30px;cursor:pointer;">
-            <div class="w-100 overflow-hidden" style="height:60%;">
-                <img src="{{ app.user.activeAccount.class.imageUrl }}" alt="account" class="img-fluid">
-            </div>
-            <p class="d-block text-truncate text-center text-white small">{{ app.user.activeAccount.name }}</p>
+    <div class="position-fixed bg-dark rounded-circle shadow-lg border border-white border-3 hover-grow"
+         style="width: 80px; height: 80px;bottom:30px;right:30px;cursor:pointer;">
+        <div class="w-100 overflow-hidden" style="height:60%;">
+            <img src="{{ app.user.activeAccount.class.imageUrl }}" alt="account" class="img-fluid">
+        </div>
+        <p class="d-block text-truncate text-center text-white small">{{ app.user.activeAccount.name }}</p>
+    </div>
+</div>
+
+<div class="discussion-container">
+    <div class="discussion-container-title fw-bolder">
+        Discussions
+    </div>
+    <hr>
+    <i title="Créer une conversation" data-tooltip class="fa-solid fa-plus text-primary discussion-add"></i>
+    {% if app.user.activeAccount.discussions | length > 0 %}
+        <div class="discussion-container-list mt-2">
+            {% for discussion in app.user.activeAccount.discussions %}
+                <div class="discussion" data-id="{{ discussion.id }}">
+                    {{ discussion.accounts | filter(account => account != app.user.activeAccount) | join(', ') }}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Vous n'avez pas encore de discussion
         </div>
     {% endif %}
 </div>
+
+{% include 'common/modal.html.twig' with {
+    id: 'addDiscussionModal',
+    title: 'Créer une discussion',
+} %}
 
 <script>
     document.getElementById("activeAccount").addEventListener("click", function () {
@@ -22,4 +46,35 @@
     function showActiveAccount() {
         document.getElementById("activeAccount").style.display = "block";
     }
+
+	document.querySelector('.discussion-container-title').addEventListener('click', function () {
+        document.querySelector('.discussion-container').classList.toggle('show');
+    });
+
+	document.querySelector('.discussion-add').addEventListener('click', function () {
+        apiFetch('{{ path('app_account_discussion_create') }}', {}, 'GET').then((res) => {
+			setInnerHTML(document.querySelector('#addDiscussionModal .modal-body'), res.data.html);
+			$('#addDiscussionModal').modal('show');
+        });
+    });
+
+	{#let loadedDiscussion = [];#}
+	{#document.querySelectorAll('.discussion').forEach((discussion) => {#}
+    {#    discussion.addEventListener('click', function () {#}
+    {#        if (loadedDiscussion.includes(this.dataset.id)) {#}
+    {#            return;#}
+    {#        }#}
+
+    {#        loadedDiscussion.push(this.dataset.id);#}
+
+    {#        apiFetch('{{ path('app_account_discussion_show', {id: 'id'}) }}'.replace('id', this.dataset.id), {}, 'GET').then((res) => {#}
+    {#            setInnerHTML(document.querySelector('#addDiscussionModal .modal-body'), res.data.html);#}
+    {#            $('#addDiscussionModal').modal('show');#}
+    {#        });#}
+    {#    });#}
+    {#});#}
+
+	{#let openDiscussion = (id) => {#}
+	{#	#}
+    {#}#}
 </script>
