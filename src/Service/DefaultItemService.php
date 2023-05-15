@@ -226,7 +226,7 @@ class DefaultItemService
 
     #[Pure] public static function isResource(DefaultItem $defaultItem): bool
     {
-        return $defaultItem->getItemNature()->getName() === 'Ressources';
+        return $defaultItem->getItemNature()->getName() === 'Ressource';
     }
 
     public static function isFarmable(DefaultItem $defaultItem, ?Account $account, EntityManagerInterface $em): bool
