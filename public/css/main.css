@@ -274,3 +274,8 @@ nav a {
 .discussion-add {
     cursor: pointer;
 }
+
+.btn-primary a {
+    text-decoration: none;
+    color: var(--text-color);
+}

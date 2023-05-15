@@ -2,75 +2,69 @@
 
 {% block title %}Liste des panoplies{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/itemsets/style.css') }}">
+{% endblock %}
+
 {% block body %}
-    <div class="container text-white mt-5">
-        <h1 class="text-center">
-            Liste des panoplies
-        </h1>
 
-        {% if itemSets | length > 0 %}
-            <style>
-                .recipe-row {
-                    background-color: #171717;
-                    margin: 10px 0;
-                }
+    <div class="row text-white mt-5 mx-2">
+        <div class="col-md-2">
+            {% include 'filter/item_list_filters.html.twig' with {
+                'context': 'itemSets',
+            } %}
+        </div>
+        <div class="col-md-9">
+            <ul class="d-flex flex-wrap gap-5 text-black">
+                <h2 class="text-white w-100">
+                    Liste des panoplies
+                </h2>
+                {% if itemSets | length > 0 %}
+                    {% for itemSet in itemSets %}
+                        <div class="col-5">
+                            <div class="row recipe-row p-2 h-100">
+                                <div class="col-3">
+                                    <h5 class="text-white">
+                                        {{ itemSet.name }}
+                                    </h5>
+                                </div>
+                                <div class="col-9">
+                                    <div class="gallery">
+                                        {% for item in itemSet.items %}
+                                            <div class="gallery-item">
+                                                <a href="{{ path('app_item', {'uuid': item.uuid}) }}">
+                                                    <img src="{{ item.imageUrl }}" loading="lazy" onerror="this.src = '/images/no-photo.png'"
+                                                         alt="{{ item.name }}" class="gallery-image" title="{{ item.name }}" data-tooltip>
+                                                </a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
 
-                .recipe-item-image {
-                    width: 100px;
-                    height: 100px;
-                    object-fit: cover;
-                }
-
-                .gallery {
-                    display: flex;
-                    height: 100%;
-                    flex-wrap: wrap;
-                    align-items: center;
-                }
-
-                .gallery-item {
-                    position: relative;
-                    width: 50px;
-                    height: 50px;
-                    margin: 5px;
-                }
-
-                .gallery-image {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    background-color: var(--background-color);
-                }
-            </style>
-            <div class="row gap-5">
-                {% for itemSet in itemSets %}
-                    <div class="col-6">
-                        <div class="row recipe-row">
-                            <div class="col-3">
-                                <a href="{{ path('app_item_set_show', {'id': itemSet.id}) }}">
-                                    {{ itemSet.name }}
-                                </a>
-                            </div>
-                            <div class="col-9">
-                                <div class="gallery">
-                                    {% for item in itemSet.items %}
-                                        <div class="gallery-item">
-                                            <a href="{{ path('app_item', {'uuid': item.uuid}) }}">
-                                                <img src="{{ item.imageUrl }}" loading="lazy" onerror="this.src = '/images/no-photo.png'"
-                                                     alt="{{ item.name }}" class="gallery-image" title="{{ item.name }}" data-tooltip>
+                                <div class="col-12 mt-3">
+                                    {# button at end of line and end of column #}
+                                    <div class="d-flex justify-content-end align-items-end h-100">
+                                        <button class="btn btn-primary">
+                                            <a href="{{ path('app_item_set_show', {'id': itemSet.id}) }}">
+                                                Voir la panoplie
                                             </a>
-                                        </div>
-                                    {% endfor %}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info w-100" role="alert">
+                        Aucun résultat
                     </div>
-                {% endfor %}
+                {% endif %}
+            </ul>
+
+            <div class="d-flex justify-content-center my-5">
+                {{ knp_pagination_render(itemSets) }}
             </div>
-        {% else %}
-            <div class="alert alert-info">
-                Aucune panoplie n'a été trouvée.
-            </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock %}

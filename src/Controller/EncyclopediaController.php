@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\DefaultItemService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class EncyclopediaController extends AbstractController
+class EncyclopediaController extends BaseController
 {
     #[Route('/encyclopedia', name: 'app_encyclopedia')]
     public function index(): Response

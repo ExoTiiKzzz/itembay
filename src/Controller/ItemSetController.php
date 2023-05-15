@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\ItemSet;
+use App\Service\DefaultItemService;
+use App\Service\EncyclopediaService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,12 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ItemSetController extends BaseController
 {
     #[Route('/sets', name: 'app_item_set')]
-    public function index(): Response
+    public function index(PaginatorInterface $paginator): Response
     {
-        $itemSets = $this->em->getRepository(ItemSet::class)->findAll();
         return $this->render('encyclopedia/item_set/index.html.twig', [
             'controller_name' => 'ItemSetController',
-            'itemSets' => $itemSets
+            'filters' => DefaultItemService::getItemFilters($this->getRequestData()),
+            'itemSets' => EncyclopediaService::getItemSets($this->request, $this->em, $paginator)
         ]);
     }
 

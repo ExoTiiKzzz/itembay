@@ -27,12 +27,12 @@
             {
                 'value' : 'az',
                 'label' : 'Nom A-Z',
-                'context' : ['shop', 'inventory']
+                'context' : ['shop', 'inventory', 'itemSets']
             },
             {
                 'value' : 'za',
                 'label' : 'Nom Z-A',
-                'context' : ['shop', 'inventory']
+                'context' : ['shop', 'inventory', 'itemSets']
             },
             {
                 'value' : 'levelAsc',
@@ -56,6 +56,7 @@
             {% endif %}
         {% endfor %}
     </select>
+    {% if context in ['shop, inventory'] %}
     <h3 class="mt-4">Filtres</h3>
     <div id="accordion" class="text-black accordion accordion-flush">
         <div class="accordion-item">
@@ -124,5 +125,6 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <button type="submit" class="btn btn-primary form-control mt-5">Filtrer</button>
 </form>
