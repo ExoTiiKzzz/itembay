@@ -228,6 +228,17 @@ class DefaultItem
         return $this->reviews;
     }
 
+    /**
+     * @param int $n
+     *
+     * @return Collection<int, Review>
+     */
+    public function getFirstNReviews(int $n = 5): Collection
+    {
+        $reviews = $this->reviews->slice(0, $n);
+        return new ArrayCollection($reviews);
+    }
+
     public function addReview(Review $review): self
     {
         if (!$this->reviews->contains($review)) {

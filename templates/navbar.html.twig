@@ -9,6 +9,9 @@
         </button>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto gap-3">
+                <div class="d-flex align-items-center gap-1">
+                    <a href="{{ path('app_encyclopedia') }}"><i class="fa-solid fa-book"></i></a>
+                </div>
                 {% if app.user %}
                     <div class="d-flex align-items-center gap-1 mr-2 balance-container">
                         {{ app.user.money | itemPrice | raw }}
