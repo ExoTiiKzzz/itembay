@@ -13,7 +13,7 @@ class ItemSetController extends BaseController
     public function index(): Response
     {
         $itemSets = $this->em->getRepository(ItemSet::class)->findAll();
-        return $this->render('item_set/index.html.twig', [
+        return $this->render('encyclopedia/item_set/index.html.twig', [
             'controller_name' => 'ItemSetController',
             'itemSets' => $itemSets
         ]);
@@ -22,7 +22,7 @@ class ItemSetController extends BaseController
     #[Route('/sets/{id}', name: 'app_item_set_show')]
     public function show(ItemSet $itemSet): Response
     {
-        return $this->render('item_set/show.html.twig', [
+        return $this->render('encyclopedia/item_set/show.html.twig', [
             'controller_name' => 'ItemSetController',
             'itemSet' => $itemSet
         ]);

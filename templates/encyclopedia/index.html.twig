@@ -3,9 +3,15 @@
 {% block title %}Encyclopédie{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container text-white pt-5">
         <h1 class="text-center">
             Bienvenue sur l'encyclopédie
         </h1>
+
+        <a href="{{ path('app_item_set') }}">
+            <button class="btn btn-primary btn-lg btn-block mt-5">
+                Panoplies
+            </button>
+        </a>
     </div>
 {% endblock %}
