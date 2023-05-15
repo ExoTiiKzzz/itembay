@@ -6,53 +6,60 @@
         
         <div class="row row-cols-lg-2 m-2">
             <div class="col-md-5 d-flex align-items-center">
-                <img src="{{ item.imageUrl }}" class="card-img rounded-left" alt="{{ item.name }}" loading="lazy" height="60%" width="60%" onerror="this.src = '/images/no-photo.png'">
+                <img src="{{ item.imageUrl }}" class="card-img rounded-left" alt="{{ item.name }}" loading="lazy" height="30%" width="30%" onerror="this.src = '/images/no-photo.png'">
             </div>
             <div class="col-md-5 d-flex">
                 <div class="card-body d-flex flex-column">
                     <h1 class="card-title">{{ item.name }}</h1>
-                    {{ item.id | itemRating | raw }}
                     {% if isFarmable %}
                         <a class="btn btn-secondary" href="{{ path('app_item_farm', {'uuid': item.uuid }) }}">
                             <i class="fas fa-seedling"></i> Récolter
                         </a>
                     {% endif %}
+                    <div>Niveau {{ item.level }}</div>
                     <hr>
                     <h5 class="card-title">Description : </h5>
                     <p class="card-text text-justify">{{ item.description }}</p>
                     <hr>
-                    <h5 class="card-title">Avis & commentaires client : </h5>
+                    <h5 class="card-title">Avis &amp; commentaires client : </h5>
             </div>
             <div class="col-md-4 d-flex border border-dark-subtle rounded m-3">
                 <div class="card-body d-flex flex-column">
                     <h3 class="card-text"><b>{{ item.buyPrice | itemPrice | raw }}</b></h3>
-                    <div style="border: 1px solid black;"></div>
-                    <p></p>
+                    <div style="border: 1px solid black;"></div><br>
+                    <p>
+                        {{ item.id | itemRating | raw }}<br><br>
+                        Catégories : {{ item.itemNature.name }}<br>
+                        Type : {{ item.itemType }}<br><br>
+                        Prix de revente : {{ item.sellPrice | itemPrice | raw }}<br>
+                        Perte : {{ (item.buyPrice - item.sellPrice) | itemPrice | raw }}<br>
+                    </p><br>
                     <p class="card-text"><b>Stock disponible : </b>{{ item.id | itemStock }}</p>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>
-                            {% set selectDisplay = '' %}
-                            {% set inputDisplay = 'd-none' %}
-                            <div class="col-md-12 {{ inputDisplay }} row">
-                                <div class="col-md-3">
-                                    <input class="form-control item-quantity-input col-md-2" type="number" id="item_quantity[{{ item.id }}]" data-id="{{ item.id }}" min="1" max="{{ item.id | itemStock }}">
-                                </div>
-                                <div class="col-md-3 d-flex align-items-center justify-content-center d-none">
-                                    <button class="btn btn-sm btn-primary validate-basket-change-btn" type="button">Mettre à jour</button>
-                                </div>
-                            </div>
+                        {% set max = item.id | itemStock > 9 ? 9 : item.id | itemStock %}
+                        {% if item.id | itemStock == 0 %}
+                            Indisponible
+                        {% elseif item.id | itemStock == 1 %}
+                            1
+                        {% else %}
                             <select class="form-control item-quantity-input col-md-2" id="item_quantity[{{ item.id }}]" data-id="{{ item.id }}">
-                                {% set max = 9 %}
-                                
                                 {% for i in 1..max %}
-                                    <option value="{{ i }}" >{{ i }}</option>
+                                    <option value="{{ i }}">{{ i }}</option>
                                 {% endfor %}
-                                <option value="10">10+</option>
+                                {% if item.id | itemStock > 9 %}
+                                    <option value="10">10+</option>
+                                {% endif %}
                             </select>
+                        {% endif %}
                     </div>
                     <div class="justify-content-end align-items-center my-3">
                         {% if app.user %}
-                            <button class="btn btn-primary basket-add-item mr-3" onclick="addItem()">Ajouter au panier</button>
+                            {% if item.id | itemStock == 0 %}
+                                <button class="form-control btn btn-primary basket-add-item mr-3" onclick="addItem()">Hors stock</button>
+                            {% else %}
+                                <button class="form-control btn btn-primary basket-add-item mr-3" onclick="addItem()">Ajouter au panier</button>
+                            {% endif %}
                         {% else %}
                             <a href="{{ path('app_login') }}" class="btn btn-primary mr-3">Connectez-vous pour ajouter au panier</a>
                         {% endif %}
