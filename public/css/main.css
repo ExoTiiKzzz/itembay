@@ -15,6 +15,10 @@ body {
     font-family: 'Figtree', sans-serif !important;
 }
 
+p {
+    margin: 0 !important;
+}
+
 .gold {
     color: gold;
 }

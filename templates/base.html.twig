@@ -79,34 +79,5 @@
         {% endif %}
         {% include 'footer.html.twig' %}
     </body>
-    <script>
-	    {% if app.user %}
-        const eventSource = new EventSource("{{ mercure('/user/' ~ app.user.id, {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.In-xEYAn8T2ZvfpQoI1xpNFBYmmE-R-QOoG_uWkjvQw'})|escape('js') }}");
-        eventSource.onmessage = async (event) => {
-			let data = JSON.parse(event.data);
-	        notif(data.message)
-
-            if(data.type === 'batch') {
-				document.querySelector('.balance-container').innerHTML = data.actualMoney
-            }
-        }
-        {% endif %}
-
-	    {# check if there is flash messages #}
-	    {% if app.session.flashBag.peekAll()|length > 0 %}
-            {% for type, messages in app.session.flashBag.all() %}
-                {% for message in messages %}
-                    {% if type == 'success' %}
-                        notif('{{ message|escape('js') }}', 'success')
-                    {% elseif type == 'error' %}
-                        notif('{{ message|escape('js') }}', 'error')
-                    {% elseif type == 'warning' %}
-                        notif('{{ message|escape('js') }}', 'warning')
-                    {% elseif type == 'info' %}
-                        notif('{{ message|escape('js') }}', 'info')
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
-    </script>
+    {% include 'twig_needed_js.html.twig' %}
 </html>

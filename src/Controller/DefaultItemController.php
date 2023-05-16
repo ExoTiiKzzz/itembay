@@ -29,7 +29,7 @@ class DefaultItemController extends BaseController
 
 
 
-    #[Route('/item/{uuid}', name: 'app_item')]
+    #[Route('/items/{uuid}', name: 'app_item')]
     public function item(string $uuid): Response
     {
         $item = $this->em->getRepository(DefaultItem::class)->findOneBy(['uuid' => $uuid]);
@@ -75,6 +75,19 @@ class DefaultItemController extends BaseController
             'stock'         => DefaultItemService::getStock($item, $this->em),
             'isFarmable'    => DefaultItemService::isFarmable($item, $account, $this->em),
             'batchs'        => $batchs,
+        ]);
+    }
+
+    #[Route('/items', name: 'app_items_list')]
+    public function itemsList(DefaultItemService $defaultItemService): Response
+    {
+        $requestData = $this->request->query->all();
+
+        return $this->render('item/list.html.twig', [
+            'controller_name'   => 'DefaultItemController',
+            'items'             => $defaultItemService->getItems(),
+            'filters'           => DefaultItemService::getItemFilters($this->getRequestData()),
+            'context'           => 'encyclopediaItemsList'
         ]);
     }
     

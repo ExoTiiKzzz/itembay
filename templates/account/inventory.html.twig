@@ -75,51 +75,7 @@
     {{ parent() }}
     <script>
 		$(document).ready(function () {
-			$('#itemTypeSelect').val({{ filters.selectedItemTypes|json_encode|raw }}).trigger('change');
-
-			document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
-				checkbox.addEventListener('change', function (event) {
-					let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
-					let count = document.querySelector('.natureCount');
-					if (checked.length === 0) {
-						count.innerHTML = '';
-					} else {
-						count.innerHTML = '(' + checked.length + ')';
-						resetItemTypes();
-					}
-					$('#itemTypeSelect').val(null).trigger('change');
-				});
-			});
-
-			$('#itemTypeSelect').on('change', function (e) {
-				let count = document.querySelector('.typeCount');
-				let value = e.target.selectedOptions.length;
-				if (value === 0) {
-					count.innerHTML = '';
-				} else {
-					count.innerHTML = '(' + e.target.selectedOptions.length + ')';
-				}
-
-			});
-			resetItemTypes();
+			loadSelectFilters();
 		});
-
-		function resetItemTypes() {
-			$('#itemTypeSelect option').prop('disabled', false);
-			let allOptionsToHide = [];
-			if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
-				return;
-			}
-			document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
-				let value = ch.value;
-				let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
-				options.forEach(function (option) {
-					allOptionsToHide.push(option);
-				});
-			})
-			allOptionsToHide.forEach(function (option) {
-				option.disabled = true;
-			});
-		}
     </script>
 {% endblock %}

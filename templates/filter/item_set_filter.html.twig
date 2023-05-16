@@ -1,0 +1,5 @@
+<select class="form-control form-select" name="itemSets[]" id="itemSetsSelect" data-searchable multiple data-optgroup>
+    {% for itemSet in itemSets %}
+        <option value="{{ itemSet.id }}" {% if itemSet.id in selectedItemSets %}selected{% endif %}>{{ itemSet.name }}</option>
+    {% endfor %}
+</select>

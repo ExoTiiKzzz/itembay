@@ -68,11 +68,13 @@ class DefaultItemService
 
         $itemNatures = $request->query->all('itemNature') ?? [];
         $itemTypes = $request->query->all('itemType') ?? [];
+        $itemSets = $request->query->all('itemSets') ?? [];
+
         $priceRange = $request->query->all('priceRange') ?? [];
         $minPrice = $priceRange['min'] ?? 0;
         $maxPrice = $priceRange['max'] ?? null;
-        $search = $request->query->get('search') ?? '';
 
+        $search = $request->query->get('search') ?? '';
         $orderBy = self::ORDER_BY_ARRAY[$request->query->get('orderBy', '')] ?? '';
 
         $qb = $this->em->createQueryBuilder();
@@ -87,6 +89,11 @@ class DefaultItemService
         if ($itemTypes) {
             $qb->andWhere('di.itemType IN (:itemType)')
                 ->setParameter('itemType', $itemTypes);
+        }
+
+        if ($itemSets) {
+            $qb->andWhere('di.itemSet IN (:itemSet)')
+                ->setParameter('itemSet', $itemSets);
         }
 
         if ($minPrice) {
@@ -284,19 +291,22 @@ class DefaultItemService
         return $items;
     }
 
-    #[ArrayShape(['selectedItemNatures' => "array", 'selectedItemTypes' => "array", 'minPrice' => "int", 'maxPrice' => "int|null", 'search' => "null|string", 'orderBy' => "null|string"])]
-    public static function getItemFilters(array $data): array
+    #[ArrayShape(['selectedItemNatures' => "array", 'selectedItemTypes' => "array", 'selectedItemSets' => "array", 'minPrice' => "int", 'maxPrice' => "int|null", 'search' => "null|string", 'orderBy' => "null|string"])] public static function getItemFilters(array $data): array
     {
         /** @var array $activeItemNatures */
         $activeItemNatures = $data['itemNature'] ?? [];
         /** @var array $activeItemTypes */
         $activeItemTypes = $data['itemType'] ?? [];
+        /** @var array $activeItemSets */
+        $activeItemSets = $data['itemSets'] ?? [];
+
         /** @var array $priceRange */
         $priceRange = $data['priceRange'] ?? [];
         /** @var int $minPrice */
         $minPrice = $priceRange['min'] ?? 0;
         /** @var int|null $maxPrice */
         $maxPrice = $priceRange['max'] ?? null;
+
         /** @var string|null $search */
         $search = $data['search'] ?? null;
         /** @var string|null $orderBy */
@@ -305,6 +315,7 @@ class DefaultItemService
         return [
             'selectedItemNatures'       => $activeItemNatures,
             'selectedItemTypes'         => $activeItemTypes,
+            'selectedItemSets'          => $activeItemSets,
             'minPrice'                  => $minPrice,
             'maxPrice'                  => $maxPrice,
             'search'                    => $search,

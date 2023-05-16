@@ -6,6 +6,7 @@ use App\Entity\DefaultItem;
 use App\Entity\Item;
 use App\Entity\ItemType;
 use App\Service\ItemNatureService;
+use App\Service\ItemSetService;
 use App\Service\ItemTypeService;
 use App\Service\ProfessionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,6 +40,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('getItemNaturesData', [$this, 'getItemNaturesData']),
             new TwigFunction('getItemTypesData', [$this, 'getItemTypesData']),
+            new TwigFunction('getItemSetsData', [$this, 'getItemSetsData']),
         ];
     }
 
@@ -169,5 +171,10 @@ class AppExtension extends AbstractExtension
     public function getItemTypesData(): array
     {
         return ItemTypeService::getItemTypesForSelect($this->em, $this->getItemNaturesData());
+    }
+
+    public function getItemSetsData(): array
+    {
+        return ItemSetService::getItemSetsForSelect($this->em);
     }
 }

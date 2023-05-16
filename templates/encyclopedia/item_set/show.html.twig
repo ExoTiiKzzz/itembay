@@ -1,10 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
+{% block title %}
+    {{ itemSet.name }}
 {% endblock %}
 
-{% block title %}
+{% block body %}
+    <div class="container text-white">
+        <h1 class="text-center my-5">
+            {{ itemSet.name }} - Liste des objets
+        </h1>
 
+        <div class="d-flex flex-wrap justify-content-center gap-5">
+            {% for item in itemSet.items %}
+                {% include 'item/list_item.html.twig' with {
+                    'item': item,
+                    'context': 'itemSet',
+                    'alreadyHave': itemsInInventory.contains(item)
+                } %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 

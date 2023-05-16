@@ -9,10 +9,39 @@
         </button>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto gap-3">
-                <div class="d-flex align-items-center gap-1">
-                    <a title="Encyclopédie" data-tooltip href="{{ path('app_encyclopedia') }}"><i class="fa-solid fa-book"></i></a>
-                </div>
                 {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link mt-1 text-white" role="button"
+                           data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-book"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">Encyclopédie</li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_items_list') }}">
+                                    Objets
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_natures_list') }}">
+                                    Catégories d'objets
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_types_list') }}">
+                                    Types d'objets
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_item_set_list') }}">
+                                    Panoplies
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <div class="d-flex align-items-center gap-1 mr-2 balance-container">
                         {{ app.user.money | itemPrice | raw }}
                     </div>

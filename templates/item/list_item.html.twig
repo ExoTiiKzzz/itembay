@@ -56,6 +56,9 @@
 
 
         <div class="mt-auto text-right">
+            {% if context == 'itemSet' and alreadyHave %}
+                <p>Possédé</p>
+            {% endif %}
             <span class="text-muted">
                 Niv {{ item.level }}
             </span>
@@ -63,9 +66,10 @@
                 <p> {{ item.buyPrice | itemPrice | raw }} </p>
             {% endif %}
 
-            <a href="{{ path('app_item', { 'uuid': item.uuid }) }}" class="btn btn-sm btn-primary mt-auto form-control">
-                {% if context == 'shop' %}
-                    Voir les choix
+
+            <a href="{{ path('app_item', { 'uuid': item.uuid }) }}" class="btn btn-sm btn-primary mt-4 form-control">
+                {% if context in ['shop', 'itemSet', 'encyclopediaItemsList'] %}
+                    Voir les offres
                 {% elseif context == 'inventory' and canEdit %}
                     En acheter plus
                 {% else %}

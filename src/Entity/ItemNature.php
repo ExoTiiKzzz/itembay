@@ -57,6 +57,11 @@ class ItemNature
         return $this->defaultItems;
     }
 
+    public function getDefaultItemsCount(): int
+    {
+        return $this->defaultItems->count();
+    }
+
     public function addDefaultItem(DefaultItem $defaultItem): self
     {
         if (!$this->defaultItems->contains($defaultItem)) {
