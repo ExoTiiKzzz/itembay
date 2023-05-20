@@ -140,10 +140,11 @@ class AppExtension extends AbstractExtension
         $roundedRating = round($rating);
 
         $str = '<div class="d-flex align-items-center">';
-        $str .= str_repeat('<i class="fa-solid fa-star gold"></i>', $roundedRating);
-
-        $str .= str_repeat('<i class="fa-regular fa-star gold"></i>', 5 - $roundedRating);
-        $str .= '<div class="ms-1">' . $roundedRating . '</div> <div class="ms-1"> sur ' . $ratingCount . ' ' . $evaluations . '.</div></div>';
+            $str .= str_repeat('<i class="fa-solid fa-star gold"></i>', $roundedRating);
+        
+            $str .= str_repeat('<i class="fa-regular fa-star gold"></i>', 5 - $roundedRating);
+            $str .= '<div class="ms-1"> ' . $roundedRating . ' sur ' . $ratingCount . ' ' . $evaluations . '.</div>';
+        $str .= '</div>';
 
         return $str;
     }
