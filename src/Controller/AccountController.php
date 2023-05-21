@@ -88,6 +88,12 @@ class AccountController extends BaseController
                 throw new Exception('Class not found');
             }
 
+            $alreadyExists = $this->em->getRepository(Account::class)->findOneBy(['name' => $username]);
+
+            if ($alreadyExists) {
+                throw new Exception('Account username already exists');
+            }
+
             $account = new Account();
             $account->setUser($user);
             $account->setName($username);

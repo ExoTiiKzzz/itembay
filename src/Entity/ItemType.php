@@ -18,7 +18,7 @@ class ItemType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'item_type', targetEntity: DefaultItem::class)]
+    #[ORM\OneToMany(mappedBy: 'itemType', targetEntity: DefaultItem::class)]
     private Collection $defaultItems;
 
     #[ORM\ManyToMany(targetEntity: PlayerClass::class, mappedBy: 'canBuy')]
@@ -60,6 +60,15 @@ class ItemType
     public function getDefaultItems(): Collection
     {
         return $this->defaultItems;
+    }
+
+    public function getDefaultItemsCount(): int
+    {
+        if ($this->defaultItems instanceof Collection) {
+            return $this->defaultItems->count();
+        }
+
+        return 0;
     }
 
     public function addDefaultItem(DefaultItem $defaultItem): self

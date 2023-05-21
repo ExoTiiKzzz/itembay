@@ -1,0 +1,12 @@
+<ul class="nav nav-tabs {{ cssClass }}">
+    {% for tab in tabs %}
+        <li class="nav-item">
+            <a class="nav-link {% if tab.active %}active{% endif %}" data-tab="{{ tab.id }}" href="#">
+                {% if tab.icon is defined %}
+                    <i class="{{ tab.icon }} mr-2"></i>
+                {% endif %}
+                {{ tab.title }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>

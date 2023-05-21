@@ -7,30 +7,75 @@
 {% block body %}
 
     <div class="card m-5">  
-        <div class="row row-cols-lg-2 m-2">
+        <div class="row m-2 p-3">
 
-            <div class="col-md-5 d-flex align-items-center">
+            <div class="col-md-4 col-sm-12 d-flex align-items-center">
                 <img src="{{ item.imageUrl }}" class="card-img rounded-left" alt="{{ item.name }}" loading="lazy" height="30%" width="30%" onerror="this.src = '/images/no-photo.png'">
             </div>
 
-            <div class="col-md-5 d-flex">
+            <div class="col-md-5 col-sm-12 d-flex">
                 <div class="card-body d-flex flex-column">
                     <h1 class="card-title">{{ item.name }}</h1>
                     <div>Niveau {{ item.level }}</div><hr>
-                    <h5 class="card-title">Description : </h5>
-                    <p class="card-text text-justify">{{ item.description }}</p><hr>
-                    <h5 class="card-title">Avis &amp; commentaires client : </h5>
-                    {% if item.reviews | length == 0 %}
-                        <div class="alert alert-info">Il n'y a pas d'évaluations ou de commentaires clients pour ce produit.</div>
-                    {% else %}
-                        {% for review in item.firstNReviews %}
-                            <p>{{ review.comment }}</p>
-                            <p>{{ review.account }}</p>
-                        {% endfor %}
-                    {% endif %}
+                    {% set navTabs = [
+                        {
+                            'title': 'Informations',
+                            'icon': 'fas fa-info-circle',
+                            'active': true,
+                            'id': 'infos-tab'
+                        },
+                        {
+                            'title': 'Avis & commentaires client',
+                            'icon': 'fas fa-comments',
+                            'active': false,
+                            'id': 'reviews-tab'
+                        },
+                        {
+                            'title': 'Lots',
+                            'icon': 'fas fa-shopping-basket',
+                            'active': false,
+                            'id': 'batchs-tab'
+                        },
+                    ] %}
+
+                    <div class="tabs-container">
+                        {% include '/common/tabs/tabs.html.twig' with {
+                            tabs: navTabs,
+                            cssClass: 'mt-3',
+                        } %}
+
+                        <div class="mt-3">
+                            <div class="tab active" data-tab="infos-tab">
+                                <h5 class="card-title">Description </h5>
+                                <p class="card-text text-justify">{{ item.description }}</p>
+                            </div>
+
+                            <div class="tab" data-tab="reviews-tab">
+                                <h5 class="card-title">Avis &amp; commentaires client </h5>
+                                {% if item.reviews | length == 0 %}
+                                    <div class="alert alert-info">Il n'y a pas d'évaluations ou de commentaires clients pour ce produit.</div>
+                                {% else %}
+                                    {% for review in item.firstNReviews %}
+                                        <p>{{ review.comment }}</p>
+                                        <p>{{ review.account }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="tab" data-tab="batchs-tab">
+                                <h5 class="card-title">Lots</h5>
+                                <div class="batchs-container">
+                                    {% include '/item/parts/batchs.html.twig' with {
+                                        'batchs': batchs,
+                                    } only %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-4 d-flex border border-dark-subtle rounded m-3">
+            <div class="col-md-3 col-sm-12 d-flex border border-dark-subtle rounded">
                 <div class="card-body d-flex flex-column">
                     <h3 class="card-text"><b>{{ item.buyPrice | itemPrice | raw }}</b></h3>
                     <div style="border: 1px solid black;"></div><br>
@@ -79,14 +124,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-
-    <div class="batch-container">
-        {% include '/item/parts/batchs.html.twig' with {
-            'batchs': batchs,
-        } only %}
     </div>
 
 
@@ -127,7 +165,6 @@
         
         document.addEventListener('DOMContentLoaded', async function () {
             document.querySelectorAll('.item-quantity-input').forEach(function (input) {
-                console.log(input)
                 if (input.tagName === 'SELECT') {
                     $(input).select2({
                         minimumResultsForSearch: Infinity,

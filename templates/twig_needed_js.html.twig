@@ -38,7 +38,6 @@
 
 		document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
 			checkbox.addEventListener('change', function (event) {
-				console.log('change')
 				let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
 				let count = document.querySelector('.natureCount');
 				if (checked.length === 0) {

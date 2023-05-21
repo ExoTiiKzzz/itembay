@@ -14,7 +14,7 @@ class ItemNatureService
 {
     const ORDER_BY_ARRAY = [
         '' => [
-            'column' => 'n.ankamaId',
+            'column' => 'n.name',
             'dir' => 'ASC',
         ],
         'az' => [

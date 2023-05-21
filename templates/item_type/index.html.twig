@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Types d'objets
+{% endblock %}
+
+{% block body %}
+    <div class="row text-white mt-5 mx-2">
+        <div class="col-md-2">
+            {% include 'filter/item_list_filters.html.twig' with {
+                'context': 'itemTypes',
+            } %}
+        </div>
+        <div class="col-md-9">
+            <ul class="d-flex flex-wrap gap-5 text-black">
+                <h2 class="text-white w-100">
+                    Encyclopédie des types d'objets
+                </h2>
+                {% if itemTypes | length > 0 %}
+                    {% for itemType in itemTypes %}
+                        <div class="card" style="width: 20%;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    {{ itemType.name }}
+                                </h5>
+
+                                <p>
+                                    Nombre d'objets : {{ itemType.defaultItems | length }}
+                                </p>
+
+                                <div class="mt-auto">
+                                    <a href="{{ path('app_types_show', {'id': itemType.id}) }}" class="btn btn-primary mt-4 form-control">
+                                        Voir les détails
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info w-100" role="alert">
+                        Aucun résultat
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

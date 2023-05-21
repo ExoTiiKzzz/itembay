@@ -250,7 +250,6 @@
 
             document.querySelectorAll('.validate-basket-change-btn').forEach(function (btn) {
 	            btn.addEventListener('click', async function () {
-					console.log(this.parentElement.previousElementSibling.firstElementChild);
 		            await updateInputDisplay(this.parentElement.previousElementSibling.firstElementChild);
 	            });
             });

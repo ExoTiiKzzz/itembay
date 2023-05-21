@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\ItemNature;
+use App\Entity\ItemType;
 use App\Service\DefaultItemService;
 use App\Service\ItemNatureService;
+use App\Service\ItemTypeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,18 +17,17 @@ class ItemTypeController extends BaseController
     #[Route('/types', name: 'app_types_list')]
     public function index(): Response
     {
-        $itemNatures = $this->em->getRepository(ItemNature::class)->findAll();
-        return $this->render('item_nature/index.html.twig', [
+        return $this->render('item_type/index.html.twig', [
             'filters' => DefaultItemService::getItemFilters($this->getRequestData()),
-            'itemNatures' => ItemNatureService::getItemNatures($this->request, $this->em),
+            'itemTypes' => ItemTypeService::getItemTypes($this->request, $this->em),
         ]);
     }
 
-    #[Route('/natures/{id}', name: 'app_natures_show')]
-    public function show(ItemNature $itemNature): Response
+    #[Route('/types/{id}', name: 'app_types_show')]
+    public function show(ItemType $itemType): Response
     {
         $url = $this->generateUrl('app_items_list');
-        $url .= '?itemNature[]=' . $itemNature->getId();
+        $url .= '?itemType[]=' . $itemType->getId();
 
         return $this->redirect($url);
     }

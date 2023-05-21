@@ -283,3 +283,19 @@ nav a {
     text-decoration: none;
     color: var(--text-color);
 }
+
+.tab {
+    display: none;
+}
+
+.tab.active {
+    display: block;
+}
+
+.nav-link {
+    color: inherit !important;
+}
+
+.nav-link.active {
+    color: var(--primary-color) !important;
+}
