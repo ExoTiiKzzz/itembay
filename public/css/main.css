@@ -299,3 +299,14 @@ nav a {
 .nav-link.active {
     color: var(--primary-color) !important;
 }
+
+.dropdown-menu.show {
+    z-index: 100000000000000000000000000000;
+}
+
+.review-comment {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
