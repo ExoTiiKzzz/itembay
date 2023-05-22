@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DefaultItem;
+use App\Entity\Review;
 use App\Service\ReviewService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,5 +28,11 @@ class ReviewController extends BaseController
         ReviewService::createReview($this->em, $this->request, $defaultItem, $account);
 
         return $this->redirectToRoute('app_item', ['uuid' => $defaultItem->getUuid()]);
+    }
+
+    #[Route('/reviews/{id}', name: 'app_review_show')]
+    public function show(Review $review): Response
+    {
+        return $this->render('review/show.html.twig', ['review' => $review]);
     }
 }
