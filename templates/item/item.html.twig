@@ -180,7 +180,13 @@
 		let buyBatch = async function (id) {
 			let url = '{{ path('app_batch_buy', {'id': 'batch_id'}) }}';
 			url = url.replace('batch_id', id);
-	        await apiFetch(url);
+	        let res = await apiFetch(url);
+
+            if (res.success) {
+                notif('Lot acheté', 'success');
+                document.querySelector('.batchs-container').innerHTML = res.data.html;
+                await refreshBalance();
+            }
 		}
 
     </script>

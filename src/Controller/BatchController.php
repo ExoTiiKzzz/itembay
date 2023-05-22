@@ -42,8 +42,13 @@ class BatchController extends BaseController
             $price = (int) $request['price'];
             BatchService::createBatch($defaultItem, $quantity, $account, $this->em, $price);
             $leftQuantity = count($this->em->getRepository(Item::class)->findBy(['defaultItem' => $defaultItem, 'account' => $account, 'batch' => null]));
+            $html = $this->renderView('batch/content.html.twig', [
+                'defaultItem' => $defaultItem,
+                'inventoryQuantity' => $leftQuantity,
+            ]);
             $data = [
                 'quantity' => $leftQuantity,
+                'html' => $html,
             ];
             return ApiResponseService::success($data);
         } catch (Exception $e) {
@@ -67,8 +72,16 @@ class BatchController extends BaseController
                 'message' => 'Vous avez vendu ' . $batch->getQuantity() . ' ' . $batch->getDefaultItem()->getName() . ' pour ' . $formattedPrice,
                 'actualMoney' => $actualSellerMoney,
             ];
-            MercureService::sendNotification($topic, $data, $this->hub);
-            return ApiResponseService::success();
+            MercureService::sendNotificationToUser($data, $this->hub, $batch->getAccount()->getUser()->getId());
+
+
+            $html = $this->renderView('item/parts/batchs.html.twig', [
+                'batchs' => BatchService::getBatchs($this->em, $batch->getDefaultItem()),
+            ]);
+
+            return ApiResponseService::success([
+                'html' => $html,
+            ]);
         } catch (Exception $e) {
             return ApiResponseService::error([], $e->getMessage());
         }
@@ -100,7 +113,7 @@ class BatchController extends BaseController
             $this->em->remove($batch);
             $this->em->flush();
 
-            $batches = $this->em->getRepository(Batch::class)->findBy(['account' => $account]);
+            $batches = BatchService::getBatchs($this->em, $batch->getDefaultItem());
             $html = $this->renderView('batch/table.html.twig', [
                 'batches' => $batches,
             ]);

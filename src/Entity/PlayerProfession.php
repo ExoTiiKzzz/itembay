@@ -23,7 +23,7 @@ class PlayerProfession
     private ?Profession $profession = null;
 
     #[ORM\ManyToOne(inversedBy: 'playerProfessions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Account $player = null;
 
     public function getId(): ?int

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Batch;
 use App\Entity\DefaultItem;
+use App\Service\BatchService;
 use App\Service\DefaultItemService;
 use App\Service\ItemNatureService;
 use App\Service\ItemTypeService;
@@ -33,36 +34,6 @@ class DefaultItemController extends BaseController
     public function item(string $uuid): Response
     {
         $item = $this->em->getRepository(DefaultItem::class)->findOneBy(['uuid' => $uuid]);
-        $batchs = [];
-        $one = $this->em->getRepository(Batch::class)->findBy(
-            ['defaultItem' => $item, 'quantity' => 1],
-            ['price' => 'ASC'],
-            10
-        );
-
-        $ten = $this->em->getRepository(Batch::class)->findBy(
-            ['defaultItem' => $item, 'quantity' => 10],
-            ['price' => 'ASC'],
-            10
-        );
-
-        $hundred = $this->em->getRepository(Batch::class)->findBy(
-            ['defaultItem' => $item, 'quantity' => 100],
-            ['price' => 'ASC'],
-            10
-        );
-
-        if (!empty($one)) {
-            $batchs['1'] = $one;
-        }
-
-        if (!empty($ten)) {
-            $batchs['10'] = $ten;
-        }
-
-        if (!empty($hundred)) {
-            $batchs['100'] = $hundred;
-        }
 
         $user = $this->getUser();
         $account = null;
@@ -74,7 +45,7 @@ class DefaultItemController extends BaseController
             'item'          => $item,
             'stock'         => DefaultItemService::getStock($item, $this->em),
             'isFarmable'    => DefaultItemService::isFarmable($item, $account, $this->em),
-            'batchs'        => $batchs,
+            'batchs'        => BatchService::getBatchs($this->em, $item),
         ]);
     }
 

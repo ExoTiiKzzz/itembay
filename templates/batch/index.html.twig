@@ -5,25 +5,11 @@
 {% block body %}
 
 <div class="container text-white">
-    <h1 class="text-center py-5">Vendre {{ defaultItem.name }}</h1>
-    <p>Vous êtes sur le point de vendre {{ defaultItem.name }}. Vous pouvez choisir la quantité et le prix de vente.</p>
-    <p>Vous en avez actuellement <span class="item-quantity fw-bold">{{ inventoryQuantity }}</span> dans votre inventaire.</p>
-    <form id="batchForm" action="">
-        <div class="form-group">
-            <label for="quantity"></label>
-            <select class="form-control form-select" name="quantity" id="quantity" required>
-                <option value="1">1</option>
-                <option value="10">10</option>
-                <option value="100">100</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="price"></label>
-            <input type="number" class="form-control" name="price" id="price" placeholder="Prix" required>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Vendre</button>
-    </form>
+    <div class="batch-container">
+        {% include 'batch/content.html.twig' %}
+    </div>
 </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -31,7 +17,7 @@
     <script>
         let max = {{ inventoryQuantity }};
 
-		let init = () => {
+		let initBatchSellListeners = () => {
             let options = document.querySelector('#quantity').options;
             for (let i = options.length - 1; i >= 0; i--) {
                 if (options[i].value > max) {
@@ -43,37 +29,40 @@
 				document.querySelector('#batchForm').remove();
                 notif('Vous n\'avez pas d\'item à vendre', 'error');
 			}
-        }
-        $(document).ready(() => {
-	        init();
-			$('#quantity').on('change', (e) => {
-				if (e.target.value > max) {
+
+            $('#quantity').on('change', (e) => {
+                if (e.target.value > max) {
                     let options = e.target.options;
-					for (let i = options.length - 1; i >= 0; i--) {
-						if (options[i].value <= max) {
+                    for (let i = options.length - 1; i >= 0; i--) {
+                        if (options[i].value <= max) {
                             e.target.value = options[i].value;
                             break;
                         }
-					}
+                    }
                 }
             });
 
             $('#batchForm').on('submit', async (e) => {
                 e.preventDefault();
                 let data = {
-					quantity: $('#quantity').val(),
+                    quantity: $('#quantity').val(),
                     price: $('#price').val(),
                 }
-				let url = '{{ path('app_sell_item_confirm', { 'uuid': defaultItem.uuid }) }}';
+                let url = '{{ path('app_sell_item_confirm', { 'uuid': defaultItem.uuid }) }}';
 
                 let res = await apiFetch(url, data);
-				if (res.success) {
-					notif('Vente enregistrée', 'success');
-					document.querySelector('.item-quantity').innerHTML = res.data.quantity;
-					await refreshBalance();
-					max = res.data.quantity;
-				}
+                if (res.success) {
+                    notif('Vente enregistrée', 'success');
+                    document.querySelector('.batch-container').innerHTML = res.data.html;
+                    await refreshBalance();
+                    max = res.data.quantity;
+                    initBatchSellListeners();
+                    initSelect2();
+                }
             });
+        }
+        $(document).ready(() => {
+	        initBatchSellListeners();
         });
     </script>
 {% endblock %}

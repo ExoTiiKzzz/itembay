@@ -106,4 +106,41 @@ class BatchService
 
         return true;
     }
+
+    public static function getBatchs(EntityManagerInterface $em, DefaultItem $item): array
+    {
+
+        $batchs = [];
+        $one = $em->getRepository(Batch::class)->findBy(
+            ['defaultItem' => $item, 'quantity' => 1],
+            ['price' => 'ASC'],
+            10
+        );
+
+        $ten = $em->getRepository(Batch::class)->findBy(
+            ['defaultItem' => $item, 'quantity' => 10],
+            ['price' => 'ASC'],
+            10
+        );
+
+        $hundred = $em->getRepository(Batch::class)->findBy(
+            ['defaultItem' => $item, 'quantity' => 100],
+            ['price' => 'ASC'],
+            10
+        );
+
+        if (!empty($one)) {
+            $batchs['1'] = $one;
+        }
+
+        if (!empty($ten)) {
+            $batchs['10'] = $ten;
+        }
+
+        if (!empty($hundred)) {
+            $batchs['100'] = $hundred;
+        }
+
+        return $batchs;
+    }
 }
