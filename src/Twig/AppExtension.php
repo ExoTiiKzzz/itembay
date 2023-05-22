@@ -29,6 +29,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('randomId', [$this, 'randomId']),
             new TwigFilter('itemStock', [$this, 'getItemStock']),
             new TwigFilter('itemRating', [$this, 'getitemRating']),
+            new TwigFilter('reviewRating', [$this, 'getreviewRating']),
             new TwigFilter('professionLevelFromExp', [$this, 'getProfessionLevelFromExp']),
             new TwigFilter('professionActualLevelMinExp', [$this, 'getProfessionActualLevelMinExp']),
             new TwigFilter('professionNextLevelMinExp', [$this, 'getProfessionNextLevelMinExp']),
@@ -141,9 +142,20 @@ class AppExtension extends AbstractExtension
 
         $str = '<div class="d-flex align-items-center">';
             $str .= str_repeat('<i class="fa-solid fa-star gold"></i>', $roundedRating);
-        
             $str .= str_repeat('<i class="fa-regular fa-star gold"></i>', 5 - $roundedRating);
-            $str .= '<div class="ms-1"> ' . $roundedRating . ' sur ' . $ratingCount . ' ' . $evaluations . '.</div>';
+            $str .= '<div class="ms-1">&nbsp&nbsp' . $roundedRating . ' sur ' . $ratingCount . ' ' . $evaluations . '.</div>';
+        $str .= '</div>';
+
+        return $str;
+    }
+
+    public function getReviewRating(int $rating): string
+    {
+        $roundedRating = round($rating);
+
+        $str = '<div class="d-flex align-items-center">';
+            $str .= str_repeat('<i class="fa-solid fa-star gold"></i>', $roundedRating);
+            $str .= str_repeat('<i class="fa-regular fa-star gold"></i>', 5 - $roundedRating);
         $str .= '</div>';
 
         return $str;

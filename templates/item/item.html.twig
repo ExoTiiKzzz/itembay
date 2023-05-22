@@ -9,8 +9,8 @@
     <div class="card m-5">  
         <div class="row m-2 p-3">
 
-            <div class="col-md-4 col-sm-12 d-flex align-items-center">
-                <img src="{{ item.imageUrl }}" class="card-img rounded-left" alt="{{ item.name }}" loading="lazy" height="30%" width="30%" onerror="this.src = '/images/no-photo.png'">
+            <div class="col-md-4 col-sm-12 align-items-center">
+                <img src="{{ item.imageUrl }}" class="card-img rounded-left align-top" alt="{{ item.name }}" loading="lazy" height="300" width="300" onerror="this.src = '/images/no-photo.png'">
             </div>
 
             <div class="col-md-5 col-sm-12 d-flex">
@@ -51,13 +51,15 @@
                             </div>
 
                             <div class="tab" data-tab="reviews-tab">
-                                <h5 class="card-title">Avis &amp; commentaires client </h5>
+                                <h5 class="card-title">Avis &amp; commentaires client<br></h5>
                                 {% if item.reviews | length == 0 %}
                                     <div class="alert alert-info">Il n'y a pas d'évaluations ou de commentaires clients pour ce produit.</div>
                                 {% else %}
                                     {% for review in item.firstNReviews %}
-                                        <p>{{ review.comment }}</p>
-                                        <p>{{ review.account }}</p>
+                                        <p><img src="{{ review.account.class.imageUrl }}" alt="{{ review.account.class.name }}" height="34" width="34" class="img-circle" onerror="this.src = '/images/no-photo.png'"><b>{{ review.account }}</b></p>
+                                        <p><small>{{ review.note | reviewRating | raw }}</small></p>
+                                        <a href="{{ path('app_review_show', {'id': review.id }) }}" class="review-comment" data-tooltip data-html="true">{{ review.comment }}</a>
+                                        <div style="border: 1px solid lightgray;"></div><br>
                                     {% endfor %}
                                 {% endif %}
                             </div>
@@ -108,7 +110,7 @@
                     <div class="justify-content-end align-items-center my-3">
                         {% if app.user %}
                             {% if item.id | itemStock == 0 %}
-                                <button class="form-control btn btn-primary basket-add-item mr-3" onclick="addItem()">Hors stock</button>
+                                <button class="form-control btn btn-primary basket-add-item mr-3">Hors stock</button>
                             {% else %}
                                 <button class="form-control btn btn-primary basket-add-item mr-3" onclick="addItem()">Ajouter au panier</button>
                             {% endif %}
@@ -126,8 +128,6 @@
             </div>
         </div>
     </div>
-
-
 
 {% endblock %}
 

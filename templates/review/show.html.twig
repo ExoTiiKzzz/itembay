@@ -1,0 +1,15 @@
+{% extends '/base.html.twig' %}
+
+{% block title %}
+    Avis de {{review.account.name}}
+{% endblock %}
+
+{% block body %}
+    <div class="card m-5">  
+        <div class="row m-2 p-3">
+            <p><img src="{{ review.account.class.imageUrl }}" alt="{{ review.account.class.name }}" height="34" width="34" class="img-circle" onerror="this.src = '/images/no-photo.png'"><b>{{ review.account }}</b></p>
+            <p><small>{{ review.note | reviewRating | raw }}</small></p>
+            <p>{{ review.comment }}</p>
+        </div>
+    </div>
+{% endblock %}
