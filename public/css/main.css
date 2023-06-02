@@ -314,3 +314,12 @@ nav a {
 .border-primary {
     border-color: var(--primary-color) !important;
 }
+
+footer {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+footer .text-muted {
+    color: var(--text-color) !important;
+}
