@@ -72,7 +72,9 @@
             <div id='stars3'></div>
         </div>
         {% include 'navbar.html.twig' %}
-        {% block body %}{% endblock %}
+        <div style="min-height: 90vh;">
+            {% block body %}{% endblock %}
+        </div>
         {% include 'sidebar.html.twig' %}
         {% if app.user and app.user.activeAccount != null %}
             {% include 'account/activeAccount.html.twig' %}

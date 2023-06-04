@@ -31,6 +31,7 @@ class BaseController extends AbstractController
         if (!$user instanceof User) {
             $response = $this->redirectToRoute('app_login');
             $response->send();
+            return null;
         }
         return $user;
     }

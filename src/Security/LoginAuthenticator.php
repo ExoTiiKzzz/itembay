@@ -46,7 +46,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        $referer = $request->get('referer', '/');
+        $referer = $request->get('referer') ?? '/';
 
         // For example:
          return new RedirectResponse($referer);

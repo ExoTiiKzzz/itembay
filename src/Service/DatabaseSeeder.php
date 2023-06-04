@@ -12,6 +12,8 @@ use App\Entity\Item;
 use App\Entity\ItemNature;
 use App\Entity\ItemSet;
 use App\Entity\ItemType;
+use App\Entity\LootBox;
+use App\Entity\LootBoxLine;
 use App\Entity\PlayerClass;
 use App\Entity\PlayerProfession;
 use App\Entity\Profession;
@@ -46,6 +48,7 @@ class DatabaseSeeder
         $this->seedXpTable();
         $this->seedUsers();
         $this->seedBugReportRelated();
+        $this->seedLootBoxes();
     }
 
     private function seedClasses(): void
@@ -383,6 +386,32 @@ class DatabaseSeeder
             $bugReportStatus = new BugReportStatus();
             $bugReportStatus->setName($stat);
             $this->entityManager->persist($bugReportStatus);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    private function seedLootBoxes()
+    {
+        $lootBoxesArray = json_decode(file_get_contents($this->baseDir . '/lootBoxes.json'), true);
+
+        foreach ($lootBoxesArray as $lootBoxItem) {
+            $lootBox = new LootBox();
+            $lootBox->setName($lootBoxItem['name']);
+            $lootBox->setPrice($lootBoxItem['price']);
+            $lootBox->setColor($lootBoxItem['color']);
+            $lootBox->setMaxFreePerDay($lootBoxItem['maxFreePerDay']);
+
+            //get 20 random items between price / 2 and price * 2
+            $lowestPrice = $lootBox->getPrice() / 2;
+            $highestPrice = $lootBox->getPrice() * 2;
+            $items = $this->entityManager->getRepository(DefaultItem::class)->findRandomByPriceRange($lowestPrice, $highestPrice, 20);
+            foreach ($items as $item) {
+                $lootBoxItem = new LootBoxLine();
+                $lootBoxItem->setDefaultItem($item);
+                $lootBoxItem->setLootBox($lootBox);
+                $this->entityManager->persist($lootBoxItem);
+            }
         }
 
         $this->entityManager->flush();

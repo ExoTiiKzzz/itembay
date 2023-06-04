@@ -75,12 +75,16 @@ class DefaultItem
     #[ORM\Column(length: 255)]
     private ?string $imageUrl = null;
 
+    #[ORM\OneToMany(mappedBy: 'defaultItem', targetEntity: LootBoxLine::class)]
+    private Collection $lootBoxLines;
+
     #[Pure] public function __construct()
     {
         $this->items = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->batches = new ArrayCollection();
         $this->possibleCharacteristics = new ArrayCollection();
+        $this->lootBoxLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -395,6 +399,36 @@ class DefaultItem
     public function setImageUrl(string $imageUrl): self
     {
         $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LootBoxLine>
+     */
+    public function getLootBoxLines(): Collection
+    {
+        return $this->lootBoxLines;
+    }
+
+    public function addLootBoxLine(LootBoxLine $lootBoxLine): self
+    {
+        if (!$this->lootBoxLines->contains($lootBoxLine)) {
+            $this->lootBoxLines->add($lootBoxLine);
+            $lootBoxLine->setDefaultItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLootBoxLine(LootBoxLine $lootBoxLine): self
+    {
+        if ($this->lootBoxLines->removeElement($lootBoxLine)) {
+            // set the owning side to null (unless already changed)
+            if ($lootBoxLine->getDefaultItem() === $this) {
+                $lootBoxLine->setDefaultItem(null);
+            }
+        }
 
         return $this;
     }

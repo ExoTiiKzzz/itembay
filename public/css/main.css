@@ -323,3 +323,11 @@ footer {
 footer .text-muted {
     color: var(--text-color) !important;
 }
+
+.radius-1 {
+    border-radius: 0.2rem;
+}
+
+.radius-2 {
+    border-radius: 0.5rem;
+}

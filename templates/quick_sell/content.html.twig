@@ -1,0 +1,16 @@
+<h1 class="text-center py-5">Vendre {{ defaultItem.name }}</h1>
+<p>Vous êtes sur le point de vendre {{ defaultItem.name }}. Vous pouvez choisir la quantité.</p>
+<p>Vous en avez actuellement <span class="item-quantity fw-bold">{{ inventoryQuantity }}</span> dans votre inventaire.</p>
+<form id="quickSellForm" action="">
+    <div class="form-group">
+        <label for="quantity"></label>
+        <input type="number" class="form-control" name="quantity" id="quantity" value="1" required />
+    </div>
+
+    <div class="quick-sell-total mt-3">
+        {{ defaultItem.sellPrice | itemPrice | raw }}
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Vendre</button>
+</form>
+

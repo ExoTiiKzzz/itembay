@@ -2,6 +2,26 @@
  * App functions
  */
 
+function formatItemPrice(price) {
+	//1 gold piece = 10 silver pieces = 100 bronze pieces
+	let gold = Math.floor(price / 100);
+	let silver = Math.floor((price - (gold * 100)) / 10);
+	let bronze = price - (gold * 100) - (silver * 10);
+
+	let result = '';
+	if (gold > 0) {
+		result += gold + ' <i class="fa-brands fa-bitcoin gold"></i> ';
+	}
+	if (silver > 0) {
+		result += silver + ' <i class="fa-brands fa-bitcoin silver"></i> ';
+	}
+	if (bronze > 0) {
+		result += bronze + ' <i class="fa-brands fa-bitcoin bronze"></i> ';
+	}
+
+	return result;
+}
+
 function setInnerHTML(elm, html) {
 	elm.innerHTML = html;
 

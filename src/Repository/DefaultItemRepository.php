@@ -57,6 +57,18 @@ class DefaultItemRepository extends ServiceEntityRepository
         return $ids;
     }
 
+    public function findRandomByPriceRange(int $min, int $max, int $limit): array
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb->andWhere('d.price >= :min');
+        $qb->andWhere('d.price <= :max');
+        $qb->setParameter('min', $min);
+        $qb->setParameter('max', $max);
+        $qb->orderBy('RAND()');
+        $qb->setMaxResults($limit);
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return DefaultItem[] Returns an array of DefaultItem objects
 //     */

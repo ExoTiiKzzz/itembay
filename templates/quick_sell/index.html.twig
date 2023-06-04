@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vente | {{ defaultItem.name }}{% endblock %}
+
+{% block body %}
+
+<div class="container text-white">
+    <div class="quick-sell-container">
+        {% include 'quick_sell/content.html.twig' %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let max = {{ inventoryQuantity }};
+		let sellPrice = {{ defaultItem.sellPrice }};
+
+		let initQuickSellListeners = () => {
+			if (max === 0) {
+				document.querySelector('#quickSellForm').remove();
+                notif('Vous n\'avez pas d\'item à vendre', 'error');
+			}
+
+            $('#quantity').on('keyup', (e) => {
+                if (e.target.value > max) {
+                    e.target.value = max;
+	                $(e.target).trigger('change');
+                }
+
+				if (e.target.value < 1) {
+					e.target.value = 1;
+					$(e.target).trigger('change');
+				}
+
+				document.querySelector('.quick-sell-total').innerHTML = formatItemPrice((e.target.value ?? 0) * sellPrice);
+            });
+
+            $('#quickSellForm').on('submit', async (e) => {
+                e.preventDefault();
+                let url = '{{ path('app_quick_sell_confirm', { 'uuid': defaultItem.uuid, 'quantity': ':quantity' }) }}';
+				url = url.replace(':quantity', $('#quantity').val());
+
+                let res = await apiFetch(url);
+                if (res.success) {
+                    notif('Vente effectuée', 'success');
+					$('#quantity').val(1);
+                    document.querySelector('.quick-sell-container').innerHTML = res.data.html;
+                    await refreshBalance();
+                    max = res.data.quantity;
+                    initQuickSellListeners();
+                    initSelect2();
+                }
+            });
+        }
+        $(document).ready(() => {
+	        initQuickSellListeners();
+        });
+    </script>
+{% endblock %}

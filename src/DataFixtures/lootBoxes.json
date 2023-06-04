@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Caisse en bronze",
+    "price": 10,
+    "color": "cd7f32",
+    "maxFreePerDay": 3
+  },
+  {
+    "name": "Caisse en argent",
+    "price": 100,
+    "color": "c0c0c0",
+    "maxFreePerDay": 2
+  },
+  {
+    "name": "Caisse en or",
+    "price": 1000,
+    "color": "ffd700",
+    "maxFreePerDay": 1
+  },
+  {
+    "name": "Caisse en diamant",
+    "price": 5000,
+    "color": "b9f2ff",
+    "maxFreePerDay": 0
+  },
+  {
+    "name": "Caisse ultime",
+    "price": 10000,
+    "color": "ff0000",
+    "maxFreePerDay": 0
+  }
+]

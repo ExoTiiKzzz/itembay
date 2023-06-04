@@ -79,7 +79,10 @@
 
             {% if context == 'inventory' and canEdit %}
                 <a href="{{ path('app_sell_item', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
-                    Vendre
+                    Créer une offre
+                </a>
+                <a href="{{ path('app_quick_sell', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
+                    Vente rapide
                 </a>
             {% endif %}
             {# check if admin #}
