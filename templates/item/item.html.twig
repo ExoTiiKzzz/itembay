@@ -56,7 +56,7 @@
                                     <div class="alert alert-info">Il n'y a pas d'évaluations ou de commentaires clients pour ce produit.</div>
                                 {% else %}
                                     {% for review in item.firstNReviews %}
-                                        <div class="border-1 border-primary p-2 radius-2" style="border: solid">
+                                        <div class="border-1 border-primary pt-2 pb-1 px-2 radius-2 mt-1" style="border: solid">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div>
                                                     <img src="{{ review.account.class.imageUrl }}" alt="{{ review.account.class.name }}" height="34" width="34" class="img-circle" onerror="this.src = '/images/no-photo.png'"><b>{{ review.account }}</b>
@@ -65,7 +65,7 @@
                                                     {{ review.note | reviewRating | raw }}
                                                 </div>
                                             </div>
-                                            <p class="ms-review-comment ms-2 mt-2" data-tooltip data-html="true">{{ review.comment }}</p>
+                                            <p class="review-comment ms-2 mt-2" data-tooltip data-html="true">{{ review.comment }}</p>
 
                                             <div class="d-flex justify-content-end">
                                                 <a class="btn btn-primary" href="{{ path('app_review_show', {'id': review.id }) }}">
