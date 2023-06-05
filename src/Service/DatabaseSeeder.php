@@ -411,6 +411,7 @@ class DatabaseSeeder
                 $lootBoxItem = new LootBoxLine();
                 $lootBoxItem->setDefaultItem($item);
                 $lootBoxItem->setLootBox($lootBox);
+                $lootBoxItem->setProbability(5);
                 $this->entityManager->persist($lootBoxItem);
             }
         }
