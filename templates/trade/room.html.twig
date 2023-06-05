@@ -1,0 +1,278 @@
+{% extends 'base.html.twig' %}
+
+{#    {% set firstAccount = trade.firstAccount %} #}
+{#    {% set secondAccount = trade.secondAccount %} #}
+
+    {% if trade.firstAccount.getUser() == app.user %}
+        {% set actualAccount = trade.firstAccount %}
+        {% set otherAccount = trade.secondAccount %}
+    {% else %}
+        {% set actualAccount = trade.secondAccount %}
+        {% set otherAccount = trade.firstAccount %}
+    {% endif %}
+
+
+{% block title %}ItemBay - Trade room{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #itembay-navbar, #itembay-footer, .discussions-container, .trades-container, #active-account {
+            display: none !important;
+        }
+
+        .slots-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .slot {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            flex: 0 0 calc(50% - 10px);
+            margin-bottom: 20px;
+        }
+
+        .aspect-ratio-slot {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            overflow: hidden;
+        }
+
+        .slot-content {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vertical-separator {
+            border-left: 1px solid #ccc;
+            height: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .countdown-text {
+            font-size: 20px;
+        }
+
+        .sidebar{
+            --sidebar-width: 60% !important;
+            --sidebar-right: -60% !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="bg-light rounded p-3" style="width: 75%;">
+            <button id="abort-trade" class="btn btn-primary">Abandonner</button>
+
+            <hr class="mb-0">
+
+            <div class="row">
+                <div class="col text-center">
+
+                    <div class="my-3">{{ actualAccount.name }}</div>
+                    <div id="firstAccount-slots" class="slots-container">
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button data-slot="1" class="edit-slot btn btn-sm btn-dark">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button data-slot="2" class="edit-slot btn btn-sm btn-dark">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button data-slot="3" class="edit-slot btn btn-sm btn-dark">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button data-slot="4" class="edit-slot btn btn-sm btn-dark">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-auto">
+                    <div class="vertical-separator"></div>
+                </div>
+                <div class="col text-center">
+
+                    <div class="my-3">{{ otherAccount.name }}</div>
+                    <div id="secondAccount-slots" class="slots-container">
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button class="btn btn-sm btn-dark" disabled>
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button class="btn btn-sm btn-dark" disabled>
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button class="btn btn-sm btn-dark" disabled>
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slot bg-dark rounded">
+                            <div class="aspect-ratio-slot">
+                                <div class="slot-content">
+                                    <button class="btn btn-sm btn-dark" disabled>
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr class="mt-0">
+
+            <div id="while-trading" class="d-flex justify-content-between">
+                <button id="actualAccount-confirm-items" class="btn btn-success">Confirmer</button>
+                <div id="count-down" class="countdown-text"></div>
+                <button id="otherAccount-confirm-items" class="btn btn-primary" disabled>En attente ...</button>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button id="do-trade" class="btn btn-success" style="display:none;"><i class="fas fa-handshake"></i>
+                    Échanger
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let actualAccountConfirmed = false;
+        let otherAccountConfirmed = false;
+        let countdownInterval;
+
+        window.addEventListener('DOMContentLoaded', function () {
+
+            document.querySelectorAll('.edit-slot').forEach(element => {
+                element.addEventListener('click', async function () {
+                    sidenav.open();
+                    sidenav.setTitle('Ajouter un item');
+                    await sidenav.setContentFromUrl('/trade/item/add/form');
+                    sidenav.hideLoader();
+                })
+            });
+
+            document.querySelector('#abort-trade').addEventListener('click', async function (event) {
+                await apiFetch('/trade/abort/{{ trade.id }}');
+            });
+
+            document.querySelector('#actualAccount-confirm-items').addEventListener('click', async function (event) {
+                actualAccountConfirmed = !actualAccountConfirmed;
+                await apiFetch(`/trade/confirm/{{ trade.id }}`, {
+                    'accountId': {{ actualAccount.id }},
+                    'confirmation': actualAccountConfirmed
+                });
+
+                document.querySelector('#actualAccount-confirm-items').classList.remove(actualAccountConfirmed ? 'btn-success' : 'btn-primary');
+                document.querySelector('#actualAccount-confirm-items').classList.add(actualAccountConfirmed ? 'btn-primary' : 'btn-success');
+                document.querySelector('#actualAccount-confirm-items').textContent = actualAccountConfirmed ? 'Annuler' : 'Confirmer';
+                abortCountdown();
+                checkBothConfirmations();
+            });
+        });
+
+        function toggleOtherAccountConfirmButton(confirmation) {
+            otherAccountConfirmed = !otherAccountConfirmed;
+            document.querySelector('#otherAccount-confirm-items').classList.remove(confirmation ? 'btn-primary' : 'btn-success');
+            document.querySelector('#otherAccount-confirm-items').classList.add(confirmation ? 'btn-success' : 'btn-primary');
+            document.querySelector('#otherAccount-confirm-items').textContent = confirmation ? 'A confirmé' : 'En attente ...';
+            abortCountdown();
+            checkBothConfirmations();
+        }
+
+        function checkBothConfirmations() {
+            if (actualAccountConfirmed && otherAccountConfirmed) {
+                countdownInterval = launchCountdown();
+            }
+        }
+
+        function launchCountdown() {
+            const countdownElement = document.querySelector('#count-down');
+            let seconds = 5;
+
+            let intervalID = setInterval(() => {
+                countdownElement.textContent = seconds;
+                seconds--;
+
+                if (seconds < 0) {
+                    clearInterval(intervalID);
+                    document.querySelector('#while-trading').remove();
+                    trade();
+                }
+            }, 1000);
+
+            return intervalID;
+        }
+
+        function abortCountdown() {
+            clearInterval(countdownInterval);
+            const countdownElement = document.querySelector('#count-down');
+            countdownElement.textContent = '';
+        }
+
+        async function trade() {
+            await apiFetch('/trade/do/{{ trade.id }}');
+            window.location = '{{ path('app_home') }}';
+        }
+
+         window.onbeforeunload = (event) => {
+           // event.preventDefault();
+           // event.returnValue = '';
+           navigator.sendBeacon('/trade/abort/{{ trade.id }}');
+         }
+    </script>
+{% endblock %}

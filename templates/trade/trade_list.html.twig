@@ -1,0 +1,60 @@
+{% set tradesAsFirstAccount = app.user.activeAccount.tradesAsFirstAccount %}
+{% set tradesAsSecondAccount = app.user.activeAccount.tradesAsSecondAccount %}
+<div class="bottom-container-title bottom-trades-container-title fw-bolder">
+    Échanges
+    {% if tradesAsSecondAccount|length > 0 %}
+        <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">
+                    {{ tradesAsSecondAccount|length }}
+                </span>
+    {% endif %}
+</div>
+<hr class="mt-0">
+<div class="d-flex justify-content-between">
+    <div>Vos demandes</div>
+    <a id="add-trade" type="button" title="Lancer un échange"
+       class="fa-solid fa-plus text-primary text-decoration-none"></a>
+</div>
+<div>
+    {% if tradesAsFirstAccount|length > 0 %}
+        {% for trade in tradesAsFirstAccount %}
+            <div class="d-flex align-items-center alert {{ trade.status == 'pending' ? 'alert-dark' : (trade.status == 'accepted' ? 'alert-success':(trade.status == 'refused' ? 'alert-warning':'')) }} p-1 mb-1">
+                <img src="{{ trade.secondAccount.class.imageUrl }}" alt="account" class="img-fluid"
+                     height="25" width="25">
+                <div>{{ trade.secondAccount.name }}</div>
+                <button data-id="{{ trade.id }}" type="button"
+                        class="trade-delete btn btn-sm bg-transparent ms-auto">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info mb-0">
+            Aucune demande.
+        </div>
+    {% endif %}
+</div>
+<hr>
+<div>Demandes</div>
+<div>
+    {% if tradesAsSecondAccount|length > 0 %}
+        {% for trade in tradesAsSecondAccount %}
+            <div class="d-flex align-items-center alert {{ trade.status == 'pending' ? 'alert-dark' : (trade.status == 'accepted' ? 'alert-success':(trade.status == 'refused' ? 'alert-warning':'')) }} p-1 mb-1">
+                <img src="{{ trade.firstAccount.class.imageUrl }}" alt="account" class="img-fluid"
+                     height="25" width="25">
+                <div>{{ trade.firstAccount.name }}</div>
+                <button data-id="{{ trade.id }}" type="button"
+                        class="trade-accept btn btn-sm bg-transparent ms-auto">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button data-id="{{ trade.id }}" type="button"
+                        class="trade-refuse btn btn-sm bg-transparent">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info mb-0">
+            Aucune demande.
+        </div>
+    {% endif %}
+</div>

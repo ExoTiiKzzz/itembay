@@ -12,7 +12,7 @@
 
     <!-- Account discussions -->
     <div class="bottom-container discussions-container shadow-lg">
-        <div class="bottom-container-title fw-bolder">
+        <div class="bottom-container-title bottom-discussions-container-title fw-bolder">
             Discussions
         </div>
         <hr class="mt-0">
@@ -34,67 +34,8 @@
     </div>
 
     <!-- Account trades -->
-    {% set tradesAsFirstAccount = app.user.activeAccount.tradesAsFirstAccount %}
-    {% set tradesAsSecondAccount = app.user.activeAccount.tradesAsSecondAccount %}
     <div class="bottom-container trades-container shadow-lg">
-        <div class="bottom-container-title fw-bolder">
-            Échanges
-            {% if tradesAsSecondAccount|length > 0 %}
-                <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">
-                    {{ tradesAsSecondAccount|length }}
-                </span>
-            {% endif %}
-        </div>
-        <hr class="mt-0">
-        <div class="d-flex justify-content-between">
-            <div>Vos demandes</div>
-            <a id="add-trade" type="button" title="Lancer un échange"
-               class="fa-solid fa-plus text-primary text-decoration-none"></a>
-        </div>
-        <div>
-            {% if tradesAsFirstAccount|length > 0 %}
-                {% for trade in tradesAsFirstAccount %}
-                    <div class="d-flex align-items-center alert alert-dark p-1 mb-1">
-                        <img src="{{ trade.secondAccount.class.imageUrl }}" alt="account" class="img-fluid"
-                             height="25" width="25">
-                        <div>{{ trade.secondAccount.name }}</div>
-                        <button data-trade="{{ trade.id }}" type="button"
-                                class="trade-delete btn btn-sm bg-transparent ms-auto">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="alert alert-info mb-0">
-                    Aucune demande.
-                </div>
-            {% endif %}
-        </div>
-        <hr>
-        <div>Demandes</div>
-        <div>
-            {% if tradesAsSecondAccount|length > 0 %}
-                {% for trade in tradesAsSecondAccount %}
-                    <div class="d-flex align-items-center alert alert-dark p-1 mb-1">
-                        <img src="{{ trade.firstAccount.class.imageUrl }}" alt="account" class="img-fluid"
-                             height="25" width="25">
-                        <div>{{ trade.firstAccount.name }}</div>
-                        <button data-trade="{{ trade.id }}" type="button"
-                                class="trade-accept btn btn-sm bg-transparent ms-auto">
-                            <i class="fas fa-check"></i>
-                        </button>
-                        <button data-trade="{{ trade.id }}" type="button"
-                                class="trade-refuse btn btn-sm bg-transparent">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="alert alert-info mb-0">
-                    Aucune demande.
-                </div>
-            {% endif %}
-        </div>
+        {% include 'trade/trade_list.html.twig' %}
     </div>
 </div>
 
@@ -116,11 +57,9 @@
         document.getElementById("account-functionalities").style.display = "block";
     }
 
-    document.querySelectorAll('.bottom-container-title').forEach(function (element) {
-        element.addEventListener('click', function (event) {
-            let container = event.target.closest('.bottom-container');
-            container.classList.toggle('show');
-        });
+    document.querySelector('.bottom-discussions-container-title').addEventListener('click', function (event) {
+        let container = event.target.closest('.bottom-container');
+        container.classList.toggle('show');
     });
 
     document.querySelector('#add-discussion').addEventListener('click', function () {
@@ -130,24 +69,46 @@
         });
     });
 
-    document.querySelector('#add-trade').addEventListener('click', async function () {
-        sidenav.open();
-        sidenav.setTitle('Demander un échange');
-        await sidenav.setContentFromUrl('/trade/ask/form');
-        sidenav.hideLoader();
-    });
+    /******************** Trades ********************/
 
-    function attachEventListeners(selector, endpoint) {
-        document.querySelectorAll(selector).forEach(element => {
-            element.addEventListener('click', async event => {
-                await apiFetch(`${endpoint}/${event.currentTarget.dataset.id}`);
+    addTradeListeners();
+
+    function refreshTradeList() {
+        apiFetch('/trade/list').then((result) => {
+            setInnerHTML(document.querySelector('.trades-container'), result.data.html);
+            addTradeListeners();
+        })
+    }
+
+    function addTradeListeners() {
+        document.querySelector('.bottom-trades-container-title').addEventListener('click', function (event) {
+            let container = event.target.closest('.bottom-container');
+            container.classList.toggle('show');
+        });
+
+        document.querySelector('#add-trade').addEventListener('click', async function () {
+            sidenav.open();
+            sidenav.setTitle('Demander un échange');
+            await sidenav.setContentFromUrl('/trade/ask/form');
+            sidenav.hideLoader();
+        });
+
+        const events = [
+            {selector: '.trade-delete', endpoint: '/trade/delete'},
+            {selector: '.trade-accept', endpoint: '/trade/accept'},
+            {selector: '.trade-refuse', endpoint: '/trade/refuse'}
+        ];
+
+        events.forEach(event => {
+            const {selector, endpoint} = event;
+            document.querySelectorAll(selector).forEach(element => {
+                element.addEventListener('click', async event => {
+                    await apiFetch(`${endpoint}/${event.currentTarget.dataset.id}`);
+                    refreshTradeList();
+                });
             });
         });
     }
-
-    attachEventListeners('.trade-delete', '/trade/delete');
-    attachEventListeners('.trade-accept', '/trade/accept');
-    attachEventListeners('.trade-refuse', '/trade/refuse');
 
 
     {# let loadedDiscussion = []; #}

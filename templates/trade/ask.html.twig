@@ -17,5 +17,7 @@
         event.preventDefault();
         let accountId = document.querySelector('#accounts').value;
         let result = await apiFetch(`\/trade/ask/${accountId}`);
+        sidenav.close();
+        refreshTradeList();
     });
 </script>

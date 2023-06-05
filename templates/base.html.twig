@@ -1,85 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
 
-            {# Bootstrap #}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-                  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-                  crossorigin="anonymous">
+        {# Bootstrap #}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+              crossorigin="anonymous">
 
-            {# Roboto #}
-{#            <link rel="preconnect" href="https://fonts.googleapis.com">#}
-{#            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>#}
-{#            <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">#}
+        {# Figtree #}
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
-            {# Figtree #}
-            <link rel="preconnect" href="https://fonts.bunny.net">
-            <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
+        {# Font Awesome #}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+              integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-            {# Font Awesome #}
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-                  integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-                  crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        {# Select2 #}
+        <link rel="stylesheet" href="{{ asset('css/lib/select2.min.css') }}"/>
 
-            {# Select2 #}
-            <link rel="stylesheet" href="{{ asset('css/lib/select2.min.css') }}"/>
+        {# Toastr #}
+        <link rel="stylesheet" href="{{ asset('css/lib/toastr.min.css') }}"/>
 
-            {# Toastr #}
-            <link rel="stylesheet" href="{{ asset('css/lib/toastr.min.css') }}"/>
+        {# Notie #}
+        <link rel="stylesheet" href="{{ asset('css/lib/notie.css') }}"/>
 
-            {# Notie #}
-            <link rel="stylesheet" href="{{ asset('css/lib/notie.css') }}"/>
+        {# Main #}
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
-            {# Main #}
-            <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+        {# Background #}
+        <link rel="stylesheet" href="{{ asset('css/background.css') }}">
 
-            {# Background #}
-            <link rel="stylesheet" href="{{ asset('css/background.css') }}">
+        {# Sidebar #}
+        <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+    {% endblock %}
 
-            {# Sidebar #}
-            <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-        {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+        {# SweetAlert2 #}
+        <script src="{{ asset('js/lib/sweetalert.min.js') }}"></script>
 
-            {# SweetAlert2 #}
-            <script src="{{ asset('js/lib/sweetalert.min.js') }}"></script>
-
-            {# Bootstrap Bundle #}
-            <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
-            <script src="{{ asset('js/lib/popper.min.js') }}"></script>
-            <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('js/lib/select2.min.js') }}"></script>
-            <script src="{{ asset('js/lib/toastr.min.js') }}"></script>
-            <script src="{{ asset('js/lib/notie.js') }}"></script>
-            <script src="{{ asset('js/functions.js') }}"></script>
-            <script src="{{ asset('js/sidebar.js') }}" defer></script>
-            <script src="{{ asset('js/app.js') }}" defer></script>
-        {% endblock %}
-    </head>
-    <body>
-        <div class="background">
-            <div id='stars'></div>
-            <div id='stars2'></div>
-            <div id='stars3'></div>
-        </div>
-        {% include 'navbar.html.twig' %}
-        <div style="min-height: 90vh;">
-            {% block body %}{% endblock %}
-        </div>
-        {% include 'sidebar.html.twig' %}
-        {% if app.user and app.user.activeAccount != null %}
-            {% include 'account/activeAccount.html.twig' %}
-        {% endif %}
-        {% include 'footer.html.twig' %}
-    </body>
-    {% include 'twig_needed_js.html.twig' %}
+        {# Bootstrap Bundle #}
+        <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/lib/popper.min.js') }}"></script>
+        <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/lib/select2.min.js') }}"></script>
+        <script src="{{ asset('js/lib/toastr.min.js') }}"></script>
+        <script src="{{ asset('js/lib/notie.js') }}"></script>
+        <script src="{{ asset('js/functions.js') }}"></script>
+        <script src="{{ asset('js/sidebar.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    {% endblock %}
+</head>
+<body>
+<div class="background">
+    <div id='stars'></div>
+    <div id='stars2'></div>
+    <div id='stars3'></div>
+</div>
+{% include 'navbar.html.twig' %}
+<div style="min-height: 90vh;">
+    {% block body %}{% endblock %}
+</div>
+{% include 'sidebar.html.twig' %}
+{% if app.user and app.user.activeAccount != null %}
+    {% include 'account/activeAccount.html.twig' %}
+{% endif %}
+{% include 'footer.html.twig' %}
+</body>
+{% include 'twig_needed_js.html.twig' %}
 </html>

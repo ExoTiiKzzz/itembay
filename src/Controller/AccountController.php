@@ -42,7 +42,6 @@ class AccountController extends BaseController
     #[Route('/account/list', name: 'app_account_list')]
     public function list(): Response
     {
-
         $html = $this->render('account/list_account.html.twig');
 
         return ApiResponseService::success([

@@ -1,95 +1,115 @@
 <script>
     {% if app.user %}
-        const eventSource = new EventSource("{{ mercure('/user/' ~ app.user.id, {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.In-xEYAn8T2ZvfpQoI1xpNFBYmmE-R-QOoG_uWkjvQw'})|escape('js') }}");
-        eventSource.onmessage = async (event) => {
-            let data = JSON.parse(event.data);
-            notif(data.message)
+    const eventSource = new EventSource("{{ mercure('/user/' ~ app.user.id, {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.In-xEYAn8T2ZvfpQoI1xpNFBYmmE-R-QOoG_uWkjvQw'})|escape('js') }}");
+    eventSource.onmessage = async (event) => {
+        let data = JSON.parse(event.data);
 
-            if (data.type === 'batch') {
-                document.querySelector('.balance-container').innerHTML = data.actualMoney
-            }
+        if (data.type === 'batch') {
+            document.querySelector('.balance-container').innerHTML = data.actualMoney
         }
+
+        if (data.type === 'trade') {
+            refreshTradeList();
+        }
+
+        if (data.type === 'start-trade') {
+            window.location = "{{ path('app_trade_room', {id: '_id'}) }}".replace('_id', data.trade);
+            return;
+        }
+
+        if(data.type === 'confirm-trade'){
+            toggleOtherAccountConfirmButton(data.confirmation);
+            return;
+        }
+
+        if (data.type === 'abort-trade') {
+            window.location = "{{ path('app_home') }}";
+            return;
+        }
+
+        notif(data.message)
+    }
     {% endif %}
 
     {# check if there is flash messages #}
     {% if app.session.flashBag.peekAll()|length > 0 %}
-        {% for type, messages in app.session.flashBag.all() %}
-            {% for message in messages %}
-                notif('{{ message|escape('js') }}', '{{ type }}')
-            {% endfor %}
-        {% endfor %}
+    {% for type, messages in app.session.flashBag.all() %}
+    {% for message in messages %}
+    notif('{{ message|escape('js') }}', '{{ type }}')
+    {% endfor %}
+    {% endfor %}
     {% endif %}
 
-	function loadSelectFilters() {
-		$('.eraseFilters').on('click', () => {
-			$('#filters-container').find('input').val(null).trigger('change');
-			$('#filters-container').find('select').val(null).trigger('change');
-			$('#filters-container').find('input[type="checkbox"]').prop('checked', false);
+    function loadSelectFilters() {
+        $('.eraseFilters').on('click', () => {
+            $('#filters-container').find('input').val(null).trigger('change');
+            $('#filters-container').find('select').val(null).trigger('change');
+            $('#filters-container').find('input[type="checkbox"]').prop('checked', false);
             document.querySelector('.natureCount').innerHTML = '';
         })
-		{% if filters is defined %}
-            {% if filters.selectedItemTypes is defined %}
-                $('#itemTypeSelect').val({{ filters.selectedItemTypes|json_encode|raw }}).trigger('change');
-            {% endif %}
-            {% if filters.selectedItemSets is defined %}
-                $('#itemSetsSelect').val({{ filters.selectedItemSets|json_encode|raw }}).trigger('change');
-            {% endif %}
+        {% if filters is defined %}
+        {% if filters.selectedItemTypes is defined %}
+        $('#itemTypeSelect').val({{ filters.selectedItemTypes|json_encode|raw }}).trigger('change');
+        {% endif %}
+        {% if filters.selectedItemSets is defined %}
+        $('#itemSetsSelect').val({{ filters.selectedItemSets|json_encode|raw }}).trigger('change');
+        {% endif %}
         {% endif %}
 
-		document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
-			checkbox.addEventListener('change', function (event) {
-				let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
-				let count = document.querySelector('.natureCount');
-				if (checked.length === 0) {
-					count.innerHTML = '';
-				} else {
-					count.innerHTML = '(' + checked.length + ')';
-					resetItemTypes();
-				}
-				$('#itemTypeSelect').val(null).trigger('change');
-				$('#itemSetsSelect').val(null).trigger('change');
-			});
-		});
+        document.querySelectorAll('[name="itemNature[]"]').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function (event) {
+                let checked = document.querySelectorAll('[name="itemNature[]"]:checked');
+                let count = document.querySelector('.natureCount');
+                if (checked.length === 0) {
+                    count.innerHTML = '';
+                } else {
+                    count.innerHTML = '(' + checked.length + ')';
+                    resetItemTypes();
+                }
+                $('#itemTypeSelect').val(null).trigger('change');
+                $('#itemSetsSelect').val(null).trigger('change');
+            });
+        });
 
-		$('#itemTypeSelect').on('change', function (e) {
-			let count = document.querySelector('.typeCount');
-			let value = e.target.selectedOptions.length;
-			if (value === 0) {
-				count.innerHTML = '';
-			} else {
-				count.innerHTML = '(' + e.target.selectedOptions.length + ')';
-			}
+        $('#itemTypeSelect').on('change', function (e) {
+            let count = document.querySelector('.typeCount');
+            let value = e.target.selectedOptions.length;
+            if (value === 0) {
+                count.innerHTML = '';
+            } else {
+                count.innerHTML = '(' + e.target.selectedOptions.length + ')';
+            }
 
-		});
+        });
 
-		$('#itemSetsSelect').on('change', function (e) {
-			let count = document.querySelector('.setsCount');
-			let value = e.target.selectedOptions.length;
-			if (value === 0) {
-				count.innerHTML = '';
-			} else {
-				count.innerHTML = '(' + e.target.selectedOptions.length + ')';
-			}
+        $('#itemSetsSelect').on('change', function (e) {
+            let count = document.querySelector('.setsCount');
+            let value = e.target.selectedOptions.length;
+            if (value === 0) {
+                count.innerHTML = '';
+            } else {
+                count.innerHTML = '(' + e.target.selectedOptions.length + ')';
+            }
 
-		});
-		resetItemTypes();
-	}
+        });
+        resetItemTypes();
+    }
 
     function resetItemTypes() {
-	    $('#itemTypeSelect option').prop('disabled', false);
-	    let allOptionsToHide = [];
-	    if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
-		    return;
-	    }
-	    document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
-		    let value = ch.value;
-		    let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
-		    options.forEach(function (option) {
-			    allOptionsToHide.push(option);
-		    });
-	    })
-	    allOptionsToHide.forEach(function (option) {
-		    option.disabled = true;
-	    });
+        $('#itemTypeSelect option').prop('disabled', false);
+        let allOptionsToHide = [];
+        if (document.querySelectorAll('[name="itemNature[]"]:checked').length === 0) {
+            return;
+        }
+        document.querySelectorAll('[name="itemNature[]"]:not(:checked)').forEach((ch) => {
+            let value = ch.value;
+            let options = document.querySelectorAll('#itemTypeSelect option[data-nature="' + value + '"]');
+            options.forEach(function (option) {
+                allOptionsToHide.push(option);
+            });
+        })
+        allOptionsToHide.forEach(function (option) {
+            option.disabled = true;
+        });
     }
 </script>

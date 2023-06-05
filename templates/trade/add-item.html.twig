@@ -1,0 +1,29 @@
+{#{% if items|length > 0 %}#}
+{#    <div class="row">#}
+{#        {% for item in items.defaultItems %}#}
+{#            <div class="col-3">#}
+{#                <div data-item="{{ item.id }}" class="add-item-to-slot card" style="cursor:pointer">#}
+{#                    <img src="{{ item.imageUrl }}" class="card-img-top" alt="{{ item.name }}" height="50" width="50">#}
+{#                    <div class="card-body">#}
+{#                        <h5 class="card-title">{{ item.name }}</h5>#}
+{#                        <div class="text-muted mb-2">Niv {{ item.level }}</div>#}
+{#                        <div class="text-muted">Quantité : {{ item.quantity }}</div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#{% else %}#}
+{#    <div class="alert alert-info w-100">#}
+{#        Vous n'avez pas encore d'items dans votre inventaire.#}
+{#    </div>#}
+{#{% endif %}#}
+
+{#<script>#}
+{#    document.querySelectorAll('.add-item-to-slot').forEach(element => {#}
+{#        element.addEventListener('click', async function (event) {#}
+{#          let itemId = event.currentTarget.dataset.item;#}
+{#          await apiFetch('')#}
+{#        });#}
+{#    });#}
+{#</script>#}
