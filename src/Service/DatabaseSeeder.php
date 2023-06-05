@@ -401,6 +401,7 @@ class DatabaseSeeder
             $lootBox->setPrice($lootBoxItem['price']);
             $lootBox->setColor($lootBoxItem['color']);
             $lootBox->setMaxFreePerDay($lootBoxItem['maxFreePerDay']);
+            $this->entityManager->persist($lootBox);
 
             //get 20 random items between price / 2 and price * 2
             $lowestPrice = $lootBox->getPrice() / 2;
