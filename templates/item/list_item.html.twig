@@ -1,8 +1,10 @@
 {% set context = context ?? 'shop' %}
 {% set id = '' | randomId %}
 {% set canEdit = canEdit ?? true %}
+{% set showButtons = showButtons ?? true %}
+{% set cardWidth = cardWidth ?? '20%' %}
 
-<div class="card" style="width: 20%;">
+<div class="card shuffle-list-item" style="width: {{ cardWidth }};" {% if dataGroups is defined %}data-groups="{{ dataGroups }}"{% endif %}>
     <img src="{{ item.imageUrl }}" class="card-img-top mt-2" alt="{{ item.name }}" loading="lazy" height="100" width="100"
          onerror="this.src = '/images/no-photo.png'"
          {% if context == 'inventory' %}
@@ -25,6 +27,7 @@
                 {% endfor %}
             <br>
             {% endif %}
+
             <span>Catégorie</span> <b>{{ item.defaultItem.itemType.name }}</b><br>
             <span>Prix moyen</span> <b>{{ item.defaultItem.sellPrice | itemPrice | raw }}</b><br>
             <span>Prix moyen du lot</span> <b>{{ (item.defaultItem.sellPrice * item.quantity) | itemPrice | raw }}</b><br>
@@ -41,7 +44,43 @@
         </div>
     </div>
                 '
+{% else %}
+    data-tooltip data-html="true"  title='
+    <div class="row text-start p-2" style="min-width: 400px;">
+        <div class="col-md-8">
+            <h3>{{ item.name }}</h3>
+            <div>
+                Niveau {{ item.level }}
+            </div>
+            {% if item.possibleCharacteristics is defined and item.possibleCharacteristics | length > 0 %}
+                <br>
+                <b>Effets possibles</b> <br>
+                {% for possibleCharacteristic in item.possibleCharacteristics %}
+                    <div class="effect-text fw-bolder">
+                    {% if possibleCharacteristic.min == possibleCharacteristic.max %}
+                        {{ possibleCharacteristic.min }} {{ possibleCharacteristic.characteristic.name }}
+                    {% else %}
+                        De {{ possibleCharacteristic.min }} à {{ possibleCharacteristic.max }} {{ possibleCharacteristic.characteristic.name }}
+                    {% endif %}
+                    </div>
+                {% endfor %}
             {% endif %}
+
+            <span>Catégorie</span> <b>{{ item.itemType.name }}</b><br>
+            <span>Prix moyen</span> <b>{{ item.sellPrice | itemPrice | raw }}</b><br>
+        </div>
+        <div class="col-md-4">
+            <img src="{{ item.imageUrl }}" alt="{{ item.name }}" class="img-fluid">
+        </div>
+
+        <div class="row mt-2">
+            <p>
+                {{ item.description }}
+            </p>
+        </div>
+    </div>
+                '
+{% endif %}
     >
     <div class="card-body d-flex flex-column">
         <h5 class="card-title">
@@ -53,6 +92,19 @@
                 Quantité : <strong>{{ item.quantity }}</strong>
             </div>
         {% endif %}
+
+        {% if probability is defined %}
+            <div class="mb-3">
+                Probabilité : <strong>{{ probability }}%</strong>
+            </div>
+        {% endif %}
+
+        {% if context in ['itemSet', 'encyclopediaItemsList'] %}
+            <div class="mb-3">
+                {{ item.itemType.name }}
+            </div>
+        {% endif %}
+
 
 
         <div class="mt-auto text-right">
@@ -66,39 +118,40 @@
                 <p> {{ item.buyPrice | itemPrice | raw }} </p>
             {% endif %}
 
+            {% if showButtons %}
+                <a href="{{ path('app_item', { 'uuid': item.uuid }) }}" class="btn btn-sm btn-primary mt-4 form-control">
+                    {% if context in ['shop', 'itemSet', 'encyclopediaItemsList'] %}
+                        Voir les offres
+                    {% elseif context == 'inventory' and canEdit %}
+                        En acheter plus
+                    {% else %}
+                        Voir
+                    {% endif %}
+                </a>
 
-            <a href="{{ path('app_item', { 'uuid': item.uuid }) }}" class="btn btn-sm btn-primary mt-4 form-control">
-                {% if context in ['shop', 'itemSet', 'encyclopediaItemsList'] %}
-                    Voir les offres
-                {% elseif context == 'inventory' and canEdit %}
-                    En acheter plus
-                {% else %}
-                    Voir
+                {% if context == 'inventory' and canEdit %}
+                    <a href="{{ path('app_sell_item', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
+                        Créer une offre
+                    </a>
+                    <a href="{{ path('app_quick_sell', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
+                        Vente rapide
+                    </a>
                 {% endif %}
-            </a>
+                {# check if admin #}
+                {% if account is defined and app.user is defined and app.user.roles is defined and 'ROLE_ADMIN' in app.user.roles %}
+                    <form class="mt-4" action={{ path('app_give_item_to_account', {'accountId': account.id, 'itemId': item.id }) }}>
+                        <div class="form-group">
+                            <label for="quantity">
+                                Quantité
+                            </label>
+                            <input type="number" name="quantity" id="quantity" class="form-control" value="1">
 
-            {% if context == 'inventory' and canEdit %}
-                <a href="{{ path('app_sell_item', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
-                    Créer une offre
-                </a>
-                <a href="{{ path('app_quick_sell', {'uuid': item.uuid}) }}" class="btn btn-sm btn-secondary mt-1 form-control">
-                    Vente rapide
-                </a>
-            {% endif %}
-            {# check if admin #}
-            {% if account is defined and app.user is defined and app.user.roles is defined and 'ROLE_ADMIN' in app.user.roles %}
-                <form class="mt-4" action={{ path('app_give_item_to_account', {'accountId': account.id, 'itemId': item.id }) }}>
-                    <div class="form-group">
-                        <label for="quantity">
-                            Quantité
-                        </label>
-                        <input type="number" name="quantity" id="quantity" class="form-control" value="1">
-
-                        <button type="submit" class="btn btn-sm btn-primary mt-1 form-control">
-                            Donner
-                        </button>
-                    </div>
-                </form>
+                            <button type="submit" class="btn btn-sm btn-primary mt-1 form-control">
+                                Donner
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
             {% endif %}
         </div>
     </div>

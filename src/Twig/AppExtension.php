@@ -48,6 +48,13 @@ class AppExtension extends AbstractExtension
     public function formatItemPrice($price): string
     {
         $price = (int) $price;
+
+        if ($price === 0) {
+            return '0 <i class="fa-brands fa-bitcoin gold"></i>' .
+                ' 0 <i class="fa-brands fa-bitcoin silver"></i>' .
+                ' 0 <i class="fa-brands fa-bitcoin bronze"></i>';
+        }
+
         //1 gold piece = 10 silver pieces = 100 bronze pieces
         $gold = floor($price / 100);
         $silver = floor(($price - ($gold * 100)) / 10);

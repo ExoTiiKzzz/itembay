@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ lootbox.name }}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .tooltip-inner {
+            max-width: 500px; /* set this to your maximum fitting width */
+            width: inherit; /* will take up least amount of space */
+        }
+    </style>
+    <div class="container text-white">
+        <h1 class="text-center my-4">
+            {{ lootbox.name }}
+        </h1>
+
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-primary openBoxBtn fa-2x" style="padding: 10px 50px;">
+                Ouvrir <br>
+                {% if freeRemaining > 0 %}
+                    <span class="free-remaining">
+                        <i class="fas fa-gift"></i> {{ freeRemaining }} gratuites restantes
+                    </span>
+                {% else %}
+                    {{ lootbox.price | itemPrice | raw }}
+                {% endif %}
+            </button>
+        </div>
+
+        <h3>
+            Liste des items
+        </h3>
+
+        <div class="d-flex flex-wrap gap-5 text-black" id="itemList">
+            {% for line in lootbox.lootBoxLines %}
+                {% include 'item/list_item.html.twig' with {
+                    item: line.defaultItem,
+                    showButtons: false,
+                    probability: line.probability,
+                    dataGroups: '["' ~ line.defaultItem.id ~ '"]',
+                    cardWidth: '20%',
+                } %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Shuffle/6.1.0/shuffle.min.js" integrity="sha512-r8mIpk3ypCMwNxH6srRZGbjHQlOFt3Mq2vrZ/iymx6g9JUqTeVavofeX6gbrxAC74X5HmBy5gxyhCm6OiXrM0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+
+    <script>
+        $(window).ready(() => {
+
+            const openBoxBtn = document.querySelector('.openBoxBtn');
+            const items = document.querySelectorAll('.item');
+
+            const Shuffle = window.Shuffle;
+            const element = document.querySelector('#itemList');
+            const jsConfetti = new JSConfetti()
+
+            Shuffle.ShuffleItem.Css.INITIAL.margin = '10px';
+
+            const shuffleInstance = new Shuffle(element, {
+                itemSelector: '.shuffle-list-item',
+            });
+
+
+
+            // setInterval(() => {
+            //     shuffleInstance.sort({
+            //         randomize: true,
+            //     })
+            // }, 400);
+
+            openBoxBtn.addEventListener('click', async () => {
+                openBoxBtn.disabled = true;
+                let url = '{{ path('app_lootbox_open', {id: lootbox.id}) }}';
+
+                let res = await apiFetch(url);
+                if (res.error === true) {
+                    openBoxBtn.disabled = false;
+                    return;
+                } else {
+                    if (res.data.freeRemaining > 0) {
+                        let endSentence = ' gratuites restantes';
+                        if (res.data.freeRemaining === 1) {
+                            endSentence = ' gratuite restante';
+                        }
+                        document.querySelector('.free-remaining').innerHTML = '<i class="fas fa-gift"></i> ' + res.data.freeRemaining + endSentence;
+                    } else {
+                        document.querySelector('.free-remaining').innerHTML = formatItemPrice(res.data.price);
+                    }
+                }
+
+                let interval = setInterval(() => {
+                    shuffleInstance.sort({
+                        randomize: true,
+                    })
+                }, 400);
+                //clear it after 3 seconds
+                await refreshBalance();
+
+               setTimeout(() => {
+                   clearInterval(interval);
+
+                   jsConfetti.addConfetti();
+                   let lootedId = res.data.lootedItem;
+                   shuffleInstance.filter(lootedId.toString());
+                   notif(res.data.message);
+
+
+                   setTimeout(() => {
+                       openBoxBtn.disabled = false;
+                       shuffleInstance.filter();
+                   }, 3000);
+               }, 3000);
+            });
+        })
+    </script>
+{% endblock %}

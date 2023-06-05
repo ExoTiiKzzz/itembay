@@ -53,6 +53,9 @@ class Account
     #[ORM\ManyToMany(targetEntity: Discussion::class, mappedBy: 'accounts')]
     private Collection $discussions;
 
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: LootBoxOpening::class)]
+    private Collection $lootBoxOpenings;
+
     public function __construct()
     {
         $this->inventory = new ArrayCollection();
@@ -64,6 +67,7 @@ class Account
         $this->friends = new ArrayCollection();
         $this->privateMessages = new ArrayCollection();
         $this->discussions = new ArrayCollection();
+        $this->lootBoxOpenings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -392,6 +396,36 @@ class Account
     {
         if ($this->discussions->removeElement($discussion)) {
             $discussion->removeAccount($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LootBoxOpening>
+     */
+    public function getLootBoxOpenings(): Collection
+    {
+        return $this->lootBoxOpenings;
+    }
+
+    public function addLootBoxOpening(LootBoxOpening $lootBoxOpening): self
+    {
+        if (!$this->lootBoxOpenings->contains($lootBoxOpening)) {
+            $this->lootBoxOpenings->add($lootBoxOpening);
+            $lootBoxOpening->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLootBoxOpening(LootBoxOpening $lootBoxOpening): self
+    {
+        if ($this->lootBoxOpenings->removeElement($lootBoxOpening)) {
+            // set the owning side to null (unless already changed)
+            if ($lootBoxOpening->getAccount() === $this) {
+                $lootBoxOpening->setAccount(null);
+            }
         }
 
         return $this;
