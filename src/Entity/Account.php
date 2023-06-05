@@ -53,6 +53,12 @@ class Account
     #[ORM\ManyToMany(targetEntity: Discussion::class, mappedBy: 'accounts')]
     private Collection $discussions;
 
+    #[ORM\OneToMany(mappedBy: 'firstAccount', targetEntity: Trade::class)]
+    private Collection $tradesAsFirstAccount;
+
+    #[ORM\OneToMany(mappedBy: 'secondAccount', targetEntity: Trade::class)]
+    private Collection $tradesAsSecondAccount;
+
     public function __construct()
     {
         $this->inventory = new ArrayCollection();
@@ -64,6 +70,8 @@ class Account
         $this->friends = new ArrayCollection();
         $this->privateMessages = new ArrayCollection();
         $this->discussions = new ArrayCollection();
+        $this->tradesAsFirstAccount = new ArrayCollection();
+        $this->tradesAsSecondAccount = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -395,5 +403,30 @@ class Account
         }
 
         return $this;
+    }
+
+    public function getTradesAsFirstAccount(): Collection //Trades as asker
+    {
+        return $this->tradesAsFirstAccount;
+    }
+
+    public function getTradesAsSecondAccount(): Collection //Trades as receiver
+    {
+        return $this->tradesAsSecondAccount;
+    }
+
+    public function getTrades(): Collection
+    {
+        $trades = new ArrayCollection();
+
+        foreach($this->tradesAsFirstAccount as $trade){
+            $trades->add($trade);
+        }
+
+        foreach($this->tradesAsSecondAccount as $trade){
+            $trades->add($trade);
+        }
+
+        return $trades;
     }
 }

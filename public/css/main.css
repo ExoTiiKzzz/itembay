@@ -248,10 +248,9 @@ nav a {
     color: var(--success-text);
 }
 
-.discussion-container {
+.bottom-container {
     position: fixed;
     bottom: -300px;
-    left: 10px;
     width: 250px;
     height: 350px;
     background-color: var(--text-color);
@@ -264,15 +263,23 @@ nav a {
     padding: 0 10px;
 }
 
-.discussion-container-title {
+.bottom-container.show {
+    transform: translateY(-300px);
+}
+
+.bottom-container-title {
     display: flex;
     align-items: center;
     min-height: 50px;
     cursor: pointer;
 }
 
-.discussion-container.show {
-    transform: translateY(-300px);
+.discussions-container {
+    left: 10px;
+}
+
+.trades-container {
+    left: 270px;
 }
 
 .discussion-add {

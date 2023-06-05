@@ -1,32 +1,101 @@
-<div id="activeAccount">
-    <div class="position-fixed bg-dark rounded-circle shadow-lg border border-white border-3 hover-grow"
+<div id="account-functionalities">
+
+    <!-- Active Account -->
+    <div id="active-account"
+         class="position-fixed bg-dark rounded-circle shadow-lg border border-white border-3 hover-grow"
          style="width: 80px; height: 80px;bottom:30px;right:30px;cursor:pointer;">
         <div class="w-100 overflow-hidden" style="height:60%;">
             <img src="{{ app.user.activeAccount.class.imageUrl }}" alt="account" class="img-fluid">
         </div>
         <p class="d-block text-truncate text-center text-white small">{{ app.user.activeAccount.name }}</p>
     </div>
-</div>
 
-<div class="discussion-container">
-    <div class="discussion-container-title fw-bolder">
-        Discussions
+    <!-- Account discussions -->
+    <div class="bottom-container discussions-container shadow-lg">
+        <div class="bottom-container-title fw-bolder">
+            Discussions
+        </div>
+        <hr class="mt-0">
+        <a id="add-discussion" type="button" title="Créer une discussion"
+           class="fa-solid fa-plus text-primary text-decoration-none"></a>
+        {% if app.user.activeAccount.discussions | length > 0 %}
+            <div class="discussion-container-list mt-2">
+                {% for discussion in app.user.activeAccount.discussions %}
+                    <div class="discussion" data-id="{{ discussion.id }}">
+                        {{ discussion.accounts | filter(account => account != app.user.activeAccount) | join(', ') }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info mt-2">
+                Aucune discussion.
+            </div>
+        {% endif %}
     </div>
-    <hr>
-    <i title="Créer une conversation" data-tooltip class="fa-solid fa-plus text-primary discussion-add"></i>
-    {% if app.user.activeAccount.discussions | length > 0 %}
-        <div class="discussion-container-list mt-2">
-            {% for discussion in app.user.activeAccount.discussions %}
-                <div class="discussion" data-id="{{ discussion.id }}">
-                    {{ discussion.accounts | filter(account => account != app.user.activeAccount) | join(', ') }}
+
+    <!-- Account trades -->
+    {% set tradesAsFirstAccount = app.user.activeAccount.tradesAsFirstAccount %}
+    {% set tradesAsSecondAccount = app.user.activeAccount.tradesAsSecondAccount %}
+    <div class="bottom-container trades-container shadow-lg">
+        <div class="bottom-container-title fw-bolder">
+            Échanges
+            {% if tradesAsSecondAccount|length > 0 %}
+                <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">
+                    {{ tradesAsSecondAccount|length }}
+                </span>
+            {% endif %}
+        </div>
+        <hr class="mt-0">
+        <div class="d-flex justify-content-between">
+            <div>Vos demandes</div>
+            <a id="add-trade" type="button" title="Lancer un échange"
+               class="fa-solid fa-plus text-primary text-decoration-none"></a>
+        </div>
+        <div>
+            {% if tradesAsFirstAccount|length > 0 %}
+                {% for trade in tradesAsFirstAccount %}
+                    <div class="d-flex align-items-center alert alert-dark p-1 mb-1">
+                        <img src="{{ trade.secondAccount.class.imageUrl }}" alt="account" class="img-fluid"
+                             height="25" width="25">
+                        <div>{{ trade.secondAccount.name }}</div>
+                        <button data-trade="{{ trade.id }}" type="button"
+                                class="trade-delete btn btn-sm bg-transparent ms-auto">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    Aucune demande.
                 </div>
-            {% endfor %}
+            {% endif %}
         </div>
-    {% else %}
-        <div class="alert alert-info">
-            Vous n'avez pas encore de discussion
+        <hr>
+        <div>Demandes</div>
+        <div>
+            {% if tradesAsSecondAccount|length > 0 %}
+                {% for trade in tradesAsSecondAccount %}
+                    <div class="d-flex align-items-center alert alert-dark p-1 mb-1">
+                        <img src="{{ trade.firstAccount.class.imageUrl }}" alt="account" class="img-fluid"
+                             height="25" width="25">
+                        <div>{{ trade.firstAccount.name }}</div>
+                        <button data-trade="{{ trade.id }}" type="button"
+                                class="trade-accept btn btn-sm bg-transparent ms-auto">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button data-trade="{{ trade.id }}" type="button"
+                                class="trade-refuse btn btn-sm bg-transparent">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    Aucune demande.
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 </div>
 
 {% include 'common/modal.html.twig' with {
@@ -35,46 +104,69 @@
 } %}
 
 <script>
-    document.getElementById("activeAccount").addEventListener("click", function () {
+    document.getElementById("active-account").addEventListener("click", function () {
         window.location.href = "{{ path('app_accounts') }}";
     });
 
     function hideActiveAccount() {
-        document.getElementById("activeAccount").style.display = "none";
+        document.getElementById("account-functionalities").style.display = "none";
     }
 
     function showActiveAccount() {
-        document.getElementById("activeAccount").style.display = "block";
+        document.getElementById("account-functionalities").style.display = "block";
     }
 
-	document.querySelector('.discussion-container-title').addEventListener('click', function () {
-        document.querySelector('.discussion-container').classList.toggle('show');
-    });
-
-	document.querySelector('.discussion-add').addEventListener('click', function () {
-        apiFetch('{{ path('app_account_discussion_create') }}', {}, 'GET').then((res) => {
-			setInnerHTML(document.querySelector('#addDiscussionModal .modal-body'), res.data.html);
-			$('#addDiscussionModal').modal('show');
+    document.querySelectorAll('.bottom-container-title').forEach(function (element) {
+        element.addEventListener('click', function (event) {
+            let container = event.target.closest('.bottom-container');
+            container.classList.toggle('show');
         });
     });
 
-	{#let loadedDiscussion = [];#}
-	{#document.querySelectorAll('.discussion').forEach((discussion) => {#}
-    {#    discussion.addEventListener('click', function () {#}
-    {#        if (loadedDiscussion.includes(this.dataset.id)) {#}
-    {#            return;#}
-    {#        }#}
+    document.querySelector('#add-discussion').addEventListener('click', function () {
+        apiFetch('{{ path('app_account_discussion_create') }}', {}, 'GET').then((res) => {
+            setInnerHTML(document.querySelector('#addDiscussionModal .modal-body'), res.data.html);
+            $('#addDiscussionModal').modal('show');
+        });
+    });
 
-    {#        loadedDiscussion.push(this.dataset.id);#}
+    document.querySelector('#add-trade').addEventListener('click', async function () {
+        sidenav.open();
+        sidenav.setTitle('Demander un échange');
+        await sidenav.setContentFromUrl('/trade/ask/form');
+        sidenav.hideLoader();
+    });
 
-    {#        apiFetch('{{ path('app_account_discussion_show', {id: 'id'}) }}'.replace('id', this.dataset.id), {}, 'GET').then((res) => {#}
-    {#            setInnerHTML(document.querySelector('#addDiscussionModal .modal-body'), res.data.html);#}
-    {#            $('#addDiscussionModal').modal('show');#}
-    {#        });#}
-    {#    });#}
-    {#});#}
+    function attachEventListeners(selector, endpoint) {
+        document.querySelectorAll(selector).forEach(element => {
+            element.addEventListener('click', async event => {
+                await apiFetch(`${endpoint}/${event.currentTarget.dataset.id}`);
+            });
+        });
+    }
 
-	{#let openDiscussion = (id) => {#}
-	{#	#}
-    {#}#}
+    attachEventListeners('.trade-delete', '/trade/delete');
+    attachEventListeners('.trade-accept', '/trade/accept');
+    attachEventListeners('.trade-refuse', '/trade/refuse');
+
+
+    {# let loadedDiscussion = []; #}
+    {# document.querySelectorAll('.discussion').forEach((discussion) => { #}
+    {#    discussion.addEventListener('click', function () { #}
+    {#        if (loadedDiscussion.includes(this.dataset.id)) { #}
+    {#            return; #}
+    {#        } #}
+
+    {#        loadedDiscussion.push(this.dataset.id); #}
+
+    {#        apiFetch('{{ path('app_account_discussion_show', {id: 'id'}) }}'.replace('id', this.dataset.id), {}, 'GET').then((res) => { #}
+    {#            setInnerHTML(document.querySelector('#addDiscussionModal .modal-body'), res.data.html); #}
+    {#            $('#addDiscussionModal').modal('show'); #}
+    {#        }); #}
+    {#    }); #}
+    {# }); #}
+
+    {# let openDiscussion = (id) => { #}
+    {#    #}
+    {# } #}
 </script>

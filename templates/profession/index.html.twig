@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container">
-    <div class="d-flex justify-content-center gap-5 mt-5 flex-wrap">
+    <div class="d-flex justify-content-center gap-5 my-5 flex-wrap">
         {% for job in jobs %}
             <div class="card" style="width: 20%;">
                 <img src="{{ job.profession.imageUrl }}" class="card-img-top mt-2" alt="{{ job.profession.name }}" loading="lazy" height="100" width="100" onerror="this.src = '/images/no-photo.png'">

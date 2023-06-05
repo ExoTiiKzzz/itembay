@@ -1,0 +1,21 @@
+<form id="trade_ask_form">
+    <div class="mb-3">
+        <label for="accounts">Comptes</label>
+        <select id="accounts" class="form-control">
+            {% for account in accounts %}
+                <option value="{{ account.id }}">{{ account.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary form-control btn-sm">
+        Demander
+    </button>
+</form>
+
+<script>
+    document.querySelector('#trade_ask_form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        let accountId = document.querySelector('#accounts').value;
+        let result = await apiFetch(`\/trade/ask/${accountId}`);
+    });
+</script>
