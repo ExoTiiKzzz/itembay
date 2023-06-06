@@ -53,11 +53,8 @@ class Account
     #[ORM\ManyToMany(targetEntity: Discussion::class, mappedBy: 'accounts')]
     private Collection $discussions;
 
-    #[ORM\OneToMany(mappedBy: 'firstAccount', targetEntity: Trade::class)]
-    private Collection $tradesAsFirstAccount;
-
-    #[ORM\OneToMany(mappedBy: 'secondAccount', targetEntity: Trade::class)]
-    private Collection $tradesAsSecondAccount;
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: LootBoxOpening::class)]
+    private Collection $lootBoxOpenings;
 
     public function __construct()
     {
@@ -70,8 +67,7 @@ class Account
         $this->friends = new ArrayCollection();
         $this->privateMessages = new ArrayCollection();
         $this->discussions = new ArrayCollection();
-        $this->tradesAsFirstAccount = new ArrayCollection();
-        $this->tradesAsSecondAccount = new ArrayCollection();
+        $this->lootBoxOpenings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -405,28 +401,33 @@ class Account
         return $this;
     }
 
-    public function getTradesAsFirstAccount(): Collection //Trades as asker
+    /**
+     * @return Collection<int, LootBoxOpening>
+     */
+    public function getLootBoxOpenings(): Collection
     {
-        return $this->tradesAsFirstAccount;
+        return $this->lootBoxOpenings;
     }
 
-    public function getTradesAsSecondAccount(): Collection //Trades as receiver
+    public function addLootBoxOpening(LootBoxOpening $lootBoxOpening): self
     {
-        return $this->tradesAsSecondAccount;
+        if (!$this->lootBoxOpenings->contains($lootBoxOpening)) {
+            $this->lootBoxOpenings->add($lootBoxOpening);
+            $lootBoxOpening->setAccount($this);
+        }
+
+        return $this;
     }
 
-    public function getTrades(): Collection
+    public function removeLootBoxOpening(LootBoxOpening $lootBoxOpening): self
     {
-        $trades = new ArrayCollection();
-
-        foreach($this->tradesAsFirstAccount as $trade){
-            $trades->add($trade);
+        if ($this->lootBoxOpenings->removeElement($lootBoxOpening)) {
+            // set the owning side to null (unless already changed)
+            if ($lootBoxOpening->getAccount() === $this) {
+                $lootBoxOpening->setAccount(null);
+            }
         }
 
-        foreach($this->tradesAsSecondAccount as $trade){
-            $trades->add($trade);
-        }
-
-        return $trades;
+        return $this;
     }
 }

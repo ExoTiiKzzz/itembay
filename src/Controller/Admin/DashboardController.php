@@ -9,6 +9,8 @@ use App\Entity\DefaultItem;
 use App\Entity\Item;
 use App\Entity\ItemNature;
 use App\Entity\ItemType;
+use App\Entity\LootBox;
+use App\Entity\LootBoxLine;
 use App\Entity\PlayerClass;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -62,5 +64,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Account', 'fas fa-list', Account::class);
         yield MenuItem::linkToCrud('Bug Reports', 'fas fa-list', BugReport::class);
         yield MenuItem::linkToCrud('Bug Report Type', 'fas fa-list', BugReportType::class);
+        yield MenuItem::linkToCrud('Loot Boxes', 'fas fa-list', LootBox::class);
+        yield MenuItem::linkToCrud('Loot Boxes Composition', 'fas fa-list', LootBoxLine::class);
     }
 }

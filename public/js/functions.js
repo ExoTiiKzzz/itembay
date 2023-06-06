@@ -3,6 +3,7 @@
  */
 
 function formatItemPrice(price) {
+	console.log(price);
 	//1 gold piece = 10 silver pieces = 100 bronze pieces
 	let gold = Math.floor(price / 100);
 	let silver = Math.floor((price - (gold * 100)) / 10);
@@ -85,7 +86,14 @@ async function apiFetch(url, body = {}, method = 'POST') {
 			}
 			return data;
 		})
-		.catch(error => swalError(error.message));
+		.catch(error => {
+			swalError(error.message)
+			return {
+				'error': true,
+				'message': error.message,
+				'success': false,
+			};
+		});
 }
 
 

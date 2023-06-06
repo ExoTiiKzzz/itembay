@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LootBoxRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LootBoxRepository::class)]
@@ -30,9 +31,16 @@ class LootBox
     #[ORM\Column]
     private ?int $maxFreePerDay = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'lootBox', targetEntity: LootBoxOpening::class)]
+    private Collection $lootBoxOpenings;
+
     public function __construct()
     {
         $this->lootBoxLines = new ArrayCollection();
+        $this->lootBoxOpenings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,5 +124,52 @@ class LootBox
         $this->maxFreePerDay = $maxFreePerDay;
 
         return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LootBoxOpening>
+     */
+    public function getLootBoxOpenings(): Collection
+    {
+        return $this->lootBoxOpenings;
+    }
+
+    public function addLootBoxOpening(LootBoxOpening $lootBoxOpening): self
+    {
+        if (!$this->lootBoxOpenings->contains($lootBoxOpening)) {
+            $this->lootBoxOpenings->add($lootBoxOpening);
+            $lootBoxOpening->setLootBox($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLootBoxOpening(LootBoxOpening $lootBoxOpening): self
+    {
+        if ($this->lootBoxOpenings->removeElement($lootBoxOpening)) {
+            // set the owning side to null (unless already changed)
+            if ($lootBoxOpening->getLootBox() === $this) {
+                $lootBoxOpening->setLootBox(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

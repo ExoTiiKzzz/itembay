@@ -3,6 +3,12 @@
 {% block title %}ItemBay - Shop{% endblock %}
 
 {% block body %}
+    <style>
+        .tooltip-inner {
+            max-width: 500px; /* set this to your maximum fitting width */
+            width: inherit; /* will take up least amount of space */
+        }
+    </style>
     <div class="row text-white mt-5 mx-2">
         <div class="col-md-2">
             {% include 'filter/item_list_filters.html.twig' %}
