@@ -59,7 +59,7 @@
                         <a title="Mon inventaire" data-tooltip href="{{ path('app_account_inventory') }}"><i class="fa-solid fa-box"></i></a>
                     </div>
                     {% endif %}
-                    <li class="nav-item dropdown">
+                    <li data-intro='Vous retrouvez votre compte ici !' data-step="2" class="nav-item dropdown profile-list-item">
                         <a class="nav-link" href="#" role="button"
                            data-toggle="dropdown" aria-expanded="false">
                             <img src="{{ asset('uploads/users/avatars/' ~ app.user.avatar) }}" class="rounded-circle"
@@ -71,24 +71,31 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_accounts') }}">Mes comptes</a></li>
+                            {% if 'ROLE_ADMIN' in app.user.roles %}
+                                <li><a class="dropdown-item" href="/admin">Administration</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                            {% endif %}
+                            <li data-step="3" data-intro="Accédez à votre profil pour le modifier ici."><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
+                            <li data-step="4" data-intro="Vous retrouverez vos comptes."><a class="dropdown-item" href="{{ path('app_accounts') }}">Mes comptes</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li>
+                            <li data-step="5" data-intro="Les commandes réalisées seront dans cette page">
                                 <a class="dropdown-item" href="{{ path('app_transaction_list') }}">Mes commandes</a>
                             </li>
-                            <li>
+                            <li data-step="6" data-intro="En vendant des items, ils seront présents ici">
                                 <a class="dropdown-item" href="{{ path('app_batch_list') }}">Mes items en vente</a>
                             </li>
-                            <li>
+                            <li data-step="7" data-intro="Vos métiers seront accessibles par ce lien">
                                 <a class="dropdown-item" href="{{ path('app_player_jobs') }}">Mes métiers</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ path('app_bug_report_list') }}">Centre d'aide</a>
+                            <li data-step="8" data-intro="La liste de vos demandes d'aide.">
+                                <a class="dropdown-item" href="{{ path('app_bug_report_list') }}">Centre d'aide</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

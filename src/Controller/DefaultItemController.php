@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Batch;
 use App\Entity\DefaultItem;
+use App\Entity\User;
 use App\Service\BatchService;
 use App\Service\DefaultItemService;
 use App\Service\ItemNatureService;
 use App\Service\ItemTypeService;
+use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,13 +20,25 @@ class DefaultItemController extends BaseController
     public function index(DefaultItemService $defaultItemService): Response
     {
         $requestData = $this->request->query->all();
+        $user = $this->getUser();
+        $isFirstConnection = false;
+        if ($user instanceof User) {
+            /** @var User $user */
+            if ($user->getFirstConnection() === null) {
+                $isFirstConnection = true;
+                $user->setFirstConnection(new DateTimeImmutable());
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+        }
 
         $topSelledItems = $defaultItemService::getTopSelledItems($this->em);
         return $this->render('item/list.html.twig', [
             'controller_name'   => 'DefaultItemController',
             'items'             => $defaultItemService->getItems(),
             'topSelledItems'    => $topSelledItems,
-            'filters'           => DefaultItemService::getItemFilters($this->getRequestData())
+            'filters'           => DefaultItemService::getItemFilters($this->getRequestData()),
+            'isFirstConnection' => $isFirstConnection,
         ]);
     }
 

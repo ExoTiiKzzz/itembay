@@ -100,6 +100,8 @@ class SecurityController extends BaseController
         if (!$user) return;
         $user = $this->getUserOrRedirect();
 
+
+
         if (($user->getAccounts()->count() == 0 || $user->getActiveAccount() == null) && !str_contains( $this->request->get('_route'), 'app_account')) {
             $response = new RedirectResponse($this->generateUrl('app_accounts'));
             $response->send();

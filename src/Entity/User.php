@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: BugReport::class)]
     private Collection $bugReports;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $firstConnection = null;
+
     /**
      * Constructor
      */
@@ -264,6 +267,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $bugReport->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFirstConnection(): ?\DateTimeImmutable
+    {
+        return $this->firstConnection;
+    }
+
+    public function setFirstConnection(\DateTimeImmutable $firstConnection): self
+    {
+        $this->firstConnection = $firstConnection;
 
         return $this;
     }

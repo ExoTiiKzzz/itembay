@@ -23,6 +23,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
               integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
               crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        {% if isFirstConnection is defined and isFirstConnection == true %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.0.1/introjs.css" integrity="sha512-4OzqLjfh1aJa7M33b5+h0CSx0Q3i9Qaxlrr1T/Z+Vz+9zs5A7GM3T3MFKXoreghi3iDOSbkPMXiMBhFO7UBW/g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {% endif %}
+
 
         {# Select2 #}
         <link rel="stylesheet" href="{{ asset('css/lib/select2.min.css') }}"/>
@@ -49,6 +53,10 @@
         {# SweetAlert2 #}
         <script src="{{ asset('js/lib/sweetalert.min.js') }}"></script>
 
+        {% if isFirstConnection is defined and isFirstConnection == true %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.0.1/intro.min.js"></script>
+        {% endif %}
+
         {# Bootstrap Bundle #}
         <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
         <script src="{{ asset('js/lib/popper.min.js') }}"></script>
@@ -69,6 +77,9 @@
 </div>
 {% include 'navbar.html.twig' %}
 <div style="min-height: 90vh;">
+    {% if isFirstConnection is defined %}
+    {{ dump(isFirstConnection) }}
+    {% endif %}
     {% block body %}{% endblock %}
 </div>
 {% include 'sidebar.html.twig' %}

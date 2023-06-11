@@ -82,4 +82,9 @@ class BugReportStatus
 
         return $this;
     }
+
+    #[Pure] public function __toString(): string
+    {
+        return $this->getName();
+    }
 }

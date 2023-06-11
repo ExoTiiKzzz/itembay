@@ -139,8 +139,8 @@ select option:checked, select option:checked:focus {
     width: 35px !important;
 }
 
-.select2-container--default{
-    z-index: 10000;
+.sidebar .select2-container--default{
+    z-index: 10001;
 }
 
 .select2-selection[aria-expanded="true"] {
@@ -308,7 +308,7 @@ nav a {
 }
 
 .dropdown-menu.show {
-    z-index: 100000000000000000000000000000;
+    z-index: 9999;
 }
 
 .review-comment {
@@ -337,4 +337,21 @@ footer .text-muted {
 
 .radius-2 {
     border-radius: 0.5rem;
+}
+
+@media (max-width: 1250px) {
+    .shuffle-list-item {
+        width: 40% !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .shuffle-list-item {
+        width: 70% !important;
+    }
+}
+
+.bottom-container {
+    border: 3px solid var(--primary-color);
+    border-bottom: none;
 }
