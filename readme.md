@@ -43,6 +43,7 @@ Install our project with git, composer and symfony CLI.
     # Load the fixtures (can take a while)
     php bin/console doctrine:fixtures:load
     
+    # Install mercure for your platform    
     
     # Run the server
     symfony serve --no-tls
